@@ -83,7 +83,8 @@ const Login = ({ loginUser, auth, errors, history, clearErrors }) => {
                             onBlur={handleBlur}
                         />
                     </div>
-                    <button type="submit" className="login-btn">Login</button>
+                    <button type="submit" className="btn-primary">Login</button>
+                    <button className="btn-secondary">Test</button>
                     <div>
                         Inget konto?
                         <Link to={"/signup"}>SignUp</Link>

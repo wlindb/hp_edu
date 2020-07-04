@@ -1,0 +1,25 @@
+@import 'config';
+
+
+@import 'buttons';
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: $light-color;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+}
+
+.login-container {
+    background-color: $primary-color;
+    color: #fff;
+    height: 600px;
+}
+
+@import 'mobile';

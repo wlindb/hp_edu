@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Landing from './components/LandingPage/landing'
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
+import './styles/css/style.css';
 
 import store from './store';
 
