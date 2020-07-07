@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router(); 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const passport = require('passport');
 const SECRET = process.env.SECRET; 
 const validateSignUpInput = require("../../validation/signup");
 const validateLoginInput = require("../../validation/login");
@@ -71,5 +72,14 @@ router.post("/login", (req, res) => {
       });
    });
 });
- 
- module.exports = router;
+
+router.get('/auth/google',
+  passport.authenticate('google', { scope: ["profile", "email"]}, () => console.log('hello'))
+);
+
+// callback rout for google redirect
+router.get('/auth/google/redirect', passport.authenticate('google'), (req, res) => {
+   res.send('your reached the callback URI');
+});
+
+module.exports = router;

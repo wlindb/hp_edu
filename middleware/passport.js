@@ -1,4 +1,5 @@
 const JwtStrategy = require("passport-jwt").Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const User = require("../models/User");
 const SECRET = process.env.SECRET;
@@ -23,4 +24,36 @@ module.exports = passport => {
             );
       })
    );
+
+   passport.use(new GoogleStrategy({
+       clientID: process.env.GOOGLE_CLIENT_ID,
+       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+       callbackURL: '/api/users/auth/google/redirect'
+     },
+      (accessToken, refreshToken, profile, done) => {
+       const {displayName, id, emails} = profile;
+       User.findOne({ 'google.id': id})
+           .then(user => {
+              // Check if user already exists   
+              if(user) {
+               console.log('HITTADE USER FRÅN GOOGLE ', user);
+              } else {
+                  const newUser = new User({
+                     user_name: displayName.replace(/\s/g, '_'),
+                     email: emails[0].value,
+                     google: { id, accessToken }
+                  });
+                  newUser
+                  .save()
+                  .then((newUser) => {
+                     console.log(newUser);
+                  })
+                  .catch(err => {
+                     console.log({ error: "Error creating a new user" }, err)
+                  })
+              }
+           })
+       
+     }
+   ));
 };

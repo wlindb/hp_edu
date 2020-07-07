@@ -12,7 +12,11 @@ const userModel = {
    },
    password: {
       type: String,
-      required: true
+      // required: true
+   },
+   google: {
+      id: String,
+      token: String,
    }
 };
 

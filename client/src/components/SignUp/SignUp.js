@@ -54,7 +54,7 @@ const SignUp = ({ history, registerUser, auth, errors, clearErrors }) => {
             <h1>Skapa Konto</h1>
                <div className="social-container">
 			    	   <a href="#" className="social"><FontAwesomeIcon icon={faFacebook} /></a>
-			    	   <a href="#" className="social"><i className="fab fa-google fa-3x"></i></a>
+			    	   <a href="/api/users/auth/google" className="social"><i className="fab fa-google fa-3x"></i></a>
                </div>
                 <span>eller registrera manuellt</span>
                 {/* <i className="fa fa-user"/> */}
