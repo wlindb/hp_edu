@@ -1,21 +1,36 @@
 // % for shared
 %btn {
-    display: inline-block;
-    border-radius: 5px;
-    padding: 8px 20px;
-    margin: 3px;
+    border-radius: 20px;
+	border: 1px solid $primary-color;
+    color: #FFFFFF;
+    font-family: inherit;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
 
     &:hover {
         transform: scale(.98);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+    
+    &:focus {
+        outline: none;
     }
 }
 
 .btn-primary {
     @extend %btn;
-    background-color: lighten($primary-color, 10%);
+    background-color: $primary-color;
 }
 
 .btn-secondary {
     @extend %btn;
-    background-color: $secondary-color;
+    background-color: $light-color;
+    color: $primary-color;
 }

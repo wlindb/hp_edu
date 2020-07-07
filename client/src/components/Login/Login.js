@@ -54,45 +54,42 @@ const Login = ({ loginUser, auth, errors, history, clearErrors }) => {
    };
 
    return (
-    <div className="login-view-wrapper" >
-        <div className="login-container">
-            <div className="login-box">
-                <h2>Login</h2>
-                <form id="form" onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        {/* <i className="fa fa-user"/> */}
-                        <input 
-                            name="email"
-                            type="email"
-                            placeholder="Username"
-                            className="form-control"
-                            value={user.email}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                    </div>
-                    <div className="form-group">
-                        {/* <i className="fa fa-lock"/> */}
-                        <input
-                            name="password"
-                            type="password"
-                            placeholder="Password"
-                            className="form-control"
-                            value={user.password}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                    </div>
-                    <button type="submit" className="btn-primary">Login</button>
-                    <button className="btn-secondary">Test</button>
-                    <div>
-                        Inget konto?
-                        <Link to={"/signup"}>SignUp</Link>
-                    </div>
-                </form>
-            </div>
+     <div className="container" id="container">
+        <div className="form-container">
+              <h1>Logga in</h1>
+              <form id="form" onSubmit={handleSubmit}>
+                 <div className="form-group">
+                    {/* <i className="fa fa-user"/> */}
+                    <input 
+                          name="email"
+                          type="email"
+                          placeholder="Användarnamn"
+                          className="form-control"
+                          value={user.email}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                    />
+                 </div>
+                 <div className="form-group">
+                    {/* <i className="fa fa-lock"/> */}
+                    <input
+                          name="password"
+                          type="password"
+                          placeholder="Lösenord"
+                          className="form-control"
+                          value={user.password}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                    />
+                 </div>
+                 <button type="submit" className="btn-primary">Logga in</button>
+              </form>
+              <div className="info-link">
+                  Inget konto? <br/>
+                  <Link to={"/signup"}>Registrera</Link>
+              </div>
         </div>
-    </div>
+     </div>
    );
 };
 

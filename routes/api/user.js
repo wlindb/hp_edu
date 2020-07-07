@@ -16,11 +16,11 @@ router.post("/signup", (req, res) => {
    User.findOne({$or:[{email},{user_name}]}).then(user => {
       if (user) {
          if (user.email === email)
-            return res.status(400).json({ email: "Email already exists" });
+            return res.status(400).json({ email: "Email redan registrerad" });
          else
             return res
                .status(400)
-               .json({ user_name: "Username already exists" });
+               .json({ user_name: "Användarnamnet är upptaget" });
       } else {
          const newUser = new User({ user_name, email, password });
          // hashing password before storing it in database

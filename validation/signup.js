@@ -23,7 +23,7 @@ module.exports = validateSignUpInput = data => {
    if (Validator.isEmpty(password)) {
       errors.password = "Lösenord krävs";
    } else if (!Validator.isLength(password, { min: 8, max: 30 })) {
-      errors.password = "Lösenordet måste var minst 8 karaktärer";
+      errors.password = "Lösenordet måste vara minst 8 karaktärer";
    }
 
    return {

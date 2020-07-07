@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+@import url('https://use.fontawesome.com/releases/v5.12.0/css/all.css');
 @import 'config';
-
-
+@import 'utilities';
+@import 'forms';
 @import 'buttons';
 
 
@@ -11,15 +13,19 @@
 }
 
 body {
-    background-color: $light-color;
-    font-family: Arial, Helvetica, sans-serif;
+    background-color: $tertiary-color;
+    font-family: 'Montserrat', sans-serif;
     line-height: 1.6;
 }
 
 .login-container {
-    background-color: $primary-color;
+    // background-color: $primary-color;
     color: #fff;
     height: 600px;
+}
+
+#root {
+    margin: 0;
 }
 
 @import 'mobile';

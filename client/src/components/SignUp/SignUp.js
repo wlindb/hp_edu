@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import Validate from "../../utils/Validate";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFacebook } from "@fortawesome/free-brands-svg-icons";
+import { Link } from "react-router-dom";
 
 const SignUp = ({ history, registerUser, auth, errors, clearErrors }) => {
    const [user, setUser] = useState({
@@ -44,61 +47,63 @@ const SignUp = ({ history, registerUser, auth, errors, clearErrors }) => {
       const { user_name, email, password } = user;
       registerUser({ user_name, email, password }, history);
    };
-
    return (
-    <div className="register-view-wrapper" >
-        <div className="register-container">
-            <div className="register-box">
-                <h2>Register</h2>
-                <form id="form" onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        {/* <i className="fa fa-user"/> */}
-                        <input
-                            className="form-control"
-                            name="user_name"
-                            type="text"
-                            required
-                            placeholder="Användarnamn"
-                            value={user.user_name}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                    </div>
-                    <div className="form-group">
-                        {/* <i className="fa fa-user"/> */}
-                        <input
-                            className="form-control"
-                            name="email"
-                            type="email"
-                            required
-                            placeholder="Email"
-                            value={user.email}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                    </div>
-                    <div className="form-group">
-                        {/* <i className="fa fa-lock"/> */}
-                        <input
-                            className="form-control"
-                            name="password"
-                            type="password"
-                            required
-                            placeholder="Password"
-                            value={user.password}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        disabled={false} // TODO: Add input field and disable if errors/password does not match
-                        className="register-btn"
-                    >
-                        Register user
-                    </button>
-                    <p>{errors.password}</p>
-                </form>
+    <div className="container" id="container" >
+        <div className="form-container sign-up-container">
+            <form id="form" onSubmit={handleSubmit}>
+            <h1>Skapa Konto</h1>
+               <div className="social-container">
+			    	   <a href="#" className="social"><FontAwesomeIcon icon={faFacebook} /></a>
+			    	   <a href="#" className="social"><i className="fab fa-google fa-3x"></i></a>
+               </div>
+                <span>eller registrera manuellt</span>
+                {/* <i className="fa fa-user"/> */}
+                <input
+                    className="form-control"
+                    name="user_name"
+                    type="text"
+                    required
+                    placeholder="Användarnamn"
+                    value={user.user_name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
+                {/* <i className="fa fa-user"/> */}
+                <p className="p-error">{errors.user_name}</p>
+                <input
+                    className="form-control"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="Email"
+                    value={user.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
+                {/* <i className="fa fa-lock"/> */}
+                <p className="p-error">{errors.email}</p>
+                <input
+                    className="form-control"
+                    name="password"
+                    type="password"
+                    required
+                    placeholder="Lösenord"
+                    value={user.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
+                <p className="p-error">{errors.password}</p>
+                <button
+                    type="submit"
+                    disabled={false} // TODO: Add input field and disable if errors/password does not match
+                    className="btn-primary"
+                >
+                    Registrera
+                </button>
+            </form>
+            <div className="info-link">
+               Har du redan ett konto? <br/>
+               <Link to={"/login"}>Logga in</Link>
             </div>
         </div>
     </div>

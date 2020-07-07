@@ -11,6 +11,8 @@ const middleware = [thunk];
 const store = createStore(
         rootReducer,
         initialState,
+        // applyMiddleware(...middleware),
+        // Redux dev tools seems to not work on chromium based browsers...
         compose(
             applyMiddleware(...middleware),
             window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
