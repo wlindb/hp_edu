@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import { registerUser, loginUserOauth } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import Validate from "../../utils/Validate";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook } from "@fortawesome/free-brands-svg-icons";
+import SocialMediaContainer from "../SocialMediaContainer/SocialMediaContainer";
 import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 
@@ -64,11 +63,7 @@ const SignUp = ({ history, registerUser, loginUserOauth, auth, errors, clearErro
         <div className="form-container sign-up-container">
             <form id="form" onSubmit={handleSubmit}>
             <h1>Skapa Konto</h1>
-               <div className="social-container">
-			    	   <a href="#" className="social"><FontAwesomeIcon icon={faFacebook} /></a>
-			    	   <a className="social" href='/api/users/auth/google'><i className="fab fa-google fa-3x"></i></a>
-                   {/* href='/api/users/auth/google'} onClick={handleAuthWithGoogle} */}
-               </div>
+               <SocialMediaContainer/>
                 <span>eller registrera manuellt</span>
                 {/* <i className="fa fa-user"/> */}
                 <input

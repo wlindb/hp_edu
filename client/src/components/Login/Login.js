@@ -5,6 +5,7 @@ import Validate from "../../utils/Validate";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
+import SocialMediaContainer from "../SocialMediaContainer/SocialMediaContainer";
 
 const Login = ({ loginUser, auth, errors, history, clearErrors }) => {
    const [user, setUser] = useState({
@@ -56,9 +57,10 @@ const Login = ({ loginUser, auth, errors, history, clearErrors }) => {
    return (
      <div className="container" id="container">
         <div className="form-container">
-              <h1>Logga in</h1>
               <form id="form" onSubmit={handleSubmit}>
-                 <div className="form-group">
+                  <h1>Logga in</h1>
+                  <SocialMediaContainer/>
+                  <div className="form-group">
                     {/* <i className="fa fa-user"/> */}
                     <input 
                           name="email"
@@ -69,8 +71,8 @@ const Login = ({ loginUser, auth, errors, history, clearErrors }) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                     />
-                 </div>
-                 <div className="form-group">
+                  </div>
+                  <div className="form-group">
                     {/* <i className="fa fa-lock"/> */}
                     <input
                           name="password"
@@ -81,8 +83,8 @@ const Login = ({ loginUser, auth, errors, history, clearErrors }) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                     />
-                 </div>
-                 <button type="submit" className="btn-primary">Logga in</button>
+                  </div>
+                  <button type="submit" className="btn-primary">Logga in</button>
               </form>
               <div className="info-link">
                   Inget konto? <br/>
