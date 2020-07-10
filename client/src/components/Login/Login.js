@@ -27,7 +27,7 @@ const Login = ({ loginUser, auth, errors, history, clearErrors }) => {
 
    useEffect(() => {
       if (auth.isAuthenticated) {
-         history.push("/blog");
+         history.push("/profile");
       }
       setUser(user => {
          return { ...user, errors };

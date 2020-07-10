@@ -3,12 +3,29 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const User = require("../models/User");
 const SECRET = process.env.SECRET;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = SECRET;
 
 module.exports = passport => {
+
+   passport.serializeUser((user, done) => {
+      done(null, user.id);
+   });
+   
+   passport.deserializeUser((id, done) => {
+      User.findById(id)
+          .then(user => {
+            done(null, user);
+          })
+          .catch(err => {
+             console.error('Failed to deserialize an user ', err);
+          });
+   });
+
    passport.use(
       new JwtStrategy(opts, (jwt_payload, done) => {
          User.findOne({ _id: jwt_payload.id })
@@ -26,8 +43,8 @@ module.exports = passport => {
    );
 
    passport.use(new GoogleStrategy({
-       clientID: process.env.GOOGLE_CLIENT_ID,
-       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+       clientID: GOOGLE_CLIENT_ID,
+       clientSecret: GOOGLE_CLIENT_SECRET,
        callbackURL: '/api/users/auth/google/redirect'
      },
       (accessToken, refreshToken, profile, done) => {
@@ -36,7 +53,7 @@ module.exports = passport => {
            .then(user => {
               // Check if user already exists   
               if(user) {
-               console.log('HITTADE USER FRÅN GOOGLE ', user);
+               done(null, user);
               } else {
                   const newUser = new User({
                      user_name: displayName.replace(/\s/g, '_'),
@@ -47,9 +64,10 @@ module.exports = passport => {
                   .save()
                   .then((newUser) => {
                      console.log(newUser);
+                     done(null, newUser);
                   })
                   .catch(err => {
-                     console.log({ error: "Error creating a new user" }, err)
+                     console.log({ error: "Error creating a new user with google" }, err)
                   })
               }
            })

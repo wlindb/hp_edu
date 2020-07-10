@@ -3,10 +3,13 @@ require("dotenv").config(); // for loading environment variables
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const passportSetup = require("./middleware/passport");
 const path = require("path");
 const users = require("./routes/api/user");
+const profile = require("./routes/api/profile");
 const publicPath = path.join(__dirname, 'client', 'build');
 const app = express();
+const cookieParser = require("cookie-parser"); // parse cookie header
 
 //middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,11 +26,19 @@ mongoose
 mongoose.set("useFindAndModify", false);
 mongoose.Promise = global.Promise;
 
+// parse cookies
+// Used when we set the jwt.
+app.use(cookieParser());
+
 app.use(passport.initialize());
-require("./middleware/passport")(passport);
+passportSetup(passport);
+
+
 app.use("/api/users", users);
+app.use("/api/profile", profile);
 
 // Serve client
+// Signing in oauth with fb/google is giving cors errors in dev, if in dev, uncoment if testing oauth.
 // if (process.env.NODE_ENV === "production") {
     app.use(express.static(publicPath));
     app.get("*", (req, res) => {

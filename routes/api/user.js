@@ -74,12 +74,41 @@ router.post("/login", (req, res) => {
 });
 
 router.get('/auth/google',
-  passport.authenticate('google', { scope: ["profile", "email"]}, () => console.log('hello'))
+  passport.authenticate('google', { scope: ["profile", "email"]})
 );
 
-// callback rout for google redirect
-router.get('/auth/google/redirect', passport.authenticate('google'), (req, res) => {
-   res.send('your reached the callback URI');
+router.get(
+   '/auth/google/redirect',
+   passport.authenticate('google', {
+      failureRedirect: "/auth/login/failed"
+    }),
+   (req, res) => {
+      const {id, user_name} = req.user;
+      jwt.sign({ id, user_name }, SECRET, { expiresIn: 3600 }, (err, token) => {
+         if (err) {
+            console.log(err);
+            return res.cookie('jwt', {
+               success: false,
+            });
+         }
+         res.cookie('jwt', {
+            success: true,
+            token: "Bearer " + token
+         });
+         res.redirect('/signup/success'); 
+      });
+   }
+);
+
+// when login is successful, retrieve user info
+router.get("/auth/login/success", (req, res) => {
+   const { jwt } = req.cookies;
+   if (jwt) {
+     res.json(jwt);
+   } else {
+      res.status(401).send('login failed');
+   }
+   
 });
 
 module.exports = router;

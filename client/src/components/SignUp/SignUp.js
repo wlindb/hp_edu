@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerUser } from "../../actions/authActions";
+import { registerUser, loginUserOauth } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import Validate from "../../utils/Validate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
-const SignUp = ({ history, registerUser, auth, errors, clearErrors }) => {
+
+const SignUp = ({ history, registerUser, loginUserOauth, auth, errors, clearErrors }) => {
    const [user, setUser] = useState({
       user_name: "",
       email: "",
@@ -29,6 +31,15 @@ const SignUp = ({ history, registerUser, auth, errors, clearErrors }) => {
       });
    }, [errors, auth, history]);
 
+   // id: url param, redirecting to /signup/success
+   // Then validate user on the backend
+   const { id } = useParams();
+   useEffect(() => {
+      if(id) {
+         loginUserOauth(history);
+      }
+   }, [id, loginUserOauth, history]);
+
    const handleChange = e => {
       setUser({
          ...user,
@@ -47,6 +58,7 @@ const SignUp = ({ history, registerUser, auth, errors, clearErrors }) => {
       const { user_name, email, password } = user;
       registerUser({ user_name, email, password }, history);
    };
+
    return (
     <div className="container" id="container" >
         <div className="form-container sign-up-container">
@@ -54,7 +66,8 @@ const SignUp = ({ history, registerUser, auth, errors, clearErrors }) => {
             <h1>Skapa Konto</h1>
                <div className="social-container">
 			    	   <a href="#" className="social"><FontAwesomeIcon icon={faFacebook} /></a>
-			    	   <a href="/api/users/auth/google" className="social"><i className="fab fa-google fa-3x"></i></a>
+			    	   <a className="social" href='/api/users/auth/google'><i className="fab fa-google fa-3x"></i></a>
+                   {/* href='/api/users/auth/google'} onClick={handleAuthWithGoogle} */}
                </div>
                 <span>eller registrera manuellt</span>
                 {/* <i className="fa fa-user"/> */}
@@ -112,6 +125,7 @@ const SignUp = ({ history, registerUser, auth, errors, clearErrors }) => {
 
 SignUp.propTypes = {
    registerUser: PropTypes.func.isRequired,
+   loginUserOauth: PropTypes.func.isRequired,
    clearErrors: PropTypes.func.isRequired,
    auth: PropTypes.object.isRequired,
    errors: PropTypes.object.isRequired
@@ -124,5 +138,5 @@ const mapStateToProps = state => ({
 
 export default connect(
    mapStateToProps,
-   { registerUser, clearErrors }
+   { registerUser, loginUserOauth, clearErrors }
 )(SignUp);

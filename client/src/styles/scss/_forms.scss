@@ -74,6 +74,21 @@
         display: inline-flex;
         min-width: 20%;
         justify-content: space-around;
+
+        .social {
+            // border: 1px solid #DDDDDD;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            height: 40px;
+            width: 40px;
+        }
+    
+        .social:hover {
+            transform: scale(.98);
+        }
     }
     .social-container a {
         // border: 1px solid #DDDDDD;

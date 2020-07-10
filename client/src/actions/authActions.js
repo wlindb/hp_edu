@@ -23,6 +23,27 @@ export const registerUser = (userData, history) => dispatch => {
       });
 };
 
+export const loginUserOauth = (history) => dispatch => {
+   axios
+      .get('/api/users/auth/login/success')
+      .then(res => {
+         const { token } = res.data;
+         console.log('token =', token);
+         localStorage.setItem("jwtToken", token);
+         setAuthToken(token);
+         const decoded = jwt_decode(token);
+         console.log('decoded = \n',decoded);
+         dispatch(setCurrentUser(decoded));
+         dispatch(toggleUserLoading());
+         history.push("/profile");
+      })
+      .catch(err => {
+         console.log('axios error ', err);
+         dispatch(setErrors(err.response.data));
+         dispatch(toggleUserLoading());
+      });
+};
+
 export const loginUser = userData => dispatch => {
    dispatch(toggleUserLoading());
    axios
@@ -32,12 +53,29 @@ export const loginUser = userData => dispatch => {
          localStorage.setItem("jwtToken", token);
          setAuthToken(token);
          const decoded = jwt_decode(token);
+         console.log('decoded = \n',decoded);
          dispatch(setCurrentUser(decoded));
          dispatch(toggleUserLoading());
       })
       .catch(err => {
          dispatch(setErrors(err.response.data));
          dispatch(toggleUserLoading());
+      });
+};
+
+export const isAuth = dispatch => {
+   console.log('is Auth körs');
+   axios
+      .get("/api/profile")
+      .then(res => {
+         const { token } = res.data;
+         localStorage.setItem("jwtToken", token);
+         setAuthToken(token);
+         const decoded = jwt_decode(token);
+         dispatch(setCurrentUser(decoded));
+      })
+      .catch(err => {
+         console.log('isAuth error ', err);
       });
 };
 
