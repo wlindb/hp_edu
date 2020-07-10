@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect, useParams } from "react-router-dom";
+import PrivateRoute from "./utils/PrivateRoute";
 import Landing from './components/LandingPage/landing'
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
@@ -35,7 +36,7 @@ const App = () => {
               <Route path="/login" component={Login} />
               <Route path="/signup/:id?" component={SignUp} />
               {/* path="/signup/:id?" */}
-              <Route path="/profile" component={Profile} />
+              <PrivateRoute exact path="/profile" component={Profile} />
               {/* <PrivateRoute exact path="/blog" component={BlogPage} />
                <PrivateRoute
                   exact
