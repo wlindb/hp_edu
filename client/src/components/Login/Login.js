@@ -65,7 +65,7 @@ const Login = ({ loginUser, auth, errors, history, clearErrors }) => {
                     <input 
                           name="email"
                           type="email"
-                          placeholder="Användarnamn"
+                          placeholder="Email"
                           className="form-control"
                           value={user.email}
                           onChange={handleChange}

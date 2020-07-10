@@ -49,15 +49,28 @@ module.exports = passport => {
      },
       (accessToken, refreshToken, profile, done) => {
        const {displayName, id, emails} = profile;
-       User.findOne({ 'google.id': id})
+       const email = emails[0].value;
+       User.findOne({$or:[{email},{'google.id': id}]})
            .then(user => {
               // Check if user already exists   
               if(user) {
-               done(null, user);
+                 if(user.google.id) {
+                  console.log('Användare har loggat in med google ', user.google);
+                  // User exists and has signed in with google before
+                  done(null, user);
+                 } else {
+                  // User has signed before but not with google.
+                  console.log('Användare har ej google log in tidigare');
+                  user.google = { 'id': id };
+                  user
+                     .save()
+                     .then(updatedUser => done(null, updatedUser))
+                     .catch(err => console.log({ error: "Error creating a new user with google" }, err));
+                 }
               } else {
                   const newUser = new User({
                      user_name: displayName.replace(/\s/g, '_'),
-                     email: emails[0].value,
+                     email: email,
                      google: { id, accessToken }
                   });
                   newUser
@@ -67,7 +80,7 @@ module.exports = passport => {
                      done(null, newUser);
                   })
                   .catch(err => {
-                     console.log({ error: "Error creating a new user with google" }, err)
+                     console.log({ error: "Error creating a new user with google" }, err);
                   })
               }
            })
