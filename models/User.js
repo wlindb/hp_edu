@@ -17,6 +17,10 @@ const userModel = {
    google: {
       id: String,
       token: String,
+   },
+   facebook: {
+      id: String,
+      token: String,
    }
 };
 

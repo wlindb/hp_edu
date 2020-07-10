@@ -83,22 +83,38 @@ router.get(
       failureRedirect: "/auth/login/failed"
     }),
    (req, res) => {
-      const {id, user_name} = req.user;
-      jwt.sign({ id, user_name }, SECRET, { expiresIn: 3600 }, (err, token) => {
-         if (err) {
-            console.log(err);
-            return res.cookie('jwt', {
-               success: false,
-            });
-         }
-         res.cookie('jwt', {
-            success: true,
-            token: "Bearer " + token
-         });
-         res.redirect('/signup/success'); 
-      });
+      signJWT(req,res);
    }
 );
+
+router.get('/auth/facebook',
+  passport.authenticate('facebook', { scope : ['email'] }));
+
+router.get('/auth/facebook/redirect',
+   passport.authenticate('facebook', { failureRedirect: '/login' }),
+   (req, res) => {
+      signJWT(req,res);
+   }
+);
+
+const signJWT = (req, res) => {
+   // Successful authentication, redirect home.
+   console.log('sista callback user = ', req.user);
+   const {id, user_name} = req.user;
+     jwt.sign({ id, user_name }, SECRET, { expiresIn: 3600 }, (err, token) => {
+        if (err) {
+           console.log(err);
+           return res.cookie('jwt', {
+              success: false,
+           });
+        }
+        res.cookie('jwt', {
+           success: true,
+           token: "Bearer " + token
+        });
+        res.redirect('/signup/success'); 
+     });
+};
 
 // when login is successful, retrieve user info
 router.get("/auth/login/success", (req, res) => {
@@ -108,7 +124,6 @@ router.get("/auth/login/success", (req, res) => {
    } else {
       res.status(401).send('login failed');
    }
-   
 });
 
 module.exports = router;

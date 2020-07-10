@@ -1,10 +1,13 @@
 const JwtStrategy = require("passport-jwt").Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const User = require("../models/User");
 const SECRET = process.env.SECRET;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
@@ -84,7 +87,54 @@ module.exports = passport => {
                   })
               }
            })
-       
      }
    ));
+
+   passport.use(new FacebookStrategy({
+      clientID: FACEBOOK_APP_ID,
+      clientSecret: FACEBOOK_APP_SECRET,
+      callbackURL: '/api/users/auth/facebook/redirect',
+      profileFields: ['id', 'displayName', 'emails']
+    },
+    (accessToken, refreshToken, profile, done) => {
+      console.log(profile);
+      // Houston we have a problem, emails doesnt exist...
+      const {displayName, id, emails} = profile;
+       const email = emails[0].value;
+       User.findOne({$or:[{email},{'facebook.id': id}]})
+           .then(user => {
+              // Check if user already exists   
+              if(user) {
+                 if(user.facebook.id) {
+                  console.log('Användare har loggat in med facebook ', user.facebook);
+                  // User exists and has signed in with google before
+                  done(null, user);
+                 } else {
+                  // User has signed before but not with google.
+                  console.log('Användare har ej google log in tidigare');
+                  user.facebook = { 'id': id };
+                  user
+                     .save()
+                     .then(updatedUser => done(null, updatedUser))
+                     .catch(err => console.log({ error: "Error creating a new user with google" }, err));
+                 }
+              } else {
+                  const newUser = new User({
+                     user_name: displayName.replace(/\s/g, '_'),
+                     email: email,
+                     facebook: { id, id }
+                  });
+                  newUser
+                  .save()
+                  .then((newUser) => {
+                     console.log(newUser);
+                     done(null, newUser);
+                  })
+                  .catch(err => {
+                     console.log({ error: "Error creating a new user with google" }, err);
+                  })
+              }
+           })
+    }
+  ));
 };
