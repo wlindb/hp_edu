@@ -98,8 +98,7 @@ router.get('/auth/facebook/redirect',
 );
 
 const signJWT = (req, res) => {
-   // Successful authentication, redirect home.
-   console.log('sista callback user = ', req.user);
+   // Successful authentication, sign jwt and redirect to success .
    const {id, user_name} = req.user;
      jwt.sign({ id, user_name }, SECRET, { expiresIn: 3600 }, (err, token) => {
         if (err) {

@@ -58,12 +58,10 @@ module.exports = passport => {
               // Check if user already exists   
               if(user) {
                  if(user.google.id) {
-                  console.log('Användare har loggat in med google ', user.google);
                   // User exists and has signed in with google before
                   done(null, user);
                  } else {
                   // User has signed before but not with google.
-                  console.log('Användare har ej google log in tidigare');
                   user.google = { 'id': id };
                   user
                      .save()
@@ -79,7 +77,6 @@ module.exports = passport => {
                   newUser
                   .save()
                   .then((newUser) => {
-                     console.log(newUser);
                      done(null, newUser);
                   })
                   .catch(err => {
@@ -97,8 +94,6 @@ module.exports = passport => {
       profileFields: ['id', 'displayName', 'emails']
     },
     (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
-      // Houston we have a problem, emails doesnt exist...
       const {displayName, id, emails} = profile;
        const email = emails[0].value;
        User.findOne({$or:[{email},{'facebook.id': id}]})
@@ -106,12 +101,10 @@ module.exports = passport => {
               // Check if user already exists   
               if(user) {
                  if(user.facebook.id) {
-                  console.log('Användare har loggat in med facebook ', user.facebook);
                   // User exists and has signed in with google before
                   done(null, user);
                  } else {
                   // User has signed before but not with google.
-                  console.log('Användare har ej google log in tidigare');
                   user.facebook = { 'id': id };
                   user
                      .save()
@@ -127,7 +120,6 @@ module.exports = passport => {
                   newUser
                   .save()
                   .then((newUser) => {
-                     console.log(newUser);
                      done(null, newUser);
                   })
                   .catch(err => {
