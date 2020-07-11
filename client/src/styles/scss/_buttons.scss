@@ -34,3 +34,21 @@
     background-color: $light-color;
     color: $primary-color;
 }
+
+.hamburger-btn {
+    border: none;
+    outline: 0;
+    background-color: transparent;
+    svg{
+        fill: #454545;
+    }
+}
+
+.hamburger-btn-close {
+    border: none;
+    outline: 0;
+    background-color: transparent;
+    svg{
+        fill: #454545;
+    }
+}
