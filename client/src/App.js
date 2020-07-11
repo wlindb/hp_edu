@@ -6,6 +6,7 @@ import Landing from './components/LandingPage/landing'
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
 import Profile from './components/Profile/Profile';
+import Navbar from './components/Navbar/Navbar';
 import './styles/css/style.css';
 import store from './store';
 import jwt_decode from "jwt-decode";
@@ -30,7 +31,7 @@ const App = () => {
       <div className="App">
       <BrowserRouter>
             {/* <ProgressBar /> */}
-            {/* <Navbar /> */}
+            <Navbar />
             <Switch>
               <Route path="/" exact component={Landing} />
               <Route path="/login" component={Login} />
