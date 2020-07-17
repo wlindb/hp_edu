@@ -4,7 +4,9 @@ phases:
   install:
     commands:
       # install dependencies
+      - echo running server install
       - npm install
+      - echo running client install
       - npm run client-install
 
       # Upgrade aws CLI to the latest version
@@ -12,16 +14,13 @@ phases:
   
   build:
     commands:
+      - echo Running client build
       - npm run client-build
 
 artifacts:
   files:
-  "/opt/elasticbeanstalk/hooks/appdeploy/post/00_set_tmp_permissions.sh":
-    mode: "000755"
-    owner: root
-    group: root
-    content: |
-      #!/usr/bin/env bash
-      chown -R nodejs:nodejs /tmp/.npm
+    - "**/*"
+  discard-paths: no
+  base-directory: dist
 
 
