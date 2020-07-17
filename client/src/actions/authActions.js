@@ -10,6 +10,7 @@ export const registerUser = (userData, history) => dispatch => {
    axios
       .post("/api/users/signup", userData)
       .then(res => {
+         console.log('authActions res', res);
          dispatch(toggleUserLoading());
          localStorage.setItem(
             "loginMessage",

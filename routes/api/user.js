@@ -3,7 +3,8 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require('passport');
-const SECRET = process.env.SECRET; 
+const SECRET = process.env.SECRET;
+const nodemailer = require('nodemailer');
 const validateSignUpInput = require("../../validation/signup");
 const validateLoginInput = require("../../validation/login");
 const User = require("../../models/User");
@@ -32,6 +33,38 @@ router.post("/signup", (req, res) => {
                newUser
                   .save()
                   .then(user => res.json(user))
+                  // .then(user => {
+                  //    const payload = {
+                  //       id: user.id,
+                  //       user_name: user.user_name
+                  //    };
+                  //    jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
+                  //       if (err) {
+                  //          console.log(err);
+                  //       }
+                  //       const url = `http://localhost:3000/confirmation/${token}`;
+                  //       // Send the email
+                  //       // const transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
+                  //       const transporter = nodemailer.createTransport({
+                  //          service: 'Gmail',
+                  //          auth: {
+                  //            user: process.env.GMAIL_USER,
+                  //            pass: process.env.GMAIL_PASS,
+                  //          },
+                  //        });
+                  //       console.log(process.env.GMAIL_USER, '\n',process.env.GMAIL_PASS)
+                  //       const mailOptions = { 
+                  //          // from: 'no-reply@yourwebapplication.com',
+                  //          to: user.email, subject: 'Account Verification Token',
+                  //          // text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n'
+                  //          html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+                  //       };
+                  //       transporter.sendMail(mailOptions, (err) => {
+                  //           if (err) { return res.status(500).send({ msg: err.message }); }
+                  //           res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                  //       });
+                  //    });
+                  // })
                   .catch(err =>
                      console.log({ error: "Error creating a new user" })
                   );
@@ -50,6 +83,8 @@ router.post("/login", (req, res) => {
    User.findOne({ email }).then(user => {
       if (!user) {
          return res.status(404).json({ email: "Epostadress hittades inte" });
+      } else if(!user.isVerified) {
+         return res.status(400).json({ email: "Vänligen verifiera epost för att logga in" });
       }
       bcrypt.compare(password, user.password).then(isMatch => {
          if (isMatch) {

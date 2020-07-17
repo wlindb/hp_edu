@@ -24,7 +24,7 @@ export const Profile = (
     }, [username]);
 
     return (
-        <div style={{backgroundColor: 'green', color: 'red'}}>
+        <div className="container" style={{backgroundColor: 'green', color: 'red'}}>
             <p>Välkomen {username}</p>
         </div>
     )

@@ -85,6 +85,8 @@ const Login = ({ loginUser, auth, errors, history, clearErrors }) => {
                     />
                   </div>
                   <button type="submit" className="btn-primary">Logga in</button>
+                <p className="p-error">{errors.password}</p>
+                <p className="p-error">{errors.email}</p>
               </form>
               <div className="info-link">
                   Inget konto? <br/>

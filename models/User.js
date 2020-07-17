@@ -10,6 +10,10 @@ const userModel = {
       type: String,
       required: true
    },
+   isVerified: {
+      type: Boolean,
+      default: false
+   },
    password: {
       type: String,
       // required: true
