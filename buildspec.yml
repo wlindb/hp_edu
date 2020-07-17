@@ -6,8 +6,12 @@ phases:
       # install dependencies
       - npm install
       - npm run client-install
-      - npm run client-build
 
       # Upgrade aws CLI to the latest version
       - pip install --upgrade awscli
+  
+  build:
+    commands:
+      - npm run client-build
+
 
