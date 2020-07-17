@@ -14,4 +14,10 @@ phases:
     commands:
       - npm run client-build
 
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: no
+  base-directory: build
+
 
