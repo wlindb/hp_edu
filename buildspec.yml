@@ -19,8 +19,12 @@ phases:
 
 artifacts:
   files:
-    - "**/*"
-  discard-paths: no
-  base-directory: dist
+  "/opt/elasticbeanstalk/hooks/appdeploy/post/99_fix_node_permissions.sh":
+    mode: "000755"
+    owner: root
+    group: root
+    content: |
+      #!/usr/bin/env bash
+      chown -R nodejs:nodejs /tmp/.npm/_locks/
 
 
