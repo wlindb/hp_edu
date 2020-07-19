@@ -7,7 +7,7 @@ phases:
       - echo running server install
       - npm install
       - echo running client install
-      - npm run client-install
+      - npm run client-install --unsafe-perm=true
 
       # Upgrade aws CLI to the latest version
       - pip install --upgrade awscli
