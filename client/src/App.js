@@ -12,6 +12,7 @@ import store from './store';
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import ProgressBar from './components/ProgressBar/ProgressBar';
 
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;
@@ -32,6 +33,7 @@ const App = () => {
       <BrowserRouter>
             {/* <ProgressBar /> */}
             <Navbar />
+            <ProgressBar/>
             <Switch>
               <Route path="/" exact component={Landing} />
               <Route path="/login" component={Login} />

@@ -68,7 +68,13 @@ export const setCurrentUser = userData => {
    };
 };
 
+export const dummyToggle = wth => dispatch => {
+   console.log('dummytoggle i authActions');
+   dispatch(toggleUserLoading());
+};
+
 export const toggleUserLoading = () => {
+   console.log('toggleUserLoading');
    return {
       type: TOGGLE_USER_LOADING
    };
