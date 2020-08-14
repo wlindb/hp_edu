@@ -1,24 +1,32 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import useWindowSize from '../../utils/useWindowSize';
 import PropTypes from "prop-types";
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { logoutUser } from "../../actions/authActions";
 
-export const Navbar = (
-    auth
-) => {
-
+export const Navbar = ({
+    isAuthenticated,
+    logoutUser
+}) => {
+    const history = useHistory();
     const windowSize = useWindowSize();
-
+    const [showLogin, setShowLogin] = useState(true);
     const [expanded, setExpanded] = useState(false);
     const [onMobile, setOnMobile] = useState(windowSize.width < 850);
 
     useEffect(() => {
         setOnMobile(windowSize.width < 850)
-      }, [windowSize])
+    }, [windowSize])
     
     const toggleExpanded = () => {
         setExpanded(!expanded);
     }
+
+    const handleLogout = e => {
+        e.preventDefault();
+        logoutUser();
+    };
 
     return (
         <nav className="c-nav c-nav--primary c-nav--alternate">
@@ -48,7 +56,14 @@ export const Navbar = (
                     </nav>
                 }
                 <div className="c-nav-btn-container">
-                    {!onMobile ? <button className="btn-primary">Kom igång gratis</button>
+                    {!onMobile ? 
+                            !isAuthenticated ? 
+                            <>
+                                <button className="btn-secondary" onClick={() => history.push('/login')}>Logga in</button>
+                                <button className="btn-primary" onClick={() => history.push('/signup')} >Kom igång gratis</button>
+                            </>
+                            :
+                                <button className="btn-secondary" onClick={handleLogout}>Logga ut</button>
                     : <button 
                         className="hamburger-btn"
                         onClick={toggleExpanded}
@@ -125,12 +140,13 @@ export const Navbar = (
 }
 
 const mapStateToProps = (state) => ({
-    auth: state.auth,
+    isAuthenticated: state.auth.isAuthenticated,
 });
 
 Navbar.propTypes = {
-    auth: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    logoutUser: PropTypes.func.isRequired
 }; 
 
 
-export default connect(mapStateToProps, {  })(Navbar);
+export default connect(mapStateToProps, { logoutUser })(Navbar);
