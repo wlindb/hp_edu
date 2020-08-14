@@ -13,6 +13,7 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import ProgressBar from './components/ProgressBar/ProgressBar';
+import Confirmation from './components/Confirmation/Confirmation';
 
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;
@@ -38,6 +39,7 @@ const App = () => {
               <Route path="/" exact component={Landing} />
               <Route path="/login" component={Login} />
               <Route path="/signup/:id?" component={SignUp} />
+              <Route path="/confirmation/:token" component={Confirmation} />
               {/* path="/signup/:id?" */}
               <PrivateRoute exact path="/profile" component={Profile} />
               {/* <PrivateRoute exact path="/blog" component={BlogPage} />

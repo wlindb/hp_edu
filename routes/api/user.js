@@ -4,10 +4,72 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require('passport');
 const SECRET = process.env.SECRET;
-const nodemailer = require('nodemailer');
 const validateSignUpInput = require("../../validation/signup");
 const validateLoginInput = require("../../validation/login");
 const User = require("../../models/User");
+
+// AWS simple email services
+const AWS = require('aws-sdk');
+const SESconfig = {
+   apiVersion: '2010-12-01',
+   accessKeyId: process.env.AWS_SES_ACCESS_KEY_ID,
+   secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY,
+   region: process.env.AWS_SES_REGION
+};
+
+let ses = new AWS.SES(SESconfig);
+
+const getVerifyEmailParams = (email, token) => {
+   const url = `http://localhost:5000/confirmation/${token}`; // Change to real url
+   console.log('getVerifyEmailParams email =', email);
+   console.log('getVerifyEmailParams token =', token);
+   let params = {
+      // Change source to real no-reply when custom domain ready.
+      Source: 'karlwilliamlindblom@gmail.com',
+      Destination: {
+         ToAddresses: [
+            email
+         ]
+      },
+      ReplyToAddresses: [
+         'karlwilliamlindblom@gmail.com'
+      ],
+      Message: {
+         Body : {
+            Html: {
+               Charset:"UTF-8",
+               // Data : `Please click this email to confirm your email: <a href="${url}">${url}</a>`
+               Data: `
+               <head>
+                   <style>
+                       *{font-family: sans; color: #f4f4f4;}
+                       h1{background-color:#3f46ad; text-align: center; height: 80px;}
+                   </style>
+               </head>
+               <div style="font-family: sans; color: #f4f4f4; background-color: #323648; overflow-y: hidden;">
+                   <h1>Välkommen till HP familjen!</h1>
+                   <!-- display: flex; flex-direction: column; justify-content: space-between;   -->
+                       <div style="line-height: 1.5; height: 320px; align-items: center;">
+                           <p style="text-align:center;">För att slutföra din registrering</p>
+                           <p style="text-align:center;">vänligen klicka på verifiera knappen nedan.</p>
+                           <div style="display: flex;">
+                               <a href="${url}" style="background-color: #3f46ad; color: #f4f4f4; border-radius: 6px; height: 64px; width: 128px; font-size: 16px; font-weight: bold; line-height: 64px; text-align: center; text-decoration: none; margin: 150px auto;">VERIFIERA</a>
+                           </div>
+                   </div>
+               </div>
+               `
+            }
+         },
+         Subject: {
+            Charset: 'UTF-8',
+            Data: 'Välkommen till HP familjen!'
+         }
+      }
+   };
+   console.log('getVerifyEmailParams params =', params);
+
+   return params;
+};
 
 router.post("/signup", (req, res) => {
    const {errors, isValid} = validateSignUpInput(req.body);
@@ -32,39 +94,49 @@ router.post("/signup", (req, res) => {
                newUser.password = hash;
                newUser
                   .save()
-                  .then(user => res.json(user))
-                  // .then(user => {
-                  //    const payload = {
-                  //       id: user.id,
-                  //       user_name: user.user_name
-                  //    };
-                  //    jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
-                  //       if (err) {
-                  //          console.log(err);
-                  //       }
-                  //       const url = `http://localhost:3000/confirmation/${token}`;
-                  //       // Send the email
-                  //       // const transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
-                  //       const transporter = nodemailer.createTransport({
-                  //          service: 'Gmail',
-                  //          auth: {
-                  //            user: process.env.GMAIL_USER,
-                  //            pass: process.env.GMAIL_PASS,
-                  //          },
-                  //        });
-                  //       console.log(process.env.GMAIL_USER, '\n',process.env.GMAIL_PASS)
-                  //       const mailOptions = { 
-                  //          // from: 'no-reply@yourwebapplication.com',
-                  //          to: user.email, subject: 'Account Verification Token',
-                  //          // text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n'
-                  //          html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
-                  //       };
-                  //       transporter.sendMail(mailOptions, (err) => {
-                  //           if (err) { return res.status(500).send({ msg: err.message }); }
-                  //           res.status(200).send('A verification email has been sent to ' + user.email + '.');
-                  //       });
-                  //    });
-                  // })
+                  // .then(user => res.json(user))
+                  .then(user => {
+                     const payload = {
+                        id: user.id,
+                        user_name: user.user_name
+                     };
+                     jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
+                        if (err) {
+                           console.log(err);
+                        }
+                        const param = getVerifyEmailParams(user.email, token);
+                        console.log('param =', param, '\n===========');
+                        ses.sendEmail(param, (err, data) => {
+                           if (err) {
+                              console.error('error /signup', err);
+                           } else {
+                              console.log(data);
+                              res.status(200).send('Ett epostmeddelande har skickats till ' + user.email + '.');
+                           }
+                        });
+                        // const url = `http://localhost:3000/confirmation/${token}`;
+                        // Send the email
+                        // const transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
+                        // const transporter = nodemailer.createTransport({
+                        //    service: 'Gmail',
+                        //    auth: {
+                        //      user: process.env.GMAIL_USER,
+                        //      pass: process.env.GMAIL_PASS,
+                        //    },
+                        //  });
+                        // console.log(process.env.GMAIL_USER, '\n',process.env.GMAIL_PASS)
+                        // const mailOptions = { 
+                        //    // from: 'no-reply@yourwebapplication.com',
+                        //    to: user.email, subject: 'Account Verification Token',
+                        //    // text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n'
+                        //    html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+                        // };
+                        // transporter.sendMail(mailOptions, (err) => {
+                        //     if (err) { return res.status(500).send({ msg: err.message }); }
+                        //     res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                        // });
+                     });
+                  })
                   .catch(err =>
                      console.log({ error: "Error creating a new user" })
                   );
@@ -73,6 +145,50 @@ router.post("/signup", (req, res) => {
       }
    });
 });
+
+router.post(
+   '/confirmation/',
+   passport.authenticate("jwt", { session: false }),
+   (req, res) => {
+      console.log('inne i if ',req.user);
+      req.user.isVerified = true;
+      console.log('efter isVerified ',req.user);
+      req.user
+         .save()
+         .then(updatedUser => {
+            return res.json({
+               user: updatedUser
+            });
+         });
+});
+
+router.post(
+   'resendVerification',
+   (req, res) => {
+      const {email} = req.body;
+      User.findOne({ email })
+         .then(user => {
+            jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
+               if (err) {
+                  console.log(err);
+               }
+               const param = getVerifyEmailParams(user.email, token);
+               console.log('param =', param, '\n===========');
+               ses.sendEmail(param, (err, data) => {
+                  if (err) {
+                     console.error('error /resendVerification', err);
+                  } else {
+                     console.log(data);
+                     res.status(200).send('Ett epostmeddelande har skickats till ' + user.email + '.');
+                  }
+               });
+            });
+         })
+         .catch(err => {
+            console.error('Error i resendVerification ', err);
+         });
+   }
+);
 
 router.post("/login", (req, res) => {
    const { errors, isValid } = validateLoginInput(req.body);

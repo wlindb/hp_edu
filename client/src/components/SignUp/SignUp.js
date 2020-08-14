@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerUser, loginUserOauth } from "../../actions/authActions";
+import { registerUser, loginUserOauth, resendVerification } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import Validate from "../../utils/Validate";
 import SocialMediaContainer from "../SocialMediaContainer/SocialMediaContainer";
@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 
 
-const SignUp = ({ history, registerUser, loginUserOauth, auth, errors, clearErrors }) => {
+const SignUp = ({ history, registerUser, loginUserOauth, resendVerification, auth, errors, clearErrors, messages }) => {
    const [user, setUser] = useState({
       user_name: "",
       email: "",
@@ -24,7 +24,7 @@ const SignUp = ({ history, registerUser, loginUserOauth, auth, errors, clearErro
    }, [history, clearErrors]);
 
    useEffect(() => {
-      if (auth.isAuthenticated) history.push("/blog");
+      if (auth.isAuthenticated) history.push("/profile");
       setUser(user => {
          return { ...user, errors };
       });
@@ -46,6 +46,12 @@ const SignUp = ({ history, registerUser, loginUserOauth, auth, errors, clearErro
       });
    };
 
+   const handleResend = e => {
+      e.preventDefault();
+      const { user_name, email, password } = user;
+      
+   };
+
    const handleBlur = e => {
       const { name, value } = e.target;
       const err = { ...user.errors, ...Validate(name, value).errors };
@@ -61,6 +67,21 @@ const SignUp = ({ history, registerUser, loginUserOauth, auth, errors, clearErro
    return (
     <div className="container" id="container" >
         <div className="form-container sign-up-container">
+            { messages.signUpSuccess ? 
+            <div className="text-section-small">
+               <div>
+                  <h1>Nästan klart...</h1>
+                  {/* <p>Vad kul att du bestämt dig för att besegra högskoleprovet!</p> */}
+                  <p>{messages.signUpSuccess}</p>
+                  <p>Vänligen klicka på verifiera i epostmeddelandet för att gå vidare.</p>
+               </div>
+               <div className="info-link">
+                  Har du inte fått något meddelande? <br/>
+                  <a href={handleResend}>Skicka igen</a>
+               </div>
+            </div>
+            :
+            <>
             <form id="form" onSubmit={handleSubmit}>
             <h1>Skapa Konto</h1>
                <SocialMediaContainer/>
@@ -107,12 +128,14 @@ const SignUp = ({ history, registerUser, loginUserOauth, auth, errors, clearErro
                     className="btn-primary"
                 >
                     Registrera
-                </button>
+                    </button>
             </form>
             <div className="info-link">
                Har du redan ett konto? <br/>
                <Link to={"/login"}>Logga in</Link>
             </div>
+            </>
+            }
         </div>
     </div>
    );
@@ -121,17 +144,20 @@ const SignUp = ({ history, registerUser, loginUserOauth, auth, errors, clearErro
 SignUp.propTypes = {
    registerUser: PropTypes.func.isRequired,
    loginUserOauth: PropTypes.func.isRequired,
+   resendVerification: PropTypes.func.isRequired,
    clearErrors: PropTypes.func.isRequired,
    auth: PropTypes.object.isRequired,
-   errors: PropTypes.object.isRequired
+   errors: PropTypes.object.isRequired,
+   messages: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
    auth: state.auth,
-   errors: state.errors
+   errors: state.errors,
+   messages: state.messages
 });
 
 export default connect(
    mapStateToProps,
-   { registerUser, loginUserOauth, clearErrors }
+   { registerUser, loginUserOauth, resendVerification, clearErrors }
 )(SignUp);

@@ -72,7 +72,8 @@ module.exports = passport => {
                   const newUser = new User({
                      user_name: displayName.replace(/\s/g, '_'),
                      email: email,
-                     google: { id, accessToken }
+                     google: { id, accessToken },
+                     isVerified: true
                   });
                   newUser
                   .save()
@@ -115,7 +116,8 @@ module.exports = passport => {
                   const newUser = new User({
                      user_name: displayName.replace(/\s/g, '_'),
                      email: email,
-                     facebook: { id, id }
+                     facebook: { id, id },
+                     isVerified: true
                   });
                   newUser
                   .save()
