@@ -6,6 +6,7 @@ import Landing from './components/LandingPage/landing'
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
 import Profile from './components/Profile/Profile';
+import QuantPage from './components/QuantPage/QuantPage';
 import Navbar from './components/Navbar/Navbar';
 import './styles/css/style.css';
 import store from './store';
@@ -42,6 +43,7 @@ const App = () => {
               <Route path="/confirmation/:token" component={Confirmation} />
               {/* path="/signup/:id?" */}
               <PrivateRoute exact path="/profile" component={Profile} />
+              <PrivateRoute exact path="/kvant" component={QuantPage} />
               {/* <PrivateRoute exact path="/blog" component={BlogPage} />
                <PrivateRoute
                   exact

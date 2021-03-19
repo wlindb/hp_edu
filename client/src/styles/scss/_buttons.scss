@@ -12,7 +12,7 @@
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
     white-space: nowrap;
-
+    cursor: pointer;
     &:hover {
         transform: scale(.98);
     }

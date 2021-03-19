@@ -36,6 +36,23 @@
                 font-weight: 500;
                 color: $text-color;
                 cursor: pointer;
+
+                a {
+                    text-decoration: none;
+                }
+
+                a:visited { 
+                    color: inherit; 
+                }
+
+                a:active {
+                    color: $primary-color;
+                    font-weight: bold;
+                }
+
+                a:hover {
+                    border-bottom: 2px solid $primary-color;
+                }
             }
         }
     }

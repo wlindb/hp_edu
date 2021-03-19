@@ -48,10 +48,10 @@ export const Navbar = ({
                     !onMobile &&
                     <nav className="c-nav_list">
                         <ul className="c-nav-ul">
-                            <li className="c-nav--primary-li"><span>INFO</span></li>
-                            <li className="c-nav--primary-li"><span>INFO1</span></li>
-                            <li className="c-nav--primary-li"><span>INFO2</span></li>
-                            <li className="c-nav--primary-li"><span>INFO3</span></li>
+                            <li className="c-nav--primary-li"><a href="/kvant">Kvantitativ del</a></li>
+                            <li className="c-nav--primary-li"><a>Verbal del</a></li>
+                            <li className="c-nav--primary-li"><a>INFO2</a></li>
+                            <li className="c-nav--primary-li"><a>INFO3</a></li>
                         </ul> 
                     </nav>
                 }
