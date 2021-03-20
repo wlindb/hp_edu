@@ -11,7 +11,6 @@ export const Navbar = ({
 }) => {
     const history = useHistory();
     const windowSize = useWindowSize();
-    const [showLogin, setShowLogin] = useState(true);
     const [expanded, setExpanded] = useState(false);
     const [onMobile, setOnMobile] = useState(windowSize.width < 850);
 
@@ -49,9 +48,9 @@ export const Navbar = ({
                     <nav className="c-nav_list">
                         <ul className="c-nav-ul">
                             <li className="c-nav--primary-li"><a href="/kvant">Kvantitativ del</a></li>
-                            <li className="c-nav--primary-li"><a>Verbal del</a></li>
-                            <li className="c-nav--primary-li"><a>INFO2</a></li>
-                            <li className="c-nav--primary-li"><a>INFO3</a></li>
+                            <li className="c-nav--primary-li"><a href="/">Verbal del</a></li>
+                            <li className="c-nav--primary-li"><a href="/">INFO2</a></li>
+                            <li className="c-nav--primary-li"><a href="/">INFO3</a></li>
                         </ul> 
                     </nav>
                 }

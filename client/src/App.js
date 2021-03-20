@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch, Redirect, useParams } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import PrivateRoute from "./utils/PrivateRoute";
 import Landing from './components/LandingPage/landing'
 import Login from './components/Login/Login';
@@ -41,23 +41,11 @@ const App = () => {
               <Route path="/login" component={Login} />
               <Route path="/signup/:id?" component={SignUp} />
               <Route path="/confirmation/:token" component={Confirmation} />
-              {/* path="/signup/:id?" */}
               <PrivateRoute exact path="/profile" component={Profile} />
+              {/* Todo Refactor QuantPage to be general and crate sub category page */}
               <PrivateRoute exact path="/kvant" component={QuantPage} />
-              {/* <PrivateRoute exact path="/blog" component={BlogPage} />
-               <PrivateRoute
-                  exact
-                  path="/blog/post/create"
-                  component={CreatePostPage}
-               />
-               <PrivateRoute
-                  exact
-                  path="/blog/post/update/:id"
-                  component={UpdatePostPage}
-               />
-               <Route exact path="/blog/post/:id" component={ViewPostPage} />
-               <Route path="/blog/:author" component={BlogPage} /> */}
-               <Redirect from="*" to="/" />
+              <PrivateRoute exact path="/exercises/:category/:subcategory" component={Profile} />
+              <Redirect from="*" to="/" />
             </Switch>
          </BrowserRouter>
       </div>

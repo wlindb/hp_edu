@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { dummyToggle } from "../../actions/authActions";
 import axios from 'axios';
 

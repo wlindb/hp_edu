@@ -48,8 +48,8 @@ const SignUp = ({ history, registerUser, loginUserOauth, resendVerification, aut
 
    const handleResend = e => {
       e.preventDefault();
-      const { user_name, email, password } = user;
-      
+      // TODO: fetch /api/users/resendVerification
+      // const { user_name, email, password } = user;
    };
 
    const handleBlur = e => {

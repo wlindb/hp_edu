@@ -14,13 +14,10 @@ const Login = ({ loginUser, auth, errors, history, clearErrors }) => {
       errors: {}
    });
 
-   const [message, setMessage] = useState("");
-
    // clearing error incase user switches to login page while already having errors in signup page
    useEffect(() => {
       const unlisten = history.listen(() => clearErrors());
       if (localStorage.loginMessage) {
-         setMessage(localStorage.loginMessage);
          localStorage.setItem("loginMessage", "");
       }
       return () => unlisten();

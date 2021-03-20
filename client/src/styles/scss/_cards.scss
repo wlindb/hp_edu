@@ -1,0 +1,50 @@
+.skill-progress-card {
+    position: relative;
+}
+
+.card-box {
+    box-sizing: border-box;
+    margin: 30px;
+    width: calc(50% - 60px);
+    min-width: 280px;
+    height: 260px;
+    // border: 1px inset $tertiary-color;
+    background-color: $light-color;
+    border-radius: 6px;
+    box-shadow: 0 6px 16px rgba($color: $tertiary-color, $alpha: .4);
+
+    &:hover {
+        box-shadow: 0 6px 16px rgba($color: $tertiary-color, $alpha: .6);
+    }
+}
+
+.card-content {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.base-card {
+    height: inherit;
+    // padding: 2% 2%;
+}
+
+.ui-card {
+    height: inherit;
+    padding: 1% 20% 0% 5%;
+}
+
+.ui-progress-bar {
+    width: 100%;
+    background-color: $tertiary-color;
+    height: 6px;
+    border-radius: 8px;
+}
+
+.progress-filler {
+    width: 10%;
+    background-color: #1ba94c;
+    height: inherit;
+    border-radius: inherit;
+}

@@ -1,0 +1,19 @@
+.tracks-row {
+    display: flex;
+    box-sizing: border-box;
+    // margin: -30px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.dashboard-container {
+    box-sizing: border-box;
+    background-color: $light-color;
+    max-width: 1240px;
+    border-radius: 6px;
+    // border: 1px solid red;
+    padding: 0 30px;
+    margin: 80px auto;
+    // overflow: auto;
+}

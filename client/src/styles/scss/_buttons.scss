@@ -9,7 +9,9 @@
     margin: 2px;
 	padding: 12px 45px;
 	letter-spacing: 1px;
-	text-transform: uppercase;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
 	transition: transform 80ms ease-in;
     white-space: nowrap;
     cursor: pointer;
@@ -39,6 +41,20 @@
     @extend %btn;
     background-color: $light-color;
     color: $primary-color;
+}
+
+.btn-primary a {
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-primary a:visited { 
+    color: inherit; 
+}
+
+.btn-primary a:active {
+    color: $primary-color;
+    font-weight: bold;
 }
 
 .hamburger-btn {
