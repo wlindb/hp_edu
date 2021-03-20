@@ -6,7 +6,8 @@ import Landing from './components/LandingPage/landing'
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
 import Profile from './components/Profile/Profile';
-import QuantPage from './components/QuantPage/QuantPage';
+import ExercisesPage from './components/ExercisesPage/ExercisesPage';
+import SubCategoriesPage from './components/SubCategoriesPage/SubCategoriesPage';
 import Navbar from './components/Navbar/Navbar';
 import './styles/css/style.css';
 import store from './store';
@@ -42,9 +43,8 @@ const App = () => {
               <Route path="/signup/:id?" component={SignUp} />
               <Route path="/confirmation/:token" component={Confirmation} />
               <PrivateRoute exact path="/profile" component={Profile} />
-              {/* Todo Refactor QuantPage to be general and crate sub category page */}
-              <PrivateRoute exact path="/kvant" component={QuantPage} />
-              <PrivateRoute exact path="/exercises/:category/:subcategory" component={Profile} />
+              <PrivateRoute exact path="/exercises/:category/" component={ExercisesPage} />
+              <PrivateRoute exact path="/exercises/:category/:subcategory" component={SubCategoriesPage} />
               <Redirect from="*" to="/" />
             </Switch>
          </BrowserRouter>
