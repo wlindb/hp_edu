@@ -39,10 +39,11 @@
 
                 a {
                     text-decoration: none;
+                    color: $text-color;
                 }
 
                 a:visited { 
-                    color: inherit; 
+                    color: $text-color; 
                 }
 
                 a:active {
