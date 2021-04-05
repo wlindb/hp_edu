@@ -7,6 +7,7 @@ const passportSetup = require("./middleware/passport");
 const path = require("path");
 const users = require("./routes/api/user");
 const profile = require("./routes/api/profile");
+const excercises = require("./routes/api/exercise");
 const publicPath = path.join(__dirname, 'client', 'build');
 const app = express();
 const cookieParser = require("cookie-parser"); // parse cookie header
@@ -36,6 +37,7 @@ passportSetup(passport);
 
 app.use("/api/users", users);
 app.use("/api/profile", profile);
+app.use("/api/excercises", excercises);
 
 // Serve client
 // Signing in oauth with fb/google is giving cors errors in dev, if in dev, uncoment if testing oauth.

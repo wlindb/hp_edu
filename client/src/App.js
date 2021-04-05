@@ -38,13 +38,13 @@ const App = () => {
             <Navbar />
             <ProgressBar/>
             <Switch>
-              <Route path="/" exact component={Landing} />
               <Route path="/login" component={Login} />
               <Route path="/signup/:id?" component={SignUp} />
               <Route path="/confirmation/:token" component={Confirmation} />
               <PrivateRoute exact path="/profile" component={Profile} />
               <PrivateRoute exact path="/exercises/:category/" component={ExercisesPage} />
               <PrivateRoute exact path="/exercises/:category/:subcategory" component={SubCategoriesPage} />
+              <Route path="/" exact component={Landing} />
               <Redirect from="*" to="/" />
             </Switch>
          </BrowserRouter>
