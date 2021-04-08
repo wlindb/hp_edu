@@ -17,3 +17,28 @@
     margin: 80px auto;
     // overflow: auto;
 }
+
+.exercisepage-container {
+    margin: 70px auto;
+    border-radius: 15px;
+    // padding: 20px;
+    // background: aliceblue;
+    // background: $light-color;
+    display: flex;
+    // max-width: 90%;
+}
+
+.exercise-container {
+    // border: 2px solid red;
+    flex: 7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .exercise-card {
+        width: 800px;
+        height: 400px;
+        background: $light-color;
+        border-radius: 10px;
+        box-shadow: 2px 2px 2px 2px #000;
+    }
+}

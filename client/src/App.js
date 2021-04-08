@@ -16,6 +16,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import ProgressBar from './components/ProgressBar/ProgressBar';
 import Confirmation from './components/Confirmation/Confirmation';
+import { CategoriesPage } from './components/CategoriesPage/CategoriesPage';
 
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;
@@ -42,8 +43,9 @@ const App = () => {
               <Route path="/signup/:id?" component={SignUp} />
               <Route path="/confirmation/:token" component={Confirmation} />
               <PrivateRoute exact path="/profile" component={Profile} />
-              <PrivateRoute exact path="/exercises/:category/" component={ExercisesPage} />
+              <PrivateRoute exact path="/exercises/:category/" component={CategoriesPage} />
               <PrivateRoute exact path="/exercises/:category/:subcategory" component={SubCategoriesPage} />
+              <PrivateRoute exact path="/exercises/:category/:subcategory/:group" component={ExercisesPage} />
               <Route path="/" exact component={Landing} />
               <Redirect from="*" to="/" />
             </Switch>

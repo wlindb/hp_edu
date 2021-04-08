@@ -178,3 +178,64 @@
         }
     }
 }
+
+.exercises-navbar {
+    // border: 2px solid $light-color;
+    flex: 1;
+    border-radius: 20px 0 0 20px;
+    // max-height: 700px;
+    // overflow-y: scroll;
+    // background: $light-color;
+    background: #0a0a0a;
+    ul {
+        outline: none;
+        list-style-type: none;
+    }
+
+    li {
+        border-bottom: 1px solid $tertiary-color;
+        border-right: 1px solid $tertiary-color;
+    }
+
+    li:last-child { 
+        border-bottom: 0px; 
+    }
+
+    .exercises-navbar-item {
+        // border: 2px solid palevioletred;
+        height: 80px;
+        display: flex;
+        padding: 6px;
+        cursor: pointer;
+        box-shadow: 1px 1px 1px $text-color;
+        .exercises-navbar-item-badge {
+            // background: $primary-color;
+            // background: linear-gradient(90deg, #EFEFBB 0%, #D4D3DD 100%);
+            background: $light-color;
+            border: 1px solid $primary-color;
+            border-radius: 40% 10% 40% 10%;
+            width: 40px;
+            height: 40px;
+            margin: auto;
+            text-align: center;
+            line-height: 40px;
+            box-shadow: 2px 2px 4px $text-color;
+        }
+        .exercises-navbar-item-text {
+            // padding: 20px;
+            width: calc(100% - 40px);
+            margin: auto;
+            span {
+                display: block;
+                text-align: center;
+                // padding-left: 20px;
+                color: #525252;
+                font: 14px 'Montserrat', sans-serif;
+                // line-height: 26px;
+                // color: $tetriary-color;
+                width: 100%;
+                // width: calc(100% - 30px);
+            }
+        }
+    }
+}

@@ -4,33 +4,32 @@ import { connect } from 'react-redux';
 import ProgressCard from '../ProgressCard/ProgressCard';
 
 
-export const SubCategoriesPage = (props) => {
-    const { category, subcategory } = props.match.params;
-    const [subCategories, setSubCategories] = useState(["Algebra", "Ekvationer", "Svåra tal", "Jättesvåra tal", "lätta tal", "Geometri", "Procent", "Addition", "Multiplikation"]);
+export const CategoriesPage = (props) => {
+
+    const [subCategories, setSubCategories] = useState([]);
 
     useEffect(() => {
-        console.log(props.match.params);
         // TODO fetch these along with the exercises
         if(props.match.params.category === "kvant") {
-            // setSubCategories(["XYZ","KVA","NOG","DTK"]);
+            setSubCategories(["XYZ","KVA","NOG","DTK"]);
         } else {
-            // setSubCategories(["ORD","LÄS","MEK","ELF"]);
+            setSubCategories(["ORD","LÄS","MEK","ELF"]);
         }
-    }, [props.match.params.category, props.match.params.subcategory])
+    }, [props.match.params.category])
 
     return (
         <div className="dashboard-container">
             <div className="my-tracks">
                 <div className="v2-section-header">
-                    <h2 className="ui-header">{props.match.params.subcategory.toUpperCase()}</h2>
+                    <h2 className="ui-header">Dina Kunskaper</h2>
                 </div>
                 <div className="tracks-row">
                     {subCategories.map((title, i) => {
                         return <ProgressCard
                                 key={i}
                                 title={title}
-                                link={`/exercises/${category}/${subcategory}/${title.toLowerCase()}`}
-                                active={false} nrSolvedExercises={i*i} totalNrOfExercises={100}/>
+                                link={`/exercises/${props.match.params.category}/${title.toLowerCase()}`}
+                                active={false} nrSolvedExercises={i*i} totalNrOfExercises={20}/>
                     })}
                 </div>
             </div>
@@ -38,7 +37,7 @@ export const SubCategoriesPage = (props) => {
     )
 }
 
-SubCategoriesPage.propTypes = {};
+CategoriesPage.propTypes = {};
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
@@ -47,5 +46,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
     mapStateToProps,
-    {} // TODO: Actions for ExercisesPage
-)(SubCategoriesPage)
+    {} // TODO: Actions for CategoriesPage
+)(CategoriesPage)
