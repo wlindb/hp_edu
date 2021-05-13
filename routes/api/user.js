@@ -114,27 +114,6 @@ router.post("/signup", (req, res) => {
                               res.status(200).send('Ett epostmeddelande har skickats till ' + user.email + '.');
                            }
                         });
-                        // const url = `http://localhost:3000/confirmation/${token}`;
-                        // Send the email
-                        // const transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
-                        // const transporter = nodemailer.createTransport({
-                        //    service: 'Gmail',
-                        //    auth: {
-                        //      user: process.env.GMAIL_USER,
-                        //      pass: process.env.GMAIL_PASS,
-                        //    },
-                        //  });
-                        // console.log(process.env.GMAIL_USER, '\n',process.env.GMAIL_PASS)
-                        // const mailOptions = { 
-                        //    // from: 'no-reply@yourwebapplication.com',
-                        //    to: user.email, subject: 'Account Verification Token',
-                        //    // text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n'
-                        //    html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
-                        // };
-                        // transporter.sendMail(mailOptions, (err) => {
-                        //     if (err) { return res.status(500).send({ msg: err.message }); }
-                        //     res.status(200).send('A verification email has been sent to ' + user.email + '.');
-                        // });
                      });
                   })
                   .catch(err =>

@@ -24,8 +24,21 @@ export const ExercisesPage = (props) => {
     }
 
     const [answerValue, answerProps] = useRadioButtons("answers");
+    const [isShowAnswerClicked, setShowAnswer] = useState(false);
 
-    const [exercises, setExercises] = useState([{
+    const [exercises, setExercises] = useState([
+        {
+            "sub_category":["Sannolikhet"],
+            "exercise_id":"2020-10-25_3_14",
+            "category":"KVA",
+            "questions":[{
+                "answer_options":["A","B","C","D"],
+                "difficulty":{"$numberDouble":"0.5"},
+                "question":"Tre vanliga sexsidiga tärningar kastas slumpmässigt en gång. \\n Kvantitet I: Sannolikheten att få tre femmor \\n Kvantitet II: Sannolikheten att summan av det tärningarna visar är 15",
+                "correct_answer":{"$numberInt":"1"},
+                "solution":"Sannolikheten betecknas (Gynnsamma utfall)/(Möjliga utfall) \\n Antalet möjliga utfall är lika för Kvantitet I och Kvantitet II. \\n Men det finns enbart ett gynnsamt utfall för Kvantitet I: 1 (samtliga tärningar visar 5) \\n medan det för Kvantitet II finns fler (15=5+5+5=6+6+3).\n Kvantitet II måste därför vara större."}]
+        },
+        {
         "sub_category":["Ekvationer","Prioriteringsregler"],
         "exercise_id":"2020-10-25_3_1",
         "category":"XYZ",
@@ -51,7 +64,7 @@ export const ExercisesPage = (props) => {
                             <p>{exercises[0].exercise_id}</p>
                         </section>
                         <section className="exercise-body">
-                            {exercises[0].questions[0].question}
+                            {exercises[0].questions[0].question.split('\\n').map(line => <p>{line}</p>)}
                         </section>
                         <div className="exercise-answer">
                             <div className="exercise-answer-options">
@@ -68,10 +81,10 @@ export const ExercisesPage = (props) => {
                                     </>
                                 )}
                             </div>
-                            <button className="btn-primary">Visa svar</button>
+                            <button className="btn-primary" onClick={() => setShowAnswer(!isShowAnswerClicked)} >{isShowAnswerClicked ? 'Dölj svar' :  'Visa svar'}</button>
                         </div>
                     </div>
-                    <div className="exercise-solution">{exercises[0].questions[0].solution}</div>
+                    <div className={`exercise-solution ${isShowAnswerClicked ? 'is-visible' : 'is-not-visible'}`}>{exercises[0].questions[0].solution.split('\\n').map(line => <p>{line}</p>)}</div>
                 </div>
             </div>
         </div>
