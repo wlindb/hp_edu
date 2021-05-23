@@ -21,22 +21,22 @@
 .exercisepage-container {
     margin: 70px auto;
     border-radius: 15px;
-    // padding: 20px;
-    // background: aliceblue;
-    // background: $light-color;
     display: flex;
-    // max-width: 90%;
 }
 
 .exercise-container {
-    // border: 2px solid red;
     flex: 7;
     display: flex;
     justify-content: center;
     // align-items: center;
     .exercise-card {
-        width: 800px;
-        height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        max-width: 80%;
+        // width: 800px;
+        // height: 450px;
+        min-height: 450px;
         background: $light-color;
         border-radius: 10px;
         box-shadow: 2px 2px 2px 2px #000;
@@ -60,6 +60,21 @@
     align-items: center;
 }
 
+.exercise-figure {
+    display: block;
+    margin: 0 auto;
+}
+
+.exercise-description {
+    font-family: 'Times New Roman', Times, serif;
+    padding: 20px;
+    .exercise-description-body {
+        font-size: large;
+        line-height: 1.3;
+        margin: 0 0 1.54375rem;
+    }
+}
+
 .exercise-body {
     height: 70%;
     display: flex;
@@ -74,13 +89,15 @@
 .exercise-answer {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 0 20px;
 
     .exercise-answer-options {
         input[type="radio"] {
             opacity: 0;
             // position: fixed;
-            // width: 0;
+            width: 0;
+            z-index: -100;
             visibility: hidden;
         }
 
@@ -115,24 +132,13 @@
 // TODO FIX THIS
 .exercise-solution {
     border-radius: 10px;
-    // transition: 3s ease;
-    &.is-not-visible {
-        // display: none;
-        // height: 0%;
-        // transform: translateY(100%);
-        // transform: width;
-        max-height: 0;
-        transition: max-height 3s ease-out;
-        background-color: green;
-        overflow: hidden;
+    overflow-y: hidden;
+	max-height: 500px; /* approximate max height */
 
-    }
-    
-    &.is-visible {
-        // transform: translateY(0);
-        height: unset;
-        max-height: unset;
-        transition: max-height 2s ease-in;
-        background-color: red;
+	transition-property: all;
+	transition-duration: 0.5s;
+	transition-timing-function: cubic-bezier(0.5, 0.5, 0.5, 0.5);
+    &.is-not-visible {
+        max-height: 0;
     }
 }

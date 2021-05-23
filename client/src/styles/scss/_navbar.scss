@@ -190,6 +190,8 @@
     ul {
         outline: none;
         list-style-type: none;
+        max-height: 100%;
+        overflow: hidden;
     }
 
     li {
@@ -199,6 +201,10 @@
 
     li:last-child { 
         border-bottom: 0px; 
+    }
+
+    li:hover {
+        border-bottom: 1px solid $primary-color;
     }
 
     .exercises-navbar-item {
