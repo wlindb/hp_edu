@@ -22,13 +22,11 @@ const ExerciseQuestion = ({ question }) => {
                     {isShowAnswerClicked ? 'Dölj lösningsförslag' :  'Visa lösningsförslag'}
                 </a>
             </div>
-
-            
-                <div className={`exercise-solution ${isShowAnswerClicked ? 'is-visible' : 'is-not-visible'}`}>
-                    {question.solution.length > 0 ?
-                        question.solution.split('\\n').map(line => <p>{line}</p>)
-                        : <p>Tyvärr finns inget lösningsförslag för denna uppgift</p>}
-                </div>
+            <div className={`exercise-solution ${isShowAnswerClicked ? 'is-visible' : 'is-not-visible'}`}>
+                {question.solution.length > 0 ?
+                    question.solution.split('\\n').map(line => <p>{line}</p>)
+                    : <p>Tyvärr finns inget lösningsförslag för denna uppgift</p>}
+            </div>
         </>
     )
 }

@@ -55,53 +55,53 @@ const ExerciseCard = () => {
                     "* Den nu gällande läroplanen, Lgr11, trädde i kraft året efter det att denna text publicerades."
                 ]}
         },
-        {
-            "sub_category":["Stapeldiagram"],
-            "exercise_id":"2020-10-25_5_34",
-            "category":"DTK",
-            "questions":[{
-                "answer_options":["45 procent","50 procent","60 procent","65 procent"],
-                "difficulty":{"$numberDouble":"0.5"},
-                "question":"Hur stor andel av industrins totala utgifter för miljöskydd 2011 utgjordes av löpande kostnader?",
-                "correct_answer":{"$numberInt":"1"},
-                "solution":""
-            },
-            {
-                "answer_options":["Övrigt","Avfall","Vatten","Luft"],
-                "difficulty":{"$numberDouble":"0.5"},
-                "question":"Inom vilket miljöområde gjordes miljöskyddsinvesteringar för i genomsnitt 1 900 miljoner kronor per år under den redovisade perioden?",
-                "correct_answer":{"$numberInt":"1"},
-                "solution":""
-            },
-            {
-                "answer_options":["2003","2005","2007","2009"],
-                "difficulty":{"$numberDouble":"0.5"},
-                "question":"Vilket av följande år såg storleksordningen för de olika miljöområdenas löpande kostnader ut enligt följande: \\n Luft < Vatten < Avfall < Övrigt?",
-                "correct_answer":{"$numberInt":"1"},
-                "solution":""
-            },
-            {
-                "answer_options":["3","4","6","7"],
-                "difficulty":{"$numberDouble":"0.5"},
-                "question":"För hur många av de redovisade åren gäller att industrins miljöskyddsinvesteringar var mindre än 4 000 miljoner kronor samtidigt som de löpande kostnaderna för miljöskydd var större än 6 000 miljoner kronor?",
-                "correct_answer":{"$numberInt":"1"},
-                "solution":""
-            }],
-            "img_src": "https://www.studera.nu/contentassets/9e8b2ab7ea264b478e449758c712d2ac/image702bg.png?width=800"
-        },
-        {
-            "sub_category":["Sannolikhet"],
-            "exercise_id":"2020-10-25_5_2",
-            "category":"XYZ",
-            "questions":[{
-                "answer_options":["x > 0","0 < x < 4","x > 1","1 < x < 5"],
-                "difficulty":{"$numberDouble":"0.5"},
-                "question":"I koordinatsystemet är grafen till funktionen f(x) inritad. För vilka värden på x är f(x) positiv?",
-                "correct_answer":{"$numberInt":"1"},
-                "solution":"Sannolikheten betecknas (Gynnsamma utfall)/(Möjliga utfall) \\n Antalet möjliga utfall är lika för Kvantitet I och Kvantitet II. \\n Men det finns enbart ett gynnsamt utfall för Kvantitet I: 1 (samtliga tärningar visar 5) \\n medan det för Kvantitet II finns fler (15=5+5+5=6+6+3).\n Kvantitet II måste därför vara större."
-            }],
-            "img_src": "https://www.studera.nu/contentassets/9e8b2ab7ea264b478e449758c712d2ac/image2x2er.png?width=800"
-        },
+        // {
+        //     "sub_category":["Stapeldiagram"],
+        //     "exercise_id":"2020-10-25_5_34",
+        //     "category":"DTK",
+        //     "questions":[{
+        //         "answer_options":["45 procent","50 procent","60 procent","65 procent"],
+        //         "difficulty":{"$numberDouble":"0.5"},
+        //         "question":"Hur stor andel av industrins totala utgifter för miljöskydd 2011 utgjordes av löpande kostnader?",
+        //         "correct_answer":{"$numberInt":"1"},
+        //         "solution":""
+        //     },
+        //     {
+        //         "answer_options":["Övrigt","Avfall","Vatten","Luft"],
+        //         "difficulty":{"$numberDouble":"0.5"},
+        //         "question":"Inom vilket miljöområde gjordes miljöskyddsinvesteringar för i genomsnitt 1 900 miljoner kronor per år under den redovisade perioden?",
+        //         "correct_answer":{"$numberInt":"1"},
+        //         "solution":""
+        //     },
+        //     {
+        //         "answer_options":["2003","2005","2007","2009"],
+        //         "difficulty":{"$numberDouble":"0.5"},
+        //         "question":"Vilket av följande år såg storleksordningen för de olika miljöområdenas löpande kostnader ut enligt följande: \\n Luft < Vatten < Avfall < Övrigt?",
+        //         "correct_answer":{"$numberInt":"1"},
+        //         "solution":""
+        //     },
+        //     {
+        //         "answer_options":["3","4","6","7"],
+        //         "difficulty":{"$numberDouble":"0.5"},
+        //         "question":"För hur många av de redovisade åren gäller att industrins miljöskyddsinvesteringar var mindre än 4 000 miljoner kronor samtidigt som de löpande kostnaderna för miljöskydd var större än 6 000 miljoner kronor?",
+        //         "correct_answer":{"$numberInt":"1"},
+        //         "solution":""
+        //     }],
+        //     "img_src": "https://www.studera.nu/contentassets/9e8b2ab7ea264b478e449758c712d2ac/image702bg.png?width=800"
+        // },
+        // {
+        //     "sub_category":["Sannolikhet"],
+        //     "exercise_id":"2020-10-25_5_2",
+        //     "category":"XYZ",
+        //     "questions":[{
+        //         "answer_options":["x > 0","0 < x < 4","x > 1","1 < x < 5"],
+        //         "difficulty":{"$numberDouble":"0.5"},
+        //         "question":"I koordinatsystemet är grafen till funktionen f(x) inritad. För vilka värden på x är f(x) positiv?",
+        //         "correct_answer":{"$numberInt":"1"},
+        //         "solution":"Sannolikheten betecknas (Gynnsamma utfall)/(Möjliga utfall) \\n Antalet möjliga utfall är lika för Kvantitet I och Kvantitet II. \\n Men det finns enbart ett gynnsamt utfall för Kvantitet I: 1 (samtliga tärningar visar 5) \\n medan det för Kvantitet II finns fler (15=5+5+5=6+6+3).\n Kvantitet II måste därför vara större."
+        //     }],
+        //     "img_src": "https://www.studera.nu/contentassets/9e8b2ab7ea264b478e449758c712d2ac/image2x2er.png?width=800"
+        // },
         {
             "sub_category":["Sannolikhet"],
             "exercise_id":"2020-10-25_3_14",
