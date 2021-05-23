@@ -17,9 +17,18 @@ const ExerciseQuestion = ({ question }) => {
                     <button className="btn-secondary">{alphabet[idx]}: {ans}</button>
                     )}
                 </div>
-                <a className="btn-primary" onClick={() => setShowAnswer(!isShowAnswerClicked)} >{isShowAnswerClicked ? 'Dölj lösningsförslag' :  'Visa lösningsförslag'}</a>
+
+                <a className="btn-primary" onClick={() => setShowAnswer(!isShowAnswerClicked)} >
+                    {isShowAnswerClicked ? 'Dölj lösningsförslag' :  'Visa lösningsförslag'}
+                </a>
             </div>
-            <div className={`exercise-solution ${isShowAnswerClicked ? 'is-visible' : 'is-not-visible'}`}>{question.solution.split('\\n').map(line => <p>{line}</p>)}</div>
+
+            
+                <div className={`exercise-solution ${isShowAnswerClicked ? 'is-visible' : 'is-not-visible'}`}>
+                    {question.solution.length > 0 ?
+                        question.solution.split('\\n').map(line => <p>{line}</p>)
+                        : <p>Tyvärr finns inget lösningsförslag för denna uppgift</p>}
+                </div>
         </>
     )
 }
