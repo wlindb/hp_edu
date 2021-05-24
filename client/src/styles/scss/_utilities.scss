@@ -4,3 +4,10 @@
     margin: 80px auto;
     overflow: auto;
 }
+
+.content-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
