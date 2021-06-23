@@ -16,7 +16,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import ProgressBar from './components/ProgressBar/ProgressBar';
 import Confirmation from './components/Confirmation/Confirmation';
-import { CategoriesPage } from './components/CategoriesPage/CategoriesPage';
+import CategoriesPage from './components/CategoriesPage/CategoriesPage';
 
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;

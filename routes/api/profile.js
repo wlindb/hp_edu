@@ -8,6 +8,7 @@ router.get(
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
         //verify the JWT token generated for the user
+        console.log('user ', req.user)
         res.status(200).json(req.user.user_name);
     }
 );

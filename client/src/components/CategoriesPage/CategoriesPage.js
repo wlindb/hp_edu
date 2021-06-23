@@ -2,14 +2,17 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import ProgressCard from '../ProgressCard/ProgressCard';
+import { getUserProgress } from '../../actions/exerciseActions';
 
-
-export const CategoriesPage = (props) => {
+const CategoriesPage = ({ getUserProgress, ...props } ) => {
 
     const [subCategories, setSubCategories] = useState([]);
 
     useEffect(() => {
         // TODO fetch these along with the exercises
+        console.log('innan');
+        getUserProgress();
+        console.log('efter');
         if(props.match.params.category === "kvant") {
             setSubCategories(["XYZ","KVA","NOG","DTK"]);
         } else {
@@ -37,14 +40,17 @@ export const CategoriesPage = (props) => {
     )
 }
 
-CategoriesPage.propTypes = {};
+CategoriesPage.propTypes = {
+    getUserProgress: PropTypes.func.isRequired
+};
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
-    auth: state.auth
+    auth: state.auth,
+    exercise: state.exercise
 });
 
 export default connect(
     mapStateToProps,
-    {} // TODO: Actions for CategoriesPage
+    { getUserProgress } // TODO: Actions for CategoriesPage
 )(CategoriesPage)
