@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import ProgressCard from '../ProgressCard/ProgressCard';
 import { getUserProgress } from '../../actions/exerciseActions';
 
@@ -8,20 +8,32 @@ const CategoriesPage = ({ getUserProgress, exercise, ...props } ) => {
 
     const [subCategories, setSubCategories] = useState([]);
 
+    // const { isExerciseMetaLoaded, exercises_meta } = useSelector(state => state.exercise)
+    const { isExerciseMetaLoaded, exercises_meta } = exercise;
+    // useEffect(() => {
+    //     // TODO fetch these along with the exercises
+    //     console.log('innan');
+    //     getUserProgress();
+    //     console.log('efter');
+    //     console.log('props = ', exercise);
+    //     console.log('ex meta ', exercise.exercises_meta)
+    //     if(props.match.params.category === "kvant") {
+    //         setSubCategories(["XYZ","KVA","NOG","DTK"]);
+    //         // setSubCategories(exercise.exercises_meta.quant)
+    //     } else {
+    //         // setSubCategories(["ORD","LÄS","MEK","ELF"]);
+    //     }
+    // }, [props.match.params.category])
+
+
     useEffect(() => {
-        // TODO fetch these along with the exercises
-        console.log('innan');
-        getUserProgress();
-        console.log('efter');
-        console.log('props = ', exercise);
-        console.log('ex meta ', exercise.exercises_meta)
-        if(props.match.params.category === "kvant") {
-            setSubCategories(["XYZ","KVA","NOG","DTK"]);
-            // setSubCategories(exercise.exercises_meta.quant)
-        } else {
-            // setSubCategories(["ORD","LÄS","MEK","ELF"]);
+        if(!isExerciseMetaLoaded) {
+            getUserProgress()
         }
-    }, [props.match.params.category])
+        // console.log('useEffect exercise = ', exercise);
+        console.log('useEffect exercise = ', exercise);
+
+    }, []);
 
     return (
         <div className="dashboard-container">
@@ -38,11 +50,12 @@ const CategoriesPage = ({ getUserProgress, exercise, ...props } ) => {
                                 active={false} nrSolvedExercises={i*i} totalNrOfExercises={20}/>
                     })} */}
                     {/* TODO: HANDLE THE FETCH AND STATE CHANGE HERE */}
-                    {exercise.exercises_meta.quant.map((e, i) => {
+                    {exercises_meta.quant.map((e, i) => {
+                        const card_title = e._id; // XYZ, KVA, etc...
                         return <ProgressCard
                                         key={i}
-                                        title={e._id}
-                                        link={'#'}
+                                        title={card_title}
+                                        link={`/exercises/${props.match.params.category}/${card_title.toLowerCase()}`}
                                         active={false}
                                         nrSolvedExercises={e.user_amount}
                                         totalNrOfExercises={e.number_of_category_exercises}
@@ -62,7 +75,8 @@ CategoriesPage.propTypes = {
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
     auth: state.auth,
-    exercise: state.exercise
+    exercise: state.exercise,
+    isExerciseMetaLoaded: state.exercise.isExerciseMetaLoaded
 });
 
 export default connect(
