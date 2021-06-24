@@ -1,7 +1,8 @@
-import { TOGGLE_USER_LOADING } from "../actions/types";
+import { TOGGLE_USER_LOADING, SET_EXERCISES_META } from "../actions/types";
 
 const initialState = {
-   userLoading: false
+   userLoading: false,
+   exercises_meta: {}
 };
 
 export default function(state = initialState, action) {
@@ -11,6 +12,11 @@ export default function(state = initialState, action) {
             ...state,
             userLoading: !state.userLoading
          };
+      case SET_EXERCISES_META:
+         return {
+            ...state,
+            exercises_meta: action.payload
+         }
       default:
          return state;
    }

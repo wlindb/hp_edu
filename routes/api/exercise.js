@@ -5,6 +5,8 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
+router.use(passport.authenticate("jwt", { session: false }))
+
 router.get('/excercise_test', (req, res) => {
     const { id } = req.body;
     Exercise.find({id})
@@ -33,18 +35,25 @@ router.post("/insert", (req, res) => {
             }) 
 });
 
-router.get('/progress',
-    passport.authenticate("jwt", { session: false }),
-    (req, res) => {
+router.get('/progress', async (req, res) => {
         const { _id } = req.user;
         console.log('user', _id)
-        getExerciseProgress(_id)
-        res.status(200).json(req.user);
+        try {
+            const user_exercise_progress = await getExerciseProgress(_id)
+            // user_exercise_progress.forEach(item => {
+            //     console.log(item);
+            //     item.sub_category.forEach(s => console.log(s));
+            // });
+            res.status(200).json(user_exercise_progress);
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({error: 'Error geting the user progress'});
+        }
     }
 );
 
-const getExerciseProgress = (user_id) => {
-    Exercise.aggregate([
+const getExerciseProgress = async (user_id) => {
+    return Exercise.aggregate([
                 {$lookup: 
                     {
                         from: 'user_exercises',
@@ -97,12 +106,6 @@ const getExerciseProgress = (user_id) => {
                     }
                 }
             ])
-            .then(exercise_list => {
-                console.log('exercise_list = ', exercise_list)
-                exercise_list[0]['sub_category'].forEach(item => console.log(item))
-                exercise_list[1]['sub_category'].forEach(item => console.log(item))
-            })
-            .catch(err => console.error(err))
 };
 
 module.exports = router;
