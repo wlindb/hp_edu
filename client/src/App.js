@@ -18,6 +18,7 @@ import ProgressBar from './components/ProgressBar/ProgressBar';
 import Confirmation from './components/Confirmation/Confirmation';
 import CategoriesPage from './components/CategoriesPage/CategoriesPage';
 
+
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;
   setAuthToken(token);
@@ -29,6 +30,11 @@ if (localStorage.jwtToken) {
      window.location.href = "./login";
   }
 }
+
+// Persisting the store to keep it in case of browser reload
+store.subscribe(() => {
+  localStorage.setItem('exerciseState', JSON.stringify(store.getState().exercise))
+});
 
 const App = () => {
   return (

@@ -2,21 +2,22 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import ProgressCard from '../ProgressCard/ProgressCard';
+import { setSubCategory } from '../../actions/exerciseActions';
 
 
-export const SubCategoriesPage = (props) => {
-    const { category, subcategory } = props.match.params;
-    const [subCategories, setSubCategories] = useState(["Algebra", "Ekvationer", "Svåra tal", "Jättesvåra tal", "lätta tal", "Geometri", "Procent", "Addition", "Multiplikation"]);
+export const SubCategoriesPage = ({ exercise, setSubCategory, ...props}) => {
+    const [subCategories, setSubCategories] = useState([]);
 
     useEffect(() => {
-        console.log(props.match.params);
-        // TODO fetch these along with the exercises
-        if(props.match.params.category === "kvant") {
-            // setSubCategories(["XYZ","KVA","NOG","DTK"]);
+        if(exercise.section === "kvant") {
+            const category_object =  exercise.exercises_meta.quant.find(item => item._id === exercise.category);
+            setSubCategories(category_object.sub_category)
         } else {
-            // setSubCategories(["ORD","LÄS","MEK","ELF"]);
+            const category_object =  exercise.exercises_meta.verb.filter(item => item._id === exercise.category);
+            setSubCategories(category_object.sub_category)
         }
-    }, [props.match.params.category, props.match.params.subcategory])
+        console.log('useEffect subCategories: ', subCategories)
+    }, [])
 
     return (
         <div className="dashboard-container">
@@ -25,12 +26,17 @@ export const SubCategoriesPage = (props) => {
                     <h2 className="ui-header">{props.match.params.subcategory.toUpperCase()}</h2>
                 </div>
                 <div className="tracks-row">
-                    {subCategories.map((title, i) => {
+                    {subCategories.map((e, i) => {
+                        const card_title = e.name; // Ekvationer, Ekvationssystem, etc...
                         return <ProgressCard
-                                key={i}
-                                title={title}
-                                link={`/exercises/${category}/${subcategory}/${title.toLowerCase()}`}
-                                active={false} nrSolvedExercises={i*i} totalNrOfExercises={100}/>
+                                        key={i}
+                                        title={card_title}
+                                        link={`/exercises/${exercise.section}/${exercise.category}/${card_title.toLowerCase()}`}
+                                        active={false}
+                                        nrSolvedExercises={e.user_amount}
+                                        totalNrOfExercises={e.amount}
+                                        onCardClicked={() => {setSubCategory(card_title)}}
+                                    />
                     })}
                 </div>
             </div>
@@ -38,14 +44,19 @@ export const SubCategoriesPage = (props) => {
     )
 }
 
-SubCategoriesPage.propTypes = {};
+SubCategoriesPage.propTypes = {
+    exercise: PropTypes.object.isRequired,
+    setSubCategory: PropTypes.func.isRequired
+};
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
-    auth: state.auth
+    auth: state.auth,
+    exercise: state.exercise,
+
 });
 
 export default connect(
     mapStateToProps,
-    {} // TODO: Actions for ExercisesPage
+    { setSubCategory }
 )(SubCategoriesPage)

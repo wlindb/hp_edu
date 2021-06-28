@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const ProgressCard = ({ active, title, nrSolvedExercises, totalNrOfExercises, link }) => {
+const ProgressCard = ({ active, title, nrSolvedExercises, totalNrOfExercises, link, onCardClicked }) => {
 
     const [progressPercentage, setProgressPercentage] = useState(0); //Math.round(nrSolvedExercises/totalNrOfExercises);
 
@@ -32,7 +32,7 @@ const ProgressCard = ({ active, title, nrSolvedExercises, totalNrOfExercises, li
                                 </div>
                             </div>
                         </div>
-                        <a href={link} className={`btn-${active ? 'primary' : 'secondary'}`}>Fortsätt öva</a>
+                        <a href={link} className={`btn-${active ? 'primary' : 'secondary'}`} onClick={onCardClicked}>Fortsätt öva</a>
                     </div>
                 </div>
             </div>   
@@ -45,7 +45,8 @@ ProgressCard.propTypes = {
     title: PropTypes.string.isRequired,
     nrSolvedExercises: PropTypes.number.isRequired,
     totalNrOfExercises: PropTypes.number.isRequired,
-    link: PropTypes.string.isRequired
+    link: PropTypes.string.isRequired,
+    onCardClicked: PropTypes.func.isRequired,
 }
 
 export default ProgressCard

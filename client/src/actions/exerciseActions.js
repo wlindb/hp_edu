@@ -1,6 +1,7 @@
 
 import axios from "axios";
-import { TOGGLE_USER_LOADING, SET_EXERCISES_META, SET_IS_EXERCISES_META_LOADED } from "./types";
+import { SET_EXERCISES_META, SET_IS_EXERCISES_META_LOADED, SET_CATEGORY, SET_SUB_CATEGORY, SET_EXERCISE_SECTION } from "./types";
+import { toggleUserLoading } from './authActions'
 
 export const getUserProgress = () => dispatch => {
     console.log('Inne i getUserProgress');
@@ -42,11 +43,25 @@ export const setIsExercisesMetaLoaded = (bool) => {
        type: SET_IS_EXERCISES_META_LOADED,
        payload: bool
     };
- };
+};
 
-export const toggleUserLoading = () => {
-   console.log('toggleUserLoading');
-   return {
-      type: TOGGLE_USER_LOADING
-   };
+export const setCategory = category_string => dispatch => {
+    return dispatch({
+        type: SET_CATEGORY,
+        payload: category_string
+    });
+};
+
+export const setSubCategory = sub_category_string => dispatch => {
+    return dispatch({
+        type: SET_SUB_CATEGORY,
+        payload: sub_category_string
+    });
+};
+
+export const setSection = section_string => dispatch => {
+    return dispatch({
+        type: SET_EXERCISE_SECTION,
+        payload: section_string
+    });
 };

@@ -1,6 +1,9 @@
-import { SET_EXERCISES_META, SET_IS_EXERCISES_META_LOADED } from "../actions/types";
+import { SET_EXERCISES_META, SET_IS_EXERCISES_META_LOADED, SET_CATEGORY, SET_SUB_CATEGORY, SET_EXERCISE_SECTION } from "../actions/types";
 
 const initialState = {
+   section: '',
+   category: '',
+   sub_category: '',
    isExerciseMetaLoaded: false,
    exercises_meta: {
       quant: [],
@@ -19,6 +22,21 @@ export default function(state = initialState, action) {
          return {
             ...state,
             isExerciseMetaLoaded: action.payload
+         }
+      case SET_CATEGORY:
+         return {
+            ...state,
+            category: action.payload
+         }
+      case SET_SUB_CATEGORY:
+         return {
+            ...state,
+            sub_category: action.payload
+         }
+      case SET_EXERCISE_SECTION:
+         return {
+            ...state,
+            section: action.payload
          }
       default:
          return state;

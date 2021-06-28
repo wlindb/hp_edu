@@ -4,10 +4,12 @@ import useWindowSize from '../../utils/useWindowSize';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { logoutUser } from "../../actions/authActions";
+import { setSection } from '../../actions/exerciseActions';
 
 export const Navbar = ({
     isAuthenticated,
-    logoutUser
+    logoutUser,
+    setSection
 }) => {
     const history = useHistory();
     const windowSize = useWindowSize();
@@ -47,8 +49,8 @@ export const Navbar = ({
                     !onMobile &&
                     <nav className="c-nav_list">
                         <ul className="c-nav-ul">
-                            <li className="c-nav--primary-li"><a href="/exercises/kvant">Kvantitativ del</a></li>
-                            <li className="c-nav--primary-li"><a href="/exercises/verb">Verbal del</a></li>
+                            <li className="c-nav--primary-li"><a href="/exercises/kvant" onClick={() => {setSection('kvant')}}>Kvantitativ del</a></li>
+                            <li className="c-nav--primary-li"><a href="/exercises/verb" onClick={() => {setSection('verb')}}>Verbal del</a></li>
                             <li className="c-nav--primary-li"><a href="/">INFO2</a></li>
                             <li className="c-nav--primary-li"><a href="/">INFO3</a></li>
                         </ul> 
@@ -140,12 +142,14 @@ export const Navbar = ({
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    section: state.exercise.section,
 });
 
 Navbar.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
-    logoutUser: PropTypes.func.isRequired
+    logoutUser: PropTypes.func.isRequired,
+    setSection: PropTypes.func.isRequired
 }; 
 
 
-export default connect(mapStateToProps, { logoutUser })(Navbar);
+export default connect(mapStateToProps, { logoutUser, setSection })(Navbar);
