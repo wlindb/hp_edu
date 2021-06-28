@@ -108,4 +108,35 @@ const getExerciseProgress = async (user_id) => {
             ])
 };
 
+// TODO: Fix route for fetching exercises
+// router.get('subCategoryExercises', (req, res) => {
+
+// });
+
+const getSubCategoryExercises = (category, sub_category, user_id) => {
+    return Exercise.aggregate(
+        [
+            {$match: {category: category, sub_category: sub_category}},
+            {$lookup: {
+                    from: 'user_exercises',
+                    let: {exercise_id: '$_id'},
+                    pipeline: [
+                        {$match: {$expr: 
+                                {$and:
+                                    [
+                                     {$eq: [ "$exercise_id",  "$$exercise_id" ]},
+                                     {$eq: ["$user_id", ObjectId(user_id)]}
+                                    ] 
+                                }
+                            }
+                        },
+                    ],
+                    as: 'done_exercises'
+                }
+            },
+            {$addFields: {user_has_done_exercise: {$cond: [{$gt: [{$size: "$done_exercises"}, 0]}, true, false]}}}
+        ]
+    )
+};
+
 module.exports = router;
