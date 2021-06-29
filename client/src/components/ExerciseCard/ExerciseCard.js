@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import ExerciseQuestion from '../ExerciseQuestion/ExerciseQuestion';
 
-const ExerciseCard = () => {
+const ExerciseCard = ({ exercise }) => {
+    const { category, sub_category, exercise_id, img_src, description, questions } = exercise;
     const [isShowAnswerClicked, setShowAnswer] = useState(false);
     const [exercises, setExercises] = useState([
         {
@@ -126,6 +127,10 @@ const ExerciseCard = () => {
         }]
     }]);
 
+    useEffect(() => {
+        console.log('ExerciseCard ', category, sub_category, exercise_id, img_src, description, questions);
+    }, [exercise])
+    
     return (
         <div className="exercise-card">
             <section className="exercise-header">

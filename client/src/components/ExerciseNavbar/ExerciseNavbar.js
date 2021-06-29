@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect, useSelector } from 'react-redux';
 import { getSubCategoryExercises } from '../../actions/exerciseActions';
 
-const ExerciseNavbar = ({exercise, ...props}) => {
+const ExerciseNavbar = ({exercise, handleClick, ...props}) => {
 
     // const { category, sub_category, exercises } = exercise;
     const category = useSelector(state => state.exercise.category);
@@ -31,6 +31,8 @@ const ExerciseNavbar = ({exercise, ...props}) => {
         console.log('ExerciseNavbar useeffect', category, sub_category, sub_category_exercises);
     }, [])
 
+
+
     return (
         <div className="exercises-navbar">
             <ul>
@@ -41,13 +43,14 @@ const ExerciseNavbar = ({exercise, ...props}) => {
                         part={item.part}
                         exerciseNumber={item.exerciseNumber} />
                 )} */}
-                {sub_category_exercises.map(item => {
+                {sub_category_exercises.map((item, i) => {
                     const [ date, part, number ] = item.exercise_id.split('_'); 
                     return (<ExerciseNavbarItem 
                                 score={0.0}
                                 date={date}
                                 part={part}
-                                exerciseNumber={number} />)
+                                exerciseNumber={number} 
+                                onClick={() => handleClick(i)}/>)
 
                 }
                 )}
@@ -57,7 +60,8 @@ const ExerciseNavbar = ({exercise, ...props}) => {
 }
 
 ExerciseNavbar.propTypes = {
-    exercise: PropTypes.object.isRequired
+    exercise: PropTypes.object.isRequired,
+    handleClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({

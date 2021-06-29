@@ -1,7 +1,7 @@
 import React from 'react';
-const ExerciseNavbarItem = ({ score, date, part, exerciseNumber}) => {
+const ExerciseNavbarItem = ({ score, date, part, exerciseNumber, onClick}) => {
     return (
-        <li>
+        <li onClick={onClick}>
             <div className="exercises-navbar-item">
                 <div className="exercises-navbar-item-badge">{score}</div>
                 <div className="exercises-navbar-item-text">
