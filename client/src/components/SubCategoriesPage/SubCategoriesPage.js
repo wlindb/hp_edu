@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import ProgressCard from '../ProgressCard/ProgressCard';
-import { setSubCategory } from '../../actions/exerciseActions';
+import { setSubCategory, getSubCategoryExercises } from '../../actions/exerciseActions';
 
 
-export const SubCategoriesPage = ({ exercise, setSubCategory, ...props}) => {
+export const SubCategoriesPage = ({ exercise, setSubCategory, getSubCategoryExercises, history, ...props}) => {
     const [subCategories, setSubCategories] = useState([]);
 
     useEffect(() => {
@@ -18,6 +18,13 @@ export const SubCategoriesPage = ({ exercise, setSubCategory, ...props}) => {
         }
         console.log('useEffect subCategories: ', subCategories)
     }, [])
+
+    const handleCardClicked = async (category, sub_category) => {
+        console.log('subcategory handleCardClicked: ', category, sub_category);
+        setSubCategory(sub_category); 
+        await getSubCategoryExercises(category, sub_category);
+        history.push(`/exercises/${exercise.section}/${category.toLowerCase()}/${sub_category.toLowerCase()}`);
+    }; 
 
     return (
         <div className="dashboard-container">
@@ -35,7 +42,7 @@ export const SubCategoriesPage = ({ exercise, setSubCategory, ...props}) => {
                                         active={false}
                                         nrSolvedExercises={e.user_amount}
                                         totalNrOfExercises={e.amount}
-                                        onCardClicked={() => {setSubCategory(card_title)}}
+                                        onCardClicked={(e) => {e.preventDefault(); handleCardClicked(exercise.category, card_title)}}
                                     />
                     })}
                 </div>
@@ -46,7 +53,8 @@ export const SubCategoriesPage = ({ exercise, setSubCategory, ...props}) => {
 
 SubCategoriesPage.propTypes = {
     exercise: PropTypes.object.isRequired,
-    setSubCategory: PropTypes.func.isRequired
+    setSubCategory: PropTypes.func.isRequired,
+    getSubCategoryExercises: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -58,5 +66,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
     mapStateToProps,
-    { setSubCategory }
+    { setSubCategory, getSubCategoryExercises }
 )(SubCategoriesPage)

@@ -107,6 +107,7 @@ router.get('/:category/:sub_category', async (req, res) => {
     const { category, sub_category } = req.params;
     try {
         const sub_category_exercises = await getSubCategoryExercises(category, sub_category, _id);
+        console.log('sub_category_exercises : ', sub_category_exercises)
         res.status(200).json(sub_category_exercises);
     } catch (error) {
         res.status(500).json({error: 'Error fetching the exercises'});

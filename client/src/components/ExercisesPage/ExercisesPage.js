@@ -7,13 +7,14 @@ import StopWatch from '../StopWatch/StopWatch';
 import { getSubCategoryExercises } from '../../actions/exerciseActions';
 
 
-export const ExercisesPage = ({ getSubCategoryExercises, ...props }) => {
-
+export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) => {
+    const { category, sub_category } = exercise;
     useEffect(() => {
         // TODO: Fetch only when exercises are not in memory.
-        console.log('Exercisepage useeffect');
-        getSubCategoryExercises("XYZ", "Ekvationer");
-        console.log('efter');
+        console.log('Exercisepage useeffect', category, sub_category, exercise.exercises);
+        // getSubCategoryExercises(category, sub_category);
+        // console.log(exercise.exercises)
+        // console.log('efter');
     }, []);
 
     return (
@@ -34,11 +35,16 @@ export const ExercisesPage = ({ getSubCategoryExercises, ...props }) => {
     )
 }
 
-ExercisesPage.propTypes = {};
+ExercisesPage.propTypes = {
+    getSubCategoryExercises: PropTypes.func.isRequired,
+    exercise: PropTypes.object.isRequired
+};
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
-    auth: state.auth
+    auth: state.auth,
+    exercise: state.exercise,
+    exercises: state.exercise.exercises
 });
 
 export default connect(
