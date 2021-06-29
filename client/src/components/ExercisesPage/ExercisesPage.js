@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
-import ProgressCard from '../ProgressCard/ProgressCard';
 import ExerciseNavbar from '../ExerciseNavbar/ExerciseNavbar';
 import ExerciseCard from '../ExerciseCard/ExerciseCard';
 import StopWatch from '../StopWatch/StopWatch';
+import { getSubCategoryExercises } from '../../actions/exerciseActions';
 
 
-export const ExercisesPage = (props) => {
+export const ExercisesPage = ({ getSubCategoryExercises, ...props }) => {
+
+    useEffect(() => {
+        // TODO: Fetch only when exercises are not in memory.
+        console.log('Exercisepage useeffect');
+        getSubCategoryExercises("XYZ", "Ekvationer");
+        console.log('efter');
+    }, []);
+
     return (
         <div className="exercisepage-container">
             <ExerciseNavbar/>
@@ -35,5 +43,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
     mapStateToProps,
-    {} // TODO: Actions for ExercisesPage
+    { getSubCategoryExercises } // TODO: Actions for ExercisesPage
 )(ExercisesPage)

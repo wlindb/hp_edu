@@ -37,16 +37,10 @@ router.post("/insert", (req, res) => {
 
 router.get('/progress', async (req, res) => {
         const { _id } = req.user;
-        console.log('user', _id)
         try {
             const user_exercise_progress = await getExerciseProgress(_id)
-            // user_exercise_progress.forEach(item => {
-            //     console.log(item);
-            //     item.sub_category.forEach(s => console.log(s));
-            // });
             res.status(200).json(user_exercise_progress);
         } catch (error) {
-            console.log(error)
             res.status(500).json({error: 'Error geting the user progress'});
         }
     }
@@ -108,10 +102,16 @@ const getExerciseProgress = async (user_id) => {
             ])
 };
 
-// TODO: Fix route for fetching exercises
-// router.get('subCategoryExercises', (req, res) => {
-
-// });
+router.get('/:category/:sub_category', async (req, res) => {
+    const { _id } = req.user;
+    const { category, sub_category } = req.params;
+    try {
+        const sub_category_exercises = await getSubCategoryExercises(category, sub_category, _id);
+        res.status(200).json(sub_category_exercises);
+    } catch (error) {
+        res.status(500).json({error: 'Error fetching the exercises'});
+    }
+});
 
 const getSubCategoryExercises = (category, sub_category, user_id) => {
     return Exercise.aggregate(

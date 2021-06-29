@@ -1,4 +1,4 @@
-import { SET_EXERCISES_META, SET_IS_EXERCISES_META_LOADED, SET_CATEGORY, SET_SUB_CATEGORY, SET_EXERCISE_SECTION } from "../actions/types";
+import { SET_EXERCISES_META, SET_IS_EXERCISES_META_LOADED, SET_CATEGORY, SET_SUB_CATEGORY, SET_EXERCISE_SECTION, SET_SUB_CATEGORY_EXERCISES } from "../actions/types";
 
 const initialState = {
    section: '',
@@ -8,7 +8,8 @@ const initialState = {
    exercises_meta: {
       quant: [],
       verb: []
-   }
+   },
+   exercises: {}
 };
 
 export default function(state = initialState, action) {
@@ -37,6 +38,14 @@ export default function(state = initialState, action) {
          return {
             ...state,
             section: action.payload
+         }
+      case SET_SUB_CATEGORY_EXERCISES:
+         return {
+            ...state,
+            exercises: {
+               ...state.exercises,
+               [state.sub_category]: action.payload 
+            } 
          }
       default:
          return state;

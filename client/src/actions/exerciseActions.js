@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { SET_EXERCISES_META, SET_IS_EXERCISES_META_LOADED, SET_CATEGORY, SET_SUB_CATEGORY, SET_EXERCISE_SECTION } from "./types";
+import { SET_EXERCISES_META, SET_IS_EXERCISES_META_LOADED, SET_CATEGORY, SET_SUB_CATEGORY, SET_EXERCISE_SECTION, SET_SUB_CATEGORY_EXERCISES } from "./types";
 import { toggleUserLoading } from './authActions'
 
 export const getUserProgress = () => dispatch => {
@@ -31,6 +31,24 @@ export const getUserProgress = () => dispatch => {
         });
 };
 
+export const getSubCategoryExercises = (category_string, sub_category_string) => dispatch => {
+    console.log('Inne i getSubCategoryExercises');
+    dispatch(toggleUserLoading());
+    axios
+        .get(`/api/excercises/${category_string}/${sub_category_string}`)
+        .then(res => {
+            // console.log('getUserProgress res', res);
+            const sub_category_exercises = res.data;
+            console.log('sub_category_exercise : ', sub_category_exercises);
+            dispatch(setSubCategoryExercises(sub_category_exercises));
+            dispatch(toggleUserLoading());
+        })
+        .catch(err => {
+            console.log('getUserProgress res ERROR', err);
+            dispatch(toggleUserLoading());
+        });
+};
+
 export const setExercisesMeta = exercisesMeta => {
     return {
         type: SET_EXERCISES_META,
@@ -42,6 +60,13 @@ export const setIsExercisesMetaLoaded = (bool) => {
     return {
        type: SET_IS_EXERCISES_META_LOADED,
        payload: bool
+    };
+};
+
+export const setSubCategoryExercises = (sub_category_exercises) => {
+    return {
+       type: SET_SUB_CATEGORY_EXERCISES,
+       payload: sub_category_exercises
     };
 };
 
