@@ -28,7 +28,7 @@ const CategoriesPage = ({ getUserProgress, setCategory, exercise, ...props } ) =
             setSubCategories(exercises_meta.verb)
         }
 
-    }, []);
+    }, [exercises_meta]);
 
     return (
         <div className="dashboard-container">

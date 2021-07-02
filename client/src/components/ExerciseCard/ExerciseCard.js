@@ -132,26 +132,47 @@ const ExerciseCard = ({ exercise }) => {
     }, [exercise])
     
     return (
+        // <div className="exercise-card">
+        //     <section className="exercise-header">
+        //         <h1>{exercises[0].category}</h1>
+        //         {exercises[0].sub_category.map(sub_cat => <p>{sub_cat}</p>)}
+        //         <p>{exercises[0].exercise_id.split('_')[0]}</p>
+        //         <p>Provpass {exercises[0].exercise_id.split('_')[1]}</p>
+        //         <p>Uppgift {exercises[0].exercise_id.split('_')[2]}</p>
+        //     </section>
+        //     {exercises[0].img_src !== undefined ? 
+        //         <section className="exercise-figure">
+        //             <img src={exercises[0].img_src}/>
+        //         </section> : <></>}
+        //     {exercises[0].description !== undefined ?
+        //         <section className="exercise-description">
+        //             <h3>{exercises[0].description.description_header}</h3>
+        //             {exercises[0]["description"]["description_body"].map(section => <p className="exercise-description-body">{section}</p>)}
+        //         </section>
+        //         : <></>
+        //     }
+        //     {exercises[0].questions.map((q, i) => <ExerciseQuestion question={q}/>)}
+        // </div>
         <div className="exercise-card">
             <section className="exercise-header">
-                <h1>{exercises[0].category}</h1>
-                {exercises[0].sub_category.map(sub_cat => <p>{sub_cat}</p>)}
-                <p>{exercises[0].exercise_id.split('_')[0]}</p>
-                <p>Provpass {exercises[0].exercise_id.split('_')[1]}</p>
-                <p>Uppgift {exercises[0].exercise_id.split('_')[2]}</p>
+                <h1>{category}</h1>
+                {sub_category.map(sub_cat => <p>{sub_cat}</p>)}
+                <p>{exercise_id.split('_')[0]}</p>
+                <p>Provpass {exercise_id.split('_')[1]}</p>
+                <p>Uppgift {exercise_id.split('_')[2]}</p>
             </section>
-            {exercises[0].img_src !== undefined ? 
+            {img_src !== undefined ? 
                 <section className="exercise-figure">
-                    <img src={exercises[0].img_src}/>
+                    <img src={img_src}/>
                 </section> : <></>}
-            {exercises[0].description !== undefined ?
+            {description !== undefined ?
                 <section className="exercise-description">
-                    <h3>{exercises[0].description.description_header}</h3>
-                    {exercises[0]["description"]["description_body"].map(section => <p className="exercise-description-body">{section}</p>)}
+                    <h3>{description.description_header}</h3>
+                    {description.description_body.map(section => <p className="exercise-description-body">{section}</p>)}
                 </section>
                 : <></>
             }
-            {exercises[0].questions.map((q, i) => <ExerciseQuestion question={q}/>)}
+            {questions.map((q, i) => <ExerciseQuestion question={q}/>)}
         </div>
     )
 }

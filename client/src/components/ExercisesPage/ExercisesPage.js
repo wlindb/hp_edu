@@ -11,22 +11,25 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
     // const { category, sub_category } = exercise;
     const category = useSelector(state => state.exercise.category);
     const sub_category = useSelector(state => state.exercise.sub_category);
-    const sub_category_exercises = useSelector(state => state.exercise.exercises[category][sub_category]);
-    const [ currentExercise, setCurrentExercise ] = useState({}); 
+    // const sub_category_exercises = useSelector(state => state.exercise.exercises[category][sub_category]);
+    // const [ currentExercise, setCurrentExercise ] = useState({}); 
+    const [ exerciseIndex, setExerciseIndex ] = useState(0);
+    const currentExercise = useSelector(state => state.exercise.exercises[category][sub_category][exerciseIndex])
 
-    useEffect(() => {
-        // TODO: Fetch only when exercises are not in memory.
-        console.log('Exercisepage useeffect', category, sub_category, exercise.exercises);
-        // getSubCategoryExercises(category, sub_category);
-        // console.log(exercise.exercises)
-        // console.log('efter');
-        setCurrentExercise(sub_category_exercises[0]);
-    }, []);
+    // useEffect(() => {
+    //     // TODO: Fetch only when exercises are not in memory.
+    //     console.log('Exercisepage useeffect', category, sub_category, exercise.exercises);
+    //     // getSubCategoryExercises(category, sub_category);
+    //     // console.log(exercise.exercises)
+    //     // console.log('efter');
+    //     // setCurrentExercise(sub_category_exercises[0]);
+    // }, [sub_category_exercises]);
 
     const handleNavbarClick = (index) => {
         console.log('ExerciseNavbar HandleClick index: ', index);
-        console.log(sub_category_exercises[index])
-        setCurrentExercise(sub_category_exercises[index]);
+        // console.log(sub_category_exercises[index])
+        // setCurrentExercise(sub_category_exercises[index]);        
+        setExerciseIndex(index);
     };
 
     return (
@@ -34,7 +37,9 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
             <ExerciseNavbar handleClick={handleNavbarClick}/>
             <div className="exercise-container">
                 <div className="exercise-content">
-                    <ExerciseCard exercise={currentExercise}/>
+                    {currentExercise !== undefined ?  
+                        <ExerciseCard exercise={currentExercise}/> :<></>
+                    }
                 </div>
             </div>
             <div className="exercise-utilities-container">

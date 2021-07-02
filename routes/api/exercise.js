@@ -48,8 +48,7 @@ router.get('/progress', async (req, res) => {
 
 const getExerciseProgress = async (user_id) => {
     return Exercise.aggregate([
-                {$lookup: 
-                    {
+                {$lookup: {
                         from: 'user_exercises',
                         let: {exercise_id: '$_id'},
                         pipeline: [
@@ -69,18 +68,19 @@ const getExerciseProgress = async (user_id) => {
                 {$addFields: {user_amount: {$size: '$done_exercises'}}},
                 {$project: {done_exercises: 0}},
                 {$group: {
-                        _id: {category: "$category", user_amount: "$user_amount"}, 
-                        sub_category: {$push: "$sub_category" },
+                        _id: {category: "$category"},
+                        user_amount: {$sum: "$user_amount"}, 
+                        sub_category: {$push: { sub_category: "$sub_category", user_amount: {$sum: "$user_amount" }}},
                         number_of_category_exercises: {$sum: 1}
                     }
                 },
                 {$unwind: "$sub_category" },
-                {$unwind: "$sub_category" },
+                {$unwind: "$sub_category.sub_category" },
                 {$group: {
                         _id: {
                             category: "$_id.category",
-                            sub_category: "$sub_category",
-                            user_amount: "$_id.user_amount"
+                            sub_category: "$sub_category.sub_category",
+                            user_amount: "$sub_category.user_amount"
                         },
                         number_of_category_exercises: {$first: "$number_of_category_exercises"},
                         sub_category_exercises: {$sum: 1}
