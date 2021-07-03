@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const questionModel = {
    question: {
-      type: String,
+      type: [String],
       required: true
    },
    answer_options: {
@@ -14,14 +14,10 @@ const questionModel = {
       type: Number,
       required: true
    },
-   difficulty: {
-      type: Number,
-      default: 1
-  },
-  solution: {
-      type: String,
+   solution: {
+      type: [String],
       required: false 
-  }
+   }
 }; 
 
 const questionsSchema = new Schema(questionModel);
@@ -31,6 +27,10 @@ const exerciseModel = {
       type: String,
       required: true
    },
+   difficulty: {
+      type: Number,
+      default: 1
+   },
    category: {
       type: String,
       required: true
@@ -39,13 +39,27 @@ const exerciseModel = {
       type: Array,
       required: true
    },
-   figure_path: {
-      type: String,
+   img_src: {
+      type: [String],
+      required: false
+   },
+   img_description: {
+      type: [String],
       required: false
    },
    questions: {
       type: [questionsSchema],
       required: true
+   },
+   description: {
+      description_header: {
+         type: String,
+         required: false
+      },
+      description_body: {
+         type: [String],
+         required: false
+      }
    }
 };
 

@@ -9,7 +9,7 @@ const ExerciseQuestion = ({ question }) => {
     return (
         <>
             <section className="exercise-body">
-                {question.question.split('\\n').map(line => <p>{line}</p>)}
+                {question.question.map(line => <p>{line}</p>)}
             </section>
             <div className="exercise-answer">
                 <div className="exercise-answer-options">
@@ -24,7 +24,7 @@ const ExerciseQuestion = ({ question }) => {
             </div>
             <div className={`exercise-solution ${isShowAnswerClicked ? 'is-visible' : 'is-not-visible'}`}>
                 {question.solution.length > 0 ?
-                    question.solution.split('\\n').map(line => <p>{line}</p>)
+                    question.solution.map(line => <p>{line}</p>)
                     : <p>Tyvärr finns inget lösningsförslag för denna uppgift</p>}
             </div>
         </>

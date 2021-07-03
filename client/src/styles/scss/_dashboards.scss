@@ -44,6 +44,10 @@
     }
 }
 
+.exercise-content {
+    width: 100%;
+}
+
 .exercise-utilities-container {
     // border: 2px solid red;
     flex: 2;
@@ -104,7 +108,7 @@
 // TODO FIX THIS
 .exercise-solution {
     border-radius: 10px;
-    overflow: hidden;
+    overflow-y: scroll;
     // opacity: 1;
     height: fit-content;
     max-height: 500px; /* approximate max height */
