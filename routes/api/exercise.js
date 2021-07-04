@@ -114,6 +114,16 @@ router.get('/:category/:sub_category', async (req, res) => {
     }
 });
 
+router.put('/updateScore', async (req, res) => {
+    const { _id } = req.user;
+    const { exercise_id, difficulty } = req.body;
+    // TODO:
+    // Create new entry in schema for number of user's done the exercise
+    // create or update user_exercises
+
+    // Update exercise with new average score
+});
+
 const getSubCategoryExercises = (category, sub_category, user_id) => {
     return Exercise.aggregate(
         [
