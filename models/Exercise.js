@@ -27,9 +27,13 @@ const exerciseModel = {
       type: String,
       required: true
    },
-   difficulty: {
+   rateCount: {
       type: Number,
       default: 1
+   },
+   rateValue: {
+      type: Number,
+      default: 3 // 1 to 5
    },
    category: {
       type: String,
