@@ -54,6 +54,26 @@ export const getSubCategoryExercises = (category_string, sub_category_string) =>
         });
 };
 
+export const rateExercise = (exercise_id, user_difficulty) => dispatch => {
+    console.log("Rate exercise", exercise_id, user_difficulty);
+    dispatch(toggleUserLoading());
+    axios
+        .post("/api/excercises/completed", {exercise_id, user_difficulty})
+        // .then(res => res.data)
+        .then(res => {
+            // TODO UPDATE EXERCISE ON FRONTEND
+            // console.log('inne i then', res.status);
+            dispatch(toggleUserLoading());
+            // return res.status === 200;
+            // dispatch(setMessage({ signUpSuccess: res.data }));
+        })
+        .catch(err => {
+            // dispatch(setErrors(err.response.data));
+            dispatch(toggleUserLoading());
+            // return false;
+        });
+};
+
 export const setExercisesMeta = exercisesMeta => {
     return {
         type: SET_EXERCISES_META,

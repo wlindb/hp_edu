@@ -41,6 +41,16 @@
     @extend %btn;
     background-color: $light-color;
     color: $primary-color;
+
+    &.active {
+        color: $light-color;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        &.success {
+            background-color: #28a745;
+            border-color: #28a745;    
+        }
+    }
 }
 
 .btn-primary a {
@@ -72,5 +82,34 @@
     background-color: transparent;
     svg{
         fill: #454545;
+    }
+}
+
+.rating-btn {
+    @extend %btn;
+    color: $secondary-color;
+    padding: 16px;
+    width: 20%;
+
+    &.easy {
+        border-color: #57e32c;
+        background-color: #57e32c;
+    }
+
+    &.intermediate {
+        border-color: #b7dd29;
+        background-color: #b7dd29;
+    }
+    &.medium {
+        border-color: #ffe234;
+        background-color: #ffe234;
+    }
+    &.hard {
+        border-color: #ffa534;
+        background-color:#ffa534;
+    }
+    &.extreme {
+        border-color: #ff4545;
+        background-color: #ff4545;
     }
 }

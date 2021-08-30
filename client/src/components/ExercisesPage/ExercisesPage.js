@@ -4,6 +4,7 @@ import { connect, useSelector } from 'react-redux';
 import ExerciseNavbar from '../ExerciseNavbar/ExerciseNavbar';
 import ExerciseCard from '../ExerciseCard/ExerciseCard';
 import StopWatch from '../StopWatch/StopWatch';
+import RatingCard from '../RatingCard/RatingCard';
 import { getSubCategoryExercises } from '../../actions/exerciseActions';
 
 
@@ -32,6 +33,16 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
         setExerciseIndex(index);
     };
 
+    const getUserDifficulty = () => {
+        if(currentExercise === undefined) return -1;
+        const { _id, done_exercises, user_has_done_exercise } = currentExercise;
+        if(user_has_done_exercise) {
+            const { user_difficulty } = done_exercises.find(exercise => exercise.exercise_id === _id);
+            return user_difficulty !== undefined ? user_difficulty : -1;
+        }
+        return -1;
+    };
+
     return (
         <div className="exercisepage-container">
             <ExerciseNavbar handleClick={handleNavbarClick}/>
@@ -43,10 +54,13 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
                 </div>
             </div>
             <div className="exercise-utilities-container">
-                <div>
-                    Rating
-                </div>
-                <StopWatch/>
+                {currentExercise !== undefined ?  
+                    <>
+                        <RatingCard exercise_id={currentExercise._id} user_difficulty={getUserDifficulty()}/>
+                        <StopWatch/>
+                    </>
+                    :<></>
+                }
             </div>
         </div>
     )

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router(); 
 const Exercise = require("../../models/Exercise");
+const UserExercises = require("../../models/UserExercises");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
@@ -113,6 +114,51 @@ router.get('/:category/:sub_category', async (req, res) => {
         res.status(500).json({error: 'Error fetching the exercises'});
     }
 });
+
+router.post('/completed', async (req, res) => {
+    const { _id } = req.user;
+    const { exercise_id, user_difficulty } = req.body;
+    console.log(exercise_id, user_difficulty, _id );
+    try {
+        const addedDoc = await updateUserExercises(_id, exercise_id, user_difficulty);
+        const avgScore = await getAvgExerciseScore(exercise_id);
+        const updatedExercise = await updateExerciseDifficulty(exercise_id, avgScore[0].difficulty);
+        console.log("==========================");
+        console.log(updatedExercise)
+        // console.log(avgScore[0].difficulty);
+        console.log("==========================");
+        res.sendStatus(200);
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+    // res.status(200)
+    // TODO:
+    // Create new entry in schema for number of user's done the exercise
+    // create or update user_exercises
+
+    // Update exercise with new average score
+});
+
+const updateUserExercises = async (user_id, exercise_id, user_difficulty) => {
+    return UserExercises.updateOne({ exercise_id: exercise_id, user_id: user_id }, { user_difficulty: user_difficulty }, {upsert: true, setDefaultsOnInsert: true});
+}
+
+const getAvgExerciseScore = async (exercise_id) => {
+    return UserExercises.aggregate([
+        { "$match": { "exercise_id" : ObjectId(exercise_id) } },
+        { "$group":
+             { 
+                 _id: "$exercise_id", 
+                 difficulty: { $avg: "$user_difficulty" }
+          } 
+        }
+    ]);
+}
+
+const updateExerciseDifficulty = async ( _id, difficulty) => {
+    return Exercise.findOneAndUpdate({_id: ObjectId(_id)}, {difficulty: difficulty});
+};
 
 router.put('/updateScore', async (req, res) => {
     const { _id } = req.user;

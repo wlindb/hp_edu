@@ -47,7 +47,7 @@ const StopWatch = () => {
         // </div>
         <div className="stopwatch content-center">
             <div className="clock" id="clock">
-                <p class="time">{formatTime(timer.minutes)}:{formatTime(timer.seconds)}</p>
+                <p className="time">{formatTime(timer.minutes)}:{formatTime(timer.seconds)}</p>
             </div>
             <div className="btn-container">
                 {isRunning ? 

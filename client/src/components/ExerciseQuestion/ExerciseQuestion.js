@@ -3,8 +3,13 @@ import PropTypes from "prop-types";
 
 const ExerciseQuestion = ({ question }) => {
 
+    const [activeButton, setActiveButton] = useState(-1);
     const [isShowAnswerClicked, setShowAnswer] = useState(false);
     const alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
+    
+    const handleAnswerOptionClicked = (e, i) => {
+        setActiveButton(i)
+    };
 
     return (
         <>
@@ -14,7 +19,10 @@ const ExerciseQuestion = ({ question }) => {
             <div className="exercise-answer">
                 <div className="exercise-answer-options">
                     {question.answer_options.map((ans, idx) => 
-                    <button className="btn-secondary">{alphabet[idx]}: {ans}</button>
+                        <button className={`btn-secondary ${activeButton === idx ? "active" : ""} ${idx === question.correct_answer ? "success" : ""}`}
+                                onClick={e => handleAnswerOptionClicked(e, idx)}>
+                                    {alphabet[idx]}: {ans}
+                        </button>
                     )}
                 </div>
 
