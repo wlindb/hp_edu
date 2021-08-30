@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect, useSelector } from 'react-redux';
 import { rateExercise, getSubCategoryExercises } from '../../actions/exerciseActions';
 
-export const RatingCard = ({ exercise_id, user_difficulty, rateExercise, ...props }) => {
+export const RatingCard = ({ exercise_id, user_difficulty, rateExercise, getSubCategoryExercises, ...props }) => {
 
     const category = useSelector(state => state.exercise.category);
     const sub_category = useSelector(state => state.exercise.sub_category);
@@ -47,6 +47,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(
     mapStateToProps,
-    { rateExercise } // TODO: Actions for ExercisesPage
+    { rateExercise, getSubCategoryExercises } // TODO: Actions for ExercisesPage
 )(RatingCard)
 

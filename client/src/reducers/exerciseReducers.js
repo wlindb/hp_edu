@@ -46,7 +46,7 @@ export default function(state = initialState, action) {
                ...state.exercises,
                [state.category]: {
                   ...state.exercises[state.category],
-                  [state.sub_category]: action.payload 
+                  [state.sub_category]: action.payload.slice() 
                },
             } 
          }

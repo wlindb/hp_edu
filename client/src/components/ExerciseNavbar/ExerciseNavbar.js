@@ -4,32 +4,12 @@ import PropTypes from "prop-types";
 import { connect, useSelector } from 'react-redux';
 import { getSubCategoryExercises } from '../../actions/exerciseActions';
 
-const ExerciseNavbar = ({exercise, handleClick, ...props}) => {
+const ExerciseNavbar = ({exercises, handleClick, sub_category_exercises, ...props}) => {
 
-    // const { category, sub_category, exercises } = exercise;
-    const category = useSelector(state => state.exercise.category);
-    const sub_category = useSelector(state => state.exercise.sub_category);
-    const sub_category_exercises = useSelector(state => state.exercise.exercises[category][sub_category]);
-    const [listItems, setListItems] = useState([
-        {score: 0.7, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1},
-        {score: 0.5, date: "2020-10-25", part: "3", exerciseNumber: 1}
-    ]);
-
-    useEffect(() => {
-        console.log('ExerciseNavbar useeffect', category, sub_category, sub_category_exercises);
-    }, [])
+    // useEffect(() => {
+    //     console.log('ExerciseNavbar useeffect', sub_category_exercises);
+    //     console.log('test ', exercises[props.category][props.sub_category], props);//exercises[category][sub_category])
+    // }, [props])
 
 
 
@@ -44,9 +24,11 @@ const ExerciseNavbar = ({exercise, handleClick, ...props}) => {
                         exerciseNumber={item.exerciseNumber} />
                 )} */}
                 {sub_category_exercises.map((item, i) => {
-                    const [ date, part, number ] = item.exercise_id.split('_'); 
+                    const [ date, part, number ] = item.exercise_id.split('_');
+                    const user_difficulty = item.user_has_done_exercise ? item.done_exercises[0].user_difficulty : undefined 
                     return (<ExerciseNavbarItem 
-                                score={item.difficulty !== undefined ? item.difficulty : 0.5}
+                                score={item.difficulty !== undefined ? item.difficulty : "3"}
+                                user_difficulty={user_difficulty}
                                 date={date}
                                 part={part}
                                 exerciseNumber={number} 
@@ -60,17 +42,20 @@ const ExerciseNavbar = ({exercise, handleClick, ...props}) => {
 }
 
 ExerciseNavbar.propTypes = {
-    exercise: PropTypes.object.isRequired,
+    // exercise: PropTypes.object.isRequired,
+    exercises: PropTypes.object.isRequired,
+    sub_category_exercises: PropTypes.array.isRequired,
     handleClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
     exercise: state.exercise,
-    category: state.category,
-    sub_category: state.sub_category,
+    category: state.exercise.category,
+    sub_category: state.exercise.sub_category,
+    sub_category_exercises: state.exercise.exercises[state.exercise.category][state.exercise.sub_category],
     exercises: state.exercise.exercises,
-    [state.category]: state.exercise.exercises[state.category],
-    [state.sub_category]: [state.category][state.sub_category]
+    // [state.category]: state.exercise.exercises[state.category],
+    // [state.sub_category]: [state.category][state.sub_category]
 });
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 
 const ExerciseQuestion = ({ question }) => {
@@ -6,6 +6,11 @@ const ExerciseQuestion = ({ question }) => {
     const [activeButton, setActiveButton] = useState(-1);
     const [isShowAnswerClicked, setShowAnswer] = useState(false);
     const alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+    useEffect(() => {
+        setActiveButton(-1);
+        setShowAnswer(false);
+    }, [question])
     
     const handleAnswerOptionClicked = (e, i) => {
         setActiveButton(i)

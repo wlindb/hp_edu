@@ -27,7 +27,7 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
     // }, [sub_category_exercises]);
 
     const handleNavbarClick = (index) => {
-        console.log('ExerciseNavbar HandleClick index: ', index);
+        console.log('ExerciseNavbar HandleClick index: ', index, sub_category);
         // console.log(sub_category_exercises[index])
         // setCurrentExercise(sub_category_exercises[index]);        
         setExerciseIndex(index);
@@ -49,7 +49,7 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
             <div className="exercise-container">
                 <div className="exercise-content">
                     {currentExercise !== undefined ?  
-                        <ExerciseCard exercise={currentExercise}/> :<></>
+                        <ExerciseCard exercise={currentExercise} current_sub_category={sub_category}/> :<></>
                     }
                 </div>
             </div>

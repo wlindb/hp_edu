@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ExerciseQuestion from '../ExerciseQuestion/ExerciseQuestion';
 
-const ExerciseCard = ({ exercise }) => {
+const ExerciseCard = ({ exercise, current_sub_category }) => {
     const { category, sub_category, exercise_id, img_src, description, questions } = exercise;
     const [isShowAnswerClicked, setShowAnswer] = useState(false);
     const [exercises, setExercises] = useState([
@@ -156,7 +156,8 @@ const ExerciseCard = ({ exercise }) => {
         <div className="exercise-card">
             <section className="exercise-header">
                 <h1>{category}</h1>
-                {sub_category.map(sub_cat => <p>{sub_cat}</p>)}
+                {/* {sub_category.map(sub_cat => <p>{sub_cat}</p>)} */}
+                <p>{current_sub_category}</p>
                 <p>{exercise_id.split('_')[0]}</p>
                 <p>Provpass {exercise_id.split('_')[1]}</p>
                 <p>Uppgift {exercise_id.split('_')[2]}</p>

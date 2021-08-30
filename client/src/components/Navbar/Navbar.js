@@ -46,7 +46,7 @@ export const Navbar = ({
                     <span className="c-hplogo-white" >HP EDU</span>
                 </a>
                 {
-                    !onMobile &&
+                    (isAuthenticated && !onMobile) &&
                     <nav className="c-nav_list">
                         <ul className="c-nav-ul">
                             <li className="c-nav--primary-li"><a href="/exercises/kvant" onClick={() => {setSection('kvant')}}>Kvantitativ del</a></li>
@@ -115,23 +115,25 @@ export const Navbar = ({
                         </button>
                     </div>
                     <div className="c-nav_scroller">
+                        {isAuthenticated ? 
                         <nav className="c-nav_list is-mobile">
                             <ul>
-                                <li>mobile nav content</li>
-                                <li>mobile nav content</li>
-                                <li>mobile nav content</li>
-                                <li>mobile nav content</li>
+                                <li className="c-nav--primary-li"><a href="/exercises/kvant" onClick={() => {setSection('kvant')}}>Kvantitativ del</a></li>
+                                <li className="c-nav--primary-li"><a href="/exercises/verb" onClick={() => {setSection('verb')}}>Verbal del</a></li>
                             </ul>
                         </nav>
+                        : <></>}
                     </div>
                     <div className="c-nav-btn-container">
                         <div className="c-feature-grid">
-                            <button className="btn-secondary">
-                                Registrera
-                            </button>
-                            <button className="btn-primary">
-                                Logga in
-                            </button>
+                            { isAuthenticated ? 
+                            <>
+                                <button className="btn-secondary" onClick={(e) => {toggleExpanded(); handleLogout(e)}}>Logga ut</button>
+                            </> : 
+                            <>
+                                <button className="btn-secondary" onClick={() => {toggleExpanded(); history.push('/login')}}>Logga in</button>
+                                <button className="btn-primary" onClick={() => {toggleExpanded(); history.push('/signup')}} >Kom igång gratis</button>
+                            </> }
                         </div>
                     </div>
                 </nav>

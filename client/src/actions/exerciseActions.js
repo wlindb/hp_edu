@@ -49,7 +49,6 @@ export const getSubCategoryExercises = (category_string, sub_category_string) =>
             dispatch(toggleUserLoading());
         })
         .catch(err => {
-            console.log('getUserProgress res ERROR', err);
             dispatch(toggleUserLoading());
         });
 };

@@ -36,6 +36,7 @@
                 font-weight: 500;
                 color: $text-color;
                 cursor: pointer;
+                white-space: nowrap;
 
                 a {
                     text-decoration: none;
@@ -67,6 +68,7 @@
 
     .c-nav-btn-container {
         margin: auto 0;
+        display: flex;
     }
 }
 
@@ -137,7 +139,7 @@
     background: $light-color;
 
     .c-nav_toolbar {
-        height: 70px;
+        height: 60px;
         display: flex;
         justify-content: space-between;
     }
@@ -155,8 +157,15 @@
             width: 100%;
             li {
                 font-size: large;
-                margin: .5rem 0;
+                // margin: .5rem 0;
+                padding: 10%;
                 outline: 0;
+                list-style-type: none;
+                border-bottom: 1px solid $tertiary-color;
+                a {
+                    text-decoration: none;
+                    color: $text-color;
+                }
             }
         }
     }
@@ -204,7 +213,7 @@
     }
 
     li:hover {
-        border-bottom: 1px solid $primary-color;
+        border-bottom: 2px solid $light-color;
     }
 
     .exercises-navbar-item {
@@ -229,6 +238,33 @@
             color: $primary-color;
             background-color: $text-color;
             font-weight: bold;
+
+            &.easy {
+                border-color: $easy-color;
+                color: $easy-color;
+                // background-color: easy-color;
+            }
+        
+            &.intermediate {
+                border-color: $intermediate-color;
+                color: $intermediate-color;
+                // background-color: $intermediate-color;
+            }
+            &.medium {
+                border-color: $medium-color;
+                color: $medium-color;
+                // background-color: $medium-color;
+            }
+            &.hard {
+                border-color: $hard-color;
+                color: $hard-color;
+                // background-color: $hard-color;
+            }
+            &.extreme {
+                border-color: $extreme-color;
+                color: $extreme-color;
+                // background-color: $extreme-color;
+            }
         }
         .exercises-navbar-item-text {
             // padding: 20px;
@@ -244,6 +280,32 @@
                 color: $primary-color;
                 width: 100%;
                 // width: calc(100% - 30px);
+            }
+            &.easy {
+                span {
+                    color: $easy-color;
+                }
+            }
+        
+            &.intermediate {
+                span {
+                    color: $intermediate-color;
+                }
+            }
+            &.medium {
+                span {
+                    color: $medium-color;
+                }
+            }
+            &.hard {
+                span {
+                    color: $hard-color;
+                }
+            }
+            &.extreme {
+                span {
+                    color: $extreme-color;
+                }
             }
         }
     }

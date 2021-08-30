@@ -92,24 +92,24 @@
     width: 20%;
 
     &.easy {
-        border-color: #57e32c;
-        background-color: #57e32c;
+        border-color: $easy-color;
+        background-color: $easy-color;
     }
 
     &.intermediate {
-        border-color: #b7dd29;
-        background-color: #b7dd29;
+        border-color: $intermediate-color;
+        background-color: $intermediate-color;
     }
     &.medium {
-        border-color: #ffe234;
-        background-color: #ffe234;
+        border-color: $medium-color;
+        background-color: $medium-color;
     }
     &.hard {
-        border-color: #ffa534;
-        background-color:#ffa534;
+        border-color: $hard-color;
+        background-color: $hard-color;
     }
     &.extreme {
-        border-color: #ff4545;
-        background-color: #ff4545;
+        border-color: $extreme-color;
+        background-color: $extreme-color;
     }
 }
