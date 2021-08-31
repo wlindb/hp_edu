@@ -51,6 +51,10 @@
             border-color: #28a745;    
         }
     }
+
+    &.answer-option {
+        text-transform: none;
+    }
 }
 
 .btn-primary a {
