@@ -1,5 +1,5 @@
 import React from 'react';
-const ExerciseNavbarItem = ({ score, user_difficulty, date, part, exerciseNumber, onClick}) => {
+const ExerciseNavbarItem = ({ score, user_difficulty, date, part, exerciseNumber, onClick, active}) => {
     const getUserDifficultyName = nr => {
         switch (nr) {
             case 1:
@@ -20,7 +20,7 @@ const ExerciseNavbarItem = ({ score, user_difficulty, date, part, exerciseNumber
 
     return (
         <li onClick={onClick}>
-            <div className={`exercises-navbar-item ${user_difficulty ? getUserDifficultyName(user_difficulty) : ''}`}>
+            <div className={`exercises-navbar-item ${user_difficulty ? getUserDifficultyName(user_difficulty) : ''} ${active ? 'active' : ''}`}>
                 <div className={`exercises-navbar-item-badge ${user_difficulty ? getUserDifficultyName(user_difficulty) : ''}`}>{parseFloat(score).toFixed(1)}</div>
                 <div className={`exercises-navbar-item-text ${user_difficulty ? getUserDifficultyName(user_difficulty) : ''}`}>
                     <span>{date} </span>

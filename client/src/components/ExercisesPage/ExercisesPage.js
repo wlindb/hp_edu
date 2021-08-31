@@ -45,7 +45,7 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
 
     return (
         <div className="exercisepage-container">
-            <ExerciseNavbar handleClick={handleNavbarClick}/>
+            <ExerciseNavbar handleClick={handleNavbarClick} currentIndex={exerciseIndex}/>
             <div className="exercise-container">
                 <div className="exercise-content">
                     {currentExercise !== undefined ?  

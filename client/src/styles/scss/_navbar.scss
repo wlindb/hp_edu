@@ -223,6 +223,9 @@
         padding: 6px;
         cursor: pointer;
         box-shadow: 1px 1px 1px $text-color;
+        &.active {
+            background: #131313; 
+        }
         .exercises-navbar-item-badge {
             // background: $primary-color;
             // background: linear-gradient(90deg, #EFEFBB 0%, #D4D3DD 100%);

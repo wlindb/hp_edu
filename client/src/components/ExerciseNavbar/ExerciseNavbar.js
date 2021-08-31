@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect, useSelector } from 'react-redux';
 import { getSubCategoryExercises } from '../../actions/exerciseActions';
 
-const ExerciseNavbar = ({exercises, handleClick, sub_category_exercises, ...props}) => {
+const ExerciseNavbar = ({exercises, currentIndex, handleClick, sub_category_exercises, ...props}) => {
 
     // useEffect(() => {
     //     console.log('ExerciseNavbar useeffect', sub_category_exercises);
@@ -32,7 +32,8 @@ const ExerciseNavbar = ({exercises, handleClick, sub_category_exercises, ...prop
                                 date={date}
                                 part={part}
                                 exerciseNumber={number} 
-                                onClick={() => handleClick(i)}/>)
+                                onClick={() => handleClick(i)}
+                                active={i === currentIndex}/>)
 
                 }
                 )}

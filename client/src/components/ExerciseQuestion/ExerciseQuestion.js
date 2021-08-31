@@ -14,7 +14,11 @@ const ExerciseQuestion = ({ question }) => {
     }, [question])
     
     const handleAnswerOptionClicked = (e, i) => {
-        setActiveButton(i)
+        if (activeButton === i) {
+            setActiveButton(-1);
+        } else {
+            setActiveButton(i);
+        }
     };
 
     const config = {
