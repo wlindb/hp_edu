@@ -26,7 +26,8 @@ const ExerciseNavbar = ({exercises, currentIndex, handleClick, sub_category_exer
                 {sub_category_exercises.map((item, i) => {
                     const [ date, part, number ] = item.exercise_id.split('_');
                     const user_difficulty = item.user_has_done_exercise ? item.done_exercises[0].user_difficulty : undefined 
-                    return (<ExerciseNavbarItem 
+                    return (<ExerciseNavbarItem
+                                key={item.exercise_id} 
                                 score={item.difficulty !== undefined ? item.difficulty : "3"}
                                 user_difficulty={user_difficulty}
                                 date={date}

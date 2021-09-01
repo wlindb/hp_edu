@@ -214,11 +214,11 @@ const ExerciseCard = ({ exercise, current_sub_category }) => {
             {description !== undefined ?
                 <section className="exercise-description">
                     <h3>{description.description_header}</h3>
-                    {description.description_body.map(section => <p className="exercise-description-body">{section}</p>)}
+                    {description.description_body.map((section, i) => <p className="exercise-description-body" key={`description_body${i}`}>{section}</p>)}
                 </section>
                 : <></>
             }
-            {questions.map((q, i) => <ExerciseQuestion question={q}/>)}
+            {questions.map((q, i) => <ExerciseQuestion key={i} question={q}/>)}
         </div>
     )
 }

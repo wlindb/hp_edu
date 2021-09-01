@@ -42,15 +42,15 @@ const ExerciseQuestion = ({ question }) => {
         <MathJaxContext config={config} version={3}>
             <section className="exercise-body">
                 {/* {question.question.map(line => <p>{line}</p>)} */}
-                        {question.question.map(line => <MathJax inline dynamic>{ line } </MathJax>)}
+                        {question.question.map(line => <MathJax key={line} inline dynamic>{ line } </MathJax>)}
                 
             </section>
             <div className="exercise-answer">
                 <div className="exercise-answer-options">
                     {question.answer_options.map((ans, idx) => 
                         <button className={`btn-secondary answer-option ${activeButton === idx ? "active" : ""} ${idx === question.correct_answer ? "success" : ""}`}
-                                onClick={e => handleAnswerOptionClicked(e, idx)}>
-                                    <MathJax>{alphabet[idx]}: {ans} </MathJax>
+                                onClick={e => handleAnswerOptionClicked(e, idx)} key={`answer_option${question._id}${idx}`}>
+                                    <MathJax inline dynamic>{alphabet[idx]}: {ans} </MathJax>
                         </button>
                     )}
                 </div>
@@ -60,8 +60,8 @@ const ExerciseQuestion = ({ question }) => {
                 </a>
             </div>
             <div className={`exercise-solution ${isShowAnswerClicked ? 'is-visible' : 'is-not-visible'}`}>
-                {question.solution.length > 0 ?
-                    question.solution.map(line => <p>{line}</p>)
+                {question.solution && question.solution.length > 0 ?
+                    question.solution.map((line, i) => <p key={`solution_p${i}`}><MathJax inline dynamic>{line}</MathJax></p>)
                     : <p>Tyvärr finns inget lösningsförslag för denna uppgift</p>}
             </div>
         </MathJaxContext>
