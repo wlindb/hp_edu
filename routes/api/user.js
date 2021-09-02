@@ -184,10 +184,17 @@ router.post("/login", (req, res) => {
       // }
       bcrypt.compare(password, user.password).then(isMatch => {
          if (isMatch) {
-            const payload = {
+            const payload = user.isAdmin? {
+               id: user.id,
+               user_name: user.user_name,
+               isAdmin: user.isAdmin
+            } : {
                id: user.id,
                user_name: user.user_name
             };
+            const { isAdmin, isVerified } = user;
+            console.log('/login user', user, isAdmin, isVerified);
+            console.log('/login payload', payload);
             jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
                if (err) {
                   console.log(err);

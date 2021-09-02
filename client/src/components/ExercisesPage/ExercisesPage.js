@@ -5,6 +5,8 @@ import ExerciseNavbar from '../ExerciseNavbar/ExerciseNavbar';
 import ExerciseCard from '../ExerciseCard/ExerciseCard';
 import StopWatch from '../StopWatch/StopWatch';
 import RatingCard from '../RatingCard/RatingCard';
+import AdminExerciseOptionsCard from '../AdminExerciseOptionCard/AdminExerciseOptionsCard';
+import EditExercise from '../EditExercise/EditExercise';
 import { getSubCategoryExercises } from '../../actions/exerciseActions';
 
 
@@ -16,6 +18,7 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
     // const [ currentExercise, setCurrentExercise ] = useState({}); 
     const [ exerciseIndex, setExerciseIndex ] = useState(0);
     const currentExercise = useSelector(state => state.exercise.exercises[category][sub_category][exerciseIndex])
+    const [ isEditExerciseActive, setEditExerciseActive ] = useState(false);
 
     // useEffect(() => {
     //     // TODO: Fetch only when exercises are not in memory.
@@ -29,7 +32,8 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
     const handleNavbarClick = (index) => {
         console.log('ExerciseNavbar HandleClick index: ', index, sub_category);
         // console.log(sub_category_exercises[index])
-        // setCurrentExercise(sub_category_exercises[index]);        
+        // setCurrentExercise(sub_category_exercises[index]);
+        console.log('isAdmin', props.auth.user.isAdmin);        
         setExerciseIndex(index);
     };
 
@@ -43,6 +47,11 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
         return -1;
     };
 
+    const handleAdminOptionsOnClick = (index) => {
+        // console.log('index', index);
+        setEditExerciseActive(props.auth.user.isAdmin && !isEditExerciseActive);
+    };
+
     return (
         <div className="exercisepage-container">
             <ExerciseNavbar handleClick={handleNavbarClick} currentIndex={exerciseIndex}/>
@@ -51,6 +60,7 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
                     {currentExercise !== undefined ?  
                         <ExerciseCard exercise={currentExercise} current_sub_category={sub_category}/> :<></>
                     }
+                    {isEditExerciseActive && <EditExercise/>}
                 </div>
             </div>
             <div className="exercise-utilities-container">
@@ -58,6 +68,7 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
                     <>
                         <RatingCard exercise_id={currentExercise._id} user_difficulty={getUserDifficulty()}/>
                         <StopWatch/>
+                        {props.auth.user.isAdmin === true && <AdminExerciseOptionsCard adminOptionsOnClick={handleAdminOptionsOnClick}/>}
                     </>
                     :<></>
                 }
