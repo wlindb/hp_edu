@@ -48,59 +48,6 @@ router.get('/progress', async (req, res) => {
 );
 
 const getExerciseProgress = async (user_id) => {
-    // return Exercise.aggregate([
-    //             {$lookup: {
-    //                     from: 'user_exercises',
-    //                     let: {exercise_id: '$_id'},
-    //                     pipeline: [
-    //                         {$match: {$expr: 
-    //                                 {$and:
-    //                                     [
-    //                                     {$eq: [ "$exercise_id",  "$$exercise_id" ]},
-    //                                     {$eq: ["$user_id", ObjectId(user_id)]}
-    //                                     ] 
-    //                                 }
-    //                             }
-    //                         },
-    //                     ],
-    //                     as: 'done_exercises'
-    //                 }
-    //             },
-    //             {$addFields: {user_amount: {$size: '$done_exercises'}}},
-    //             {$project: {done_exercises: 0}},
-    //             {$group: {
-    //                     _id: {category: "$category"},
-    //                     user_amount: {$sum: "$user_amount"}, 
-    //                     sub_category: {$push: { sub_category: "$sub_category", user_amount: {$sum: "$user_amount" }}},
-    //                     number_of_category_exercises: {$sum: 1}
-    //                 }
-    //             },
-    //             {$unwind: "$sub_category" },
-    //             {$unwind: "$sub_category.sub_category" },
-    //             {$group: {
-    //                     _id: {
-    //                         category: "$_id.category",
-    //                         sub_category: "$sub_category.sub_category",
-    //                         user_amount: "$sub_category.user_amount"
-    //                     },
-    //                     number_of_category_exercises: {$first: "$number_of_category_exercises"},
-    //                     sub_category_exercises: {$sum: 1}
-    //                 }
-    //             },
-    //             {$group: {
-    //                     _id: "$_id.category",
-    //                     number_of_category_exercises: {$first: "$number_of_category_exercises"},
-    //                     user_amount: {$sum: "$_id.user_amount"},
-    //                     sub_category: {$push: 
-    //                             {
-    //                                 name: "$_id.sub_category", 
-    //                                 amount: "$sub_category_exercises", 
-    //                                 user_amount: "$_id.user_amount" 
-    //                             }
-    //                             }
-    //                 }
-    //             }
-    //         ])
     return Exercise.aggregate(
         [
             {$lookup: {
