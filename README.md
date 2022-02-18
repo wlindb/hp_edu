@@ -1,1 +1,1 @@
-# hp_edu
+# HP EDU
