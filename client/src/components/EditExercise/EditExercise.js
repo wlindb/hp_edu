@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import NumberFormat from "react-number-format"
 
 const EditExercise = () => {
 
-    const [date, setDate] = useState('');
+    const [id, setId] = useState('YYYY-MM-DD_PP_NN');
     const [session, setSession ] = useState('');
     const [exerciseIndex, setExerciseIndex ] = useState('');
     const [question, setQuestion ] = useState({
@@ -66,17 +67,8 @@ const EditExercise = () => {
         console.log(exercise)
     }
 
-    const setExerciseId = () => {
-        console.log(`${date}_${session}_${exerciseIndex}`)
-        setExercise({
-            ...exercise,
-            exercise_id: `${date}_${session}_${exerciseIndex}` 
-        });
-    }
-
     const onClickAddQuestion = e => {
         e.preventDefault();
-        // console.log(question)
         setExercise({
             ...exercise,
             questions: [
@@ -118,40 +110,24 @@ const EditExercise = () => {
     }
     
     // "2020-10-25_3_1"
+    const onIdChange = e => {
+      let value = e.target.value
+      if (value.length === 14) setId(value);
+      setExercise({
+        ...exercise,
+        exercise_id: value 
+      });
+    };
+
     return (
-        <div className="exercise-card">
+        <div className="form-container exercise-card">
             <form onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="date">Datum ,eg 2020-10-25:</label>
-                <input
-                  className="form-control"
-                  id="date"
-                  type="text"
-                  name="date"
-                  value={date}
-                  onChange={(e) => {setDate(e.target.value); setExerciseId()}}
-                />
-              </div>
-              <div>
-                <label htmlFor="session">Provpass: </label>
-                <input
-                  className="form-control"
-                  id="session"
-                  type="text"
-                  name="session"
-                  value={session}
-                  onChange={(e) => {setSession(e.target.value); setExerciseId()}}
-                />
-              </div>
-              <div>
-                <label htmlFor="exerciseIndex">Uppgifts nummer:</label>
-                <input
-                  className="form-control"
-                  id="exerciseIndex"
-                  type="text"
-                  name="exerciseIndex"
-                  value={exerciseIndex}
-                  onChange={(e) => {setExerciseIndex(e.target.value); setExerciseId()}}
+                <label htmlFor="date">Exercise ID: </label>
+                <NumberFormat
+                  format={"####-##-##_#_##"}
+                  onChange={e => onIdChange(e)}
+                  placeholder="YYYY-MM-DD_P_NN"
                 />
               </div>
               <div>
