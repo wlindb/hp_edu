@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import NumberFormat from "react-number-format"
+import Button from 'react-bootstrap/Button';
+import { Form } from 'react-bootstrap';
 
 const EditExercise = () => {
 
@@ -120,7 +122,7 @@ const EditExercise = () => {
     };
 
     return (
-        <div className="form-container exercise-card">
+        <div className="container-md bg-light rounded">
             <form onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="date">Exercise ID: </label>
@@ -140,6 +142,7 @@ const EditExercise = () => {
                   value={exercise.category}
                   onChange={onChange}
                 />
+                <Form.Select size="lg"/>
               </div>
               <div>
                 <label htmlFor="sub_category">Sub Category:</label>
