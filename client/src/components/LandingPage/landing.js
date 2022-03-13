@@ -1,4 +1,5 @@
 import React from 'react'
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import Particles from 'react-tsparticles';
 
 const Landing = () => {
@@ -92,9 +93,33 @@ const Landing = () => {
           loaded={particlesLoaded}
           options={particleOptions}
         />
-        <div style={{height: '400px', width: '800px', marginTop: '200px'}}>
-            <h1 style={{color: 'solid red'}}>Hello from landing page</h1>
-        </div>
+        <Container fluid className='mt-60'>
+          {/* Stack the columns on mobile by making one full-width and the other half-width */}
+          <Row className='justify-content-lg-center' style={{marginTop: '80px'}}>
+            <Col className='text-center' xxl lg={8}>
+              <h1 className='light-header'>TODO: MAKE LARGE BOLD</h1>
+            </Col>
+          </Row>
+
+          {/* Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop */}
+          <Row>
+            <Col xs={6} md={4}>
+              xs=6 md=4
+            </Col>
+            <Col xs={6} md={4}>
+              xs=6 md=4
+            </Col>
+            <Col xs={6} md={4}>
+              xs=6 md=4
+            </Col>
+          </Row>
+
+          {/* Columns are always 50% wide, on mobile and desktop */}
+          <Row>
+            <Col xs={6}>xs=6</Col>
+            <Col xs={6}>xs=6</Col>
+          </Row>
+        </Container>
       </>
     )
 }
