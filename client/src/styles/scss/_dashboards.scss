@@ -223,15 +223,19 @@
         background-color: none;
         height: 20px;
         width: 20px;
-        margin: 5px 0px 0px 4px;
+        // margin: 5px 0px 0px 4px;
         fill: $primary-color;
     }
 
     .btn-pause {
-        margin: 5px 0px 0px 0px;
+        margin: 0px 0px 2px 0px;
     }
 
     .btn-reset {
-        margin: 5px 0px 0px 0px;
+        margin: 0px 0px 5px 0px;
+    }
+
+    .btn-play {
+        margin: 0px 0px 2px 4px;
     }
 }

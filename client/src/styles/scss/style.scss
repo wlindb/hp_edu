@@ -17,6 +17,10 @@
     padding: 0;
 }
 
+.App {
+    padding-top: 80px;
+}
+
 body {
     background-color: $tertiary-color;
     font-family: 'Montserrat', sans-serif;
@@ -34,3 +38,6 @@ body {
 }
 
 @import 'mobile';
+
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins";

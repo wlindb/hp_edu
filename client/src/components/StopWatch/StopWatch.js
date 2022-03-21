@@ -40,11 +40,6 @@ const StopWatch = () => {
     
 
     return (
-        // <div className="stopwatch content-center">
-        //     <h1>{formatTime(timer.minutes)} : {formatTime(timer.seconds)}</h1>
-        //     {isRunning ? <button className="btn-secondary" onClick={stop}>Stop</button> : <button className="btn-secondary" onClick={start}>Start</button>}
-        //     <button className="btn-secondary" onClick={reset}>Reset</button>
-        // </div>
         <div className="stopwatch content-center">
             <div className="clock" id="clock">
                 <p className="time">{formatTime(timer.minutes)}:{formatTime(timer.seconds)}</p>

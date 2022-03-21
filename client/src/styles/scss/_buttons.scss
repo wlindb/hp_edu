@@ -35,11 +35,15 @@
 .btn-primary {
     @extend %btn;
     background-color: $primary-color;
+    &:hover {
+        background-color: $primary-color;
+        border: 1px solid $primary-color;
+    }
 }
 
 .btn-secondary {
     @extend %btn;
-    background-color: $light-color;
+    background-color: transparent;
     color: $primary-color;
 
     &.active {
@@ -54,6 +58,12 @@
 
     &.answer-option {
         text-transform: none;
+    }
+
+    &:hover {
+        background-color: transparent;
+        border: 1px solid $primary-color;
+        color: $primary-color !important;
     }
 }
 

@@ -7,10 +7,12 @@
 .c-nav--primary {
     position: absolute;
     padding: 0;
-    height: 60px;
-    background-color: $light-color;
+    height: 80px;
+    // background-color: $light-color;
     // border-bottom: 1px solid #ebeaeb;
-    z-index: 1000;
+    // z-index: 1000;
+    // border-bottom: 1px solid $light-color;
+    box-shadow: 0 1px 4px rgba(255, 255, 255, .2);
     top: 0;
 
     .c-nav_list {
@@ -34,21 +36,27 @@
                 font-family: inherit;
                 font-size: inherit;
                 font-weight: 500;
-                color: $text-color;
+                // color: $primary-color;
+                // color: $text-color;
                 cursor: pointer;
                 white-space: nowrap;
 
                 a {
                     text-decoration: none;
-                    color: $text-color;
+                    // color: $text-color;
+                    // color: $primary-color;
+                    color: $light-color;
                 }
 
                 a:visited { 
-                    color: $text-color; 
+                    // color: $text-color; 
+                    // color: $primary-color;
+                    color: $light-color;
                 }
 
                 a:active {
-                    color: $primary-color;
+                    // color: $primary-color;
+                    color: $light-color;
                     font-weight: bold;
                 }
 
@@ -74,9 +82,9 @@
 
 .c-container {
     // max-width: 76.875rem;
-    max-width: 90rem;
+    // max-width: 90rem;
     margin: 0 auto;
-    padding: 0 10px;
+    padding: 0 5%;
 }
 
 .c-hplogo {
