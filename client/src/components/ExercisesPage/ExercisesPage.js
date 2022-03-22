@@ -57,10 +57,10 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
             <ExerciseNavbar handleClick={handleNavbarClick} currentIndex={exerciseIndex}/>
             <div className="exercise-container">
                 <div className="exercise-content">
-                    {currentExercise !== undefined ?  
-                        <ExerciseCard exercise={currentExercise} current_sub_category={sub_category}/> :<></>
+                    {currentExercise && 
+                        <ExerciseCard exercise={currentExercise} current_sub_category={sub_category}/> 
                     }
-                    {isEditExerciseActive && <EditExercise/>}
+                    {(isEditExerciseActive && currentExercise) && <EditExercise currentExercise={currentExercise}/>}
                 </div>
             </div>
             <div className="exercise-utilities-container">

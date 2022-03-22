@@ -17,6 +17,11 @@
     padding: 0;
 }
 
+html, body, .App {
+    // height: calc(100vh - 80px);
+    height: 100vh;
+  }
+
 .App {
     padding-top: 80px;
 }

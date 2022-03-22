@@ -203,7 +203,9 @@
     // max-height: 700px;
     // overflow-y: scroll;
     // background: $light-color;
-    background: #242424;
+    height: calc(100vh - 80px);
+    // background: #242424;
+    background: linear-gradient(#242424, $tertiary-color);
     ul {
         outline: none;
         list-style-type: none;
@@ -217,9 +219,9 @@
         border-right: 1px solid $tertiary-color;
     }
 
-    li:last-child { 
-        border-bottom: 0px; 
-    }
+    // li:last-child { 
+    //     border-bottom: 0px; 
+    // }
 
     li:hover {
         border-bottom: 2px solid $light-color;
