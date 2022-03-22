@@ -24,7 +24,7 @@ mongoose
    .then(() => console.log("Mongo Connection successful"))
    .catch(err => console.log("err in mongoose connection", err));
 
-mongoose.set("useFindAndModify", false);
+// mongoose.set("useFindAndModify", false);
 mongoose.Promise = global.Promise;
 
 // parse cookies
