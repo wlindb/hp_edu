@@ -3,6 +3,7 @@ import NumberFormat from "react-number-format"
 import Button from 'react-bootstrap/Button';
 import { Container, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import Select from 'react-select';
 
 const EditExercise = ({ currentExercise }) => {
 
@@ -59,7 +60,7 @@ const EditExercise = ({ currentExercise }) => {
       setExercise(currentExercise);
       const type = section === "kvant" ? "quant" : "verb";
       const { sub_category:s } = exercises_meta[type].find(e => e._id === current_category);
-      let s_cats = s.map(e => e.name);
+      let s_cats = s.map(e =>  ({value: e.name, label: e.name}));
       setAllSubCategories(s_cats);
     }, []);
 
@@ -144,6 +145,15 @@ const EditExercise = ({ currentExercise }) => {
       });
     };
 
+    const handleSelect = (selectedValues) => {
+      //console.log(selectedValues);
+      const selected_sub_categories = selectedValues.map(v => v.value);
+      setExercise({
+        ...exercise,
+        sub_category: selected_sub_categories
+      });
+    } 
+
     return (
         <Container className="bg-light rounded m-1">
             <Form onSubmit={handleSubmit}>
@@ -157,23 +167,16 @@ const EditExercise = ({ currentExercise }) => {
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="sub_category">Sub Category:</Form.Label>
-                <Form.Control
-                  className="form-control"
-                  id="sub_category"
-                  name="sub_category"
-                  type="text"
-                  value={exercise.sub_category}
-                  onChange={onArrayChange}
-                />
-                {all_sub_categories.map(e =>{
-                  return <Form.Check 
-                            type="checkbox"
-                            id={e}
-                            label={e}
-                            defaultChecked={true}
-                          />
-                })}
+                <Select
+                    isMulti
+                    placeholder='Sub Category'
+                    value={exercise.sub_category.map(c => ({value: c, label: c}))}
+                    closeMenuOnSelect={false}
+                    options={all_sub_categories}
+                    onChange={handleSelect}
+                    className='basic-multi-select'
+                    classNamePrefix='select'
+                    />
               </Form.Group>
               <Form.Group>
                 <Form.Label htmlFor="description_header">Description Header:</Form.Label>
