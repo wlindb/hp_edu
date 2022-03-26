@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import NumberFormat from "react-number-format"
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import CloseButton from 'react-bootstrap/CloseButton';
 import { Container, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import Select from 'react-select';
+import QuestionModal from './QuestionModal';
 
 const EditExercise = ({ currentExercise }) => {
 
@@ -14,8 +17,13 @@ const EditExercise = ({ currentExercise }) => {
         question: [],
         answer_options: [],
         solution: [],
-        correct_answer: 1
+        correct_answer: 1,
+        difficulty: 3
       });
+    const [showQuestionsModal, setShowQuestionModal] = useState(false);
+    const [questionIndex, setQuestionIndex] = useState(0);
+
+    // const [currentQuestion, setCurrentQuestion] = useState({});
 
     //exercise.exercises_meta.quant
     const { exercises_meta, section, category: current_category } = useSelector(state => state.exercise)
@@ -134,6 +142,17 @@ const EditExercise = ({ currentExercise }) => {
             })
         }
     }
+
+    const onModalSubmit = (question, index) => {
+      let newQuestions = index < exercise.questions.length ? exercise.questions.map((q,i) => i === index ? question : q) : [...exercise.questions, question];
+      console.table(question);
+      console.log(index);
+      setExercise({
+        ...exercise,
+        questions: newQuestions
+      })
+      console.table(newQuestions);
+    };
     
     // "2020-10-25_3_1"
     const onIdChange = e => {
@@ -146,13 +165,26 @@ const EditExercise = ({ currentExercise }) => {
     };
 
     const handleSelect = (selectedValues) => {
-      //console.log(selectedValues);
       const selected_sub_categories = selectedValues.map(v => v.value);
       setExercise({
         ...exercise,
         sub_category: selected_sub_categories
       });
-    } 
+    }
+
+    const onQuestionClick = (question, idx) => {
+      setQuestionIndex(idx);
+      setQuestion(question);
+      setShowQuestionModal(true);
+    };
+
+    const onClickRemoveQuestion = index => {
+      const newQuestions = exercise.questions.filter((q,i) => i !== index);
+      setExercise({
+        ...exercise,
+        questions: newQuestions
+      });
+    };
 
     return (
         <Container className="bg-light rounded m-1">
@@ -221,57 +253,43 @@ const EditExercise = ({ currentExercise }) => {
                   onChange={onArrayChange}
                 />
               </Form.Group>
-              <h3>Add Question</h3>
               <Form.Group>
-                <Form.Label htmlFor="question">Question :</Form.Label>
-                <Form.Control as="textarea" 
-                  rows={3}
-                  id="question"
-                  type="text"
-                  name="question"
-                  value={question.question.toString().replace(',', '\n')}
-                  onChange={onQuestionChanged}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label htmlFor="answer_options">Answer Options :</Form.Label>
-                <Form.Control
-                  className="form-control"
-                  id="answer_options"
-                  type="text"
-                  name="answer_options"
-                  value={question.answer_options}
-                  onChange={onQuestionChanged}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label htmlFor="solution">Solution :</Form.Label>
-                <Form.Control as="textarea"
-                  rows={4}
-                  className="form-control"
-                  id="solution"
-                  type="text"
-                  name="solution"
-                  value={question.solution}
-                  onChange={onQuestionChanged}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label htmlFor="correct_answer">Correct answer index :</Form.Label>
-                <Form.Control
-                  className="form-control"
-                  id="correct_answer"
-                  type="text"
-                  name="correct_answer"
-                  value={question.correct_answer}
-                  onChange={onQuestionChanged}
-                />
-                <button className="btn-secondary" onClick={onClickAddQuestion}>Add question</button>
-                <button className="btn-secondary" onClick={clearQuestion}>Clear question</button>
+                <h3>Questions</h3>
+                <div className='d-flex justify-content-between'>
+                  <div className='mx-1'>
+                    {exercise.questions.map((q, i) =>  {
+                      return (
+                        <ButtonGroup size="sm" className="mb-3" key={i}>
+                          <Button onClick={() => onQuestionClick(q, i)}>
+                            Q{i}
+                          </Button>
+                          <Button className='btn-close' onClick={() => onClickRemoveQuestion(i)}/>
+                        </ButtonGroup>
+                      )
+                    })}
+                  </div>
+                <Button onClick={() => onQuestionClick({
+                    question: [],
+                    answer_options: [],
+                    solution: [],
+                    correct_answer: 1,
+                    difficulty: 3
+                  }, exercise.questions.length)}>
+                  Add Question
+                </Button>
+                </div>
+                <QuestionModal
+                  question={question} 
+                  show={showQuestionsModal}
+                  setQuestion={setQuestion}
+                  onHide={() => setShowQuestionModal(false)}
+                  onSubmit={onModalSubmit}
+                  index={questionIndex}
+                  type={questionIndex === exercise.questions.length ? "Add" : "Edit"}
+                  />
               </Form.Group>
               <Form.Group className="form-group">
                 <button
-                //   onClick={}
                   type="submit"
                   className="btn-primary"
                 >
