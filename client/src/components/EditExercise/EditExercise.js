@@ -261,7 +261,7 @@ const EditExercise = ({ currentExercise }) => {
                       return (
                         <ButtonGroup size="sm" className="mb-3" key={i}>
                           <Button onClick={() => onQuestionClick(q, i)}>
-                            Q{i}
+                            Question {i}
                           </Button>
                           <Button className='btn-close' onClick={() => onClickRemoveQuestion(i)}/>
                         </ButtonGroup>
