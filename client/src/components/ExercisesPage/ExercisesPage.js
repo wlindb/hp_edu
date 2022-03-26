@@ -20,19 +20,8 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
     const currentExercise = useSelector(state => state.exercise.exercises[category][sub_category][exerciseIndex])
     const [ isEditExerciseActive, setEditExerciseActive ] = useState(false);
 
-    // useEffect(() => {
-    //     // TODO: Fetch only when exercises are not in memory.
-    //     console.log('Exercisepage useeffect', category, sub_category, exercise.exercises);
-    //     // getSubCategoryExercises(category, sub_category);
-    //     // console.log(exercise.exercises)
-    //     // console.log('efter');
-    //     // setCurrentExercise(sub_category_exercises[0]);
-    // }, [sub_category_exercises]);
-
     const handleNavbarClick = (index) => {
         console.log('ExerciseNavbar HandleClick index: ', index, sub_category);
-        // console.log(sub_category_exercises[index])
-        // setCurrentExercise(sub_category_exercises[index]);
         console.log('isAdmin', props.auth.user.isAdmin);        
         setExerciseIndex(index);
     };
@@ -48,7 +37,6 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
     };
 
     const handleAdminOptionsOnClick = (index) => {
-        // console.log('index', index);
         setEditExerciseActive(props.auth.user.isAdmin && !isEditExerciseActive);
     };
 

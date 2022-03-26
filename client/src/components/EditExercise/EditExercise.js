@@ -163,7 +163,7 @@ const EditExercise = ({ currentExercise }) => {
                   className='form-control'
                   format={"####-##-##_#_##"}
                   onChange={e => onIdChange(e)}
-                  placeholder="YYYY-MM-DD_P_NN"
+                  placeholder={exercise.exercise_id.length > 0 ? exercise.exercise_id : "YYYY-MM-DD_P_NN"}
                 />
               </Form.Group>
               <Form.Group>
@@ -186,6 +186,16 @@ const EditExercise = ({ currentExercise }) => {
                   type="text"
                   name="description_header"
                   value={exercise.description.description_header}
+                  onChange={handleDescriptionChange}
+                />
+                <Form.Label htmlFor="description_header">Description Body:</Form.Label>
+                <Form.Control as="textarea"
+                  rows={4}
+                  className="form-control"
+                  id="description_body"
+                  type="text"
+                  name="description_body"
+                  value={exercise.description.description_body.join('\n')}
                   onChange={handleDescriptionChange}
                 />
               </Form.Group>
@@ -271,8 +281,7 @@ const EditExercise = ({ currentExercise }) => {
             </Form>
 
             <div>
-                {JSON.stringify(exercise).split(',').map((o, idx) => <p key={idx}>{o}</p>)}
-                {/* {Object.keys(exercise).map(k => <p>{k}: {exercise[k].toString()}</p>)} */}
+                <pre>{JSON.stringify(exercise, null, "\t")}</pre>
             </div>
         </Container>
     )
