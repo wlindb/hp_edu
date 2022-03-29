@@ -19,6 +19,7 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
     const [ exerciseIndex, setExerciseIndex ] = useState(0);
     const currentExercise = useSelector(state => state.exercise.exercises[category][sub_category][exerciseIndex])
     const [ isEditExerciseActive, setEditExerciseActive ] = useState(false);
+    const [previewExercise, setPreviewExercise] = useState(null);
 
     const handleNavbarClick = (index) => {
         console.log('ExerciseNavbar HandleClick index: ', index, sub_category);
@@ -46,9 +47,9 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
             <div className="exercise-container">
                 <div className="exercise-content">
                     {currentExercise && 
-                        <ExerciseCard exercise={currentExercise} current_sub_category={sub_category}/> 
+                        <ExerciseCard exercise={previewExercise ? previewExercise : currentExercise} current_sub_category={sub_category}/> 
                     }
-                    {(isEditExerciseActive && currentExercise) && <EditExercise currentExercise={currentExercise}/>}
+                    {(isEditExerciseActive && currentExercise) && <EditExercise currentExercise={previewExercise ? previewExercise : currentExercise} setPreview={setPreviewExercise}/>}
                 </div>
             </div>
             <div className="exercise-utilities-container">

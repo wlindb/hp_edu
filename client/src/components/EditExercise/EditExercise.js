@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import Select from 'react-select';
 import QuestionModal from './QuestionModal';
 
-const EditExercise = ({ currentExercise }) => {
+const EditExercise = ({ currentExercise, setPreview }) => {
 
     const [id, setId] = useState('YYYY-MM-DD_PP_NN');
     const [session, setSession ] = useState('');
@@ -18,7 +18,6 @@ const EditExercise = ({ currentExercise }) => {
         answer_options: [],
         solution: [],
         correct_answer: 1,
-        difficulty: 3
       });
     const [showQuestionsModal, setShowQuestionModal] = useState(false);
     const [questionIndex, setQuestionIndex] = useState(0);
@@ -63,17 +62,19 @@ const EditExercise = ({ currentExercise }) => {
     }
 
     useEffect(() => {
-      // const currEx = JSON.stringify(JSON.parse(currentExercise));
       console.table(currentExercise);
       setExercise(currentExercise);
       const type = section === "kvant" ? "quant" : "verb";
       const { sub_category:s } = exercises_meta[type].find(e => e._id === current_category);
       let s_cats = s.map(e =>  ({value: e.name, label: e.name}));
       setAllSubCategories(s_cats);
-    }, []);
+    }, [currentExercise]);
 
     const handleSubmit = e => {
         console.log('form submit');
+        e.preventDefault();
+        // TODO: Action to submit update 
+        // setPreview(exercise);
     };
 
     const onChange = e => {
@@ -273,7 +274,6 @@ const EditExercise = ({ currentExercise }) => {
                     answer_options: [],
                     solution: [],
                     correct_answer: 1,
-                    difficulty: 3
                   }, exercise.questions.length)}>
                   Add Question
                 </Button>
@@ -288,16 +288,33 @@ const EditExercise = ({ currentExercise }) => {
                   type={questionIndex === exercise.questions.length ? "Add" : "Edit"}
                   />
               </Form.Group>
-              <Form.Group className="form-group">
-                <button
-                  type="submit"
-                  className="btn-primary"
-                >
-                  Submit
-                </button>
+              <Form.Group className="form-group mt-5 float-end">
+                <ButtonGroup className=''>
+                  <Button
+                    type="submit"
+                    variant="outline-primary"
+                    >
+                    Submit
+                  </Button>
+                  <Button
+                    variant="outline-success"
+                    size='md'
+                    // className="btn-secondary"
+                    onClick={() => setPreview(exercise)}
+                    >
+                    Preview
+                  </Button>
+                  <Button
+                    variant="outline-danger"
+                    size='md'
+                    onClick={() => setPreview(null)}
+                    >
+                    Discard changes
+                  </Button>
+                </ButtonGroup>
               </Form.Group>
+              
             </Form>
-
             <div>
                 <pre>{JSON.stringify(exercise, null, "\t")}</pre>
             </div>
