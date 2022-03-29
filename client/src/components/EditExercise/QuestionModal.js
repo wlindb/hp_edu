@@ -4,6 +4,9 @@ import Button from 'react-bootstrap/Button';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import Form from 'react-bootstrap/Form';
 import { ButtonGroup } from 'react-bootstrap';
+import { MathJax, MathJaxContext } from "better-react-mathjax";
+
+
 const QuestionModal = ({question, setQuestion, onHide, onSubmit, index, type, ...props}) => {
 
     const handleSubmit = e => {
@@ -35,6 +38,21 @@ const QuestionModal = ({question, setQuestion, onHide, onSubmit, index, type, ..
         // console.log(question.correct_answer)
     }
 
+    const config = {
+        loader: { load: ["[tex]/html"] },
+        tex: {
+            packages: { "[+]": ["html"] },
+            inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"]
+            ],
+            displayMath: [
+            ["$$", "$$"],
+            ["\\[", "\\]"]
+            ]
+        }
+    };
+
     return (
         <Modal
           {...props}
@@ -59,6 +77,9 @@ const QuestionModal = ({question, setQuestion, onHide, onSubmit, index, type, ..
                         value={question.question.join('\n')}
                         onChange={onQuestionChanged}
                     />
+                    <MathJaxContext config={config}>
+                        <MathJax inline dynamic>{question.question.join('\n')}</MathJax>
+                    </MathJaxContext>
                 </Form.Group>
                 <Form.Group className='p-2'>
                     <Form.Label htmlFor="answer_options"><h5>Answer Options</h5></Form.Label>
