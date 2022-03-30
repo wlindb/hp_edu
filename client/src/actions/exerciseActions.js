@@ -73,6 +73,18 @@ export const rateExercise = (exercise_id, user_difficulty) => dispatch => {
         });
 };
 
+export const createNewExercise = exercise => async dispatch => {
+    console.log('inne i createNewExercise');
+    dispatch(toggleUserLoading());
+    try {
+        const response =  axios.post("/api/excercises/insert", exercise);
+        console.log("exerciseActions/createNewExercise", response.data);
+    } catch (err) {
+        console.error("Error in exerciseActions/createNewExercise", err);
+    }
+    dispatch(toggleUserLoading());
+};
+
 export const setExercisesMeta = exercisesMeta => {
     return {
         type: SET_EXERCISES_META,

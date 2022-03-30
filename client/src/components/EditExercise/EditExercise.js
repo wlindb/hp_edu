@@ -7,8 +7,10 @@ import { Container, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import Select from 'react-select';
 import QuestionModal from './QuestionModal';
+import { connect } from "react-redux";
+import { createNewExercise } from "../../actions/exerciseActions";
 
-const EditExercise = ({ currentExercise, setPreview }) => {
+const EditExercise = ({ currentExercise, setPreview, createNewExercise, ...props }) => {
 
     const [id, setId] = useState('YYYY-MM-DD_PP_NN');
     const [session, setSession ] = useState('');
@@ -74,6 +76,8 @@ const EditExercise = ({ currentExercise, setPreview }) => {
     const handleSubmit = e => {
         console.log('form submit');
         e.preventDefault();
+        createNewExercise({exercise});
+        console.log('efter');
         // TODO: Action to submit update 
         // setPreview(exercise);
     };
@@ -293,4 +297,16 @@ const EditExercise = ({ currentExercise, setPreview }) => {
     )
 }
 
-export default EditExercise;
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+  messages: state.messages,
+  exercise: state.exercise,
+  category: state.category,
+  sub_category: state.sub_category
+});
+
+export default connect(
+  mapStateToProps,
+  { createNewExercise }
+)(EditExercise);
