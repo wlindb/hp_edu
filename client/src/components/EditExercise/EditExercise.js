@@ -27,6 +27,7 @@ const EditExercise = ({ currentExercise, setPreview }) => {
     //exercise.exercises_meta.quant
     const { exercises_meta, section, category: current_category } = useSelector(state => state.exercise)
     const [ all_sub_categories, setAllSubCategories] = useState([]);
+    const categoriesOptions =  [{ value: 'XYZ', label: 'XYZ' }, { value: 'KVA', label: 'KVA' }, { value: 'NOG', label: 'NOG' }, { value: 'DTK', label: 'DTK' }, { value: 'ORD', label: 'ORD' }, { value: 'LÄS', label: 'LÄS' }, { value: 'MEK', label: 'MEK' }, { value: 'ELF', label: 'ELF' }] 
 
     const [ exercise, setExercise ] = useState({
         description: {
@@ -77,13 +78,6 @@ const EditExercise = ({ currentExercise, setPreview }) => {
         // setPreview(exercise);
     };
 
-    const onChange = e => {
-        setExercise({
-            ...exercise,
-            [e.target.name]: e.target.value
-        });
-    }
-
     const handleDescriptionChange = e => {
         setExercise({
             ...exercise,
@@ -100,48 +94,6 @@ const EditExercise = ({ currentExercise, setPreview }) => {
             [e.target.name]: e.target.value.split(',')
         });
         console.log(exercise)
-    }
-
-    const onClickAddQuestion = e => {
-        e.preventDefault();
-        setExercise({
-            ...exercise,
-            questions: [
-                ...exercise.questions,
-                question
-            ]
-        });
-    }
-
-    const clearQuestion = (e) => {
-        e.preventDefault();
-        setQuestion({
-            question: [],
-            answer_options: [],
-            solution: [],
-            correct_answer: 1
-        });
-    }
-
-    const onQuestionChanged = e => {
-        // question: [],
-        // answer_options: [],
-        // solution: [],
-        // correct_answer: 1
-        const { name, value } = e.target;
-        if(name === 'correct_answer') {
-            console.log('if', name, value)
-            setQuestion({
-                ...question,
-                correct_answer: value 
-            })
-        } else {
-            console.log('else', name, value)
-            setQuestion({
-                ...question,
-                [name]: value.split('\n') 
-            })
-        }
     }
 
     const onModalSubmit = (question, index) => {
@@ -187,6 +139,13 @@ const EditExercise = ({ currentExercise, setPreview }) => {
       });
     };
 
+    const handleExerciseChange = (key, value) => {
+      setExercise({
+        ...exercise,
+        [key]: value
+      });
+    };
+
     return (
         <Container className="bg-light rounded m-1">
             <Form onSubmit={handleSubmit}>
@@ -200,6 +159,16 @@ const EditExercise = ({ currentExercise, setPreview }) => {
                 />
               </Form.Group>
               <Form.Group>
+                <Select
+                  className="basic-single"
+                  classNamePrefix="select"
+                  placeholder='Category'
+                  defaultValue={categoriesOptions.find(({value}) => value === exercise.category)}
+                  isSearchable={true}
+                  name="category"
+                  options={categoriesOptions}
+                  onChange={(option) => handleExerciseChange('category', option.value)}
+                />
                 <Select
                     isMulti
                     placeholder='Sub Category'
@@ -246,6 +215,8 @@ const EditExercise = ({ currentExercise, setPreview }) => {
               <Form.Group>
                 <Form.Label htmlFor="img_description">Image description :</Form.Label>
                 <Form.Control
+                  as="textarea"
+                  rows={1}
                   className="form-control"
                   id="img_description"
                   type="text"
