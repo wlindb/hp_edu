@@ -39,9 +39,9 @@ const QuestionModal = ({question, setQuestion, onHide, onSubmit, index, type, ..
     }
 
     const config = {
-        loader: { load: ["[tex]/html"] },
+        loader: { load: ['[tex]/html', '[tex]/cancel'] },
         tex: {
-            packages: { "[+]": ["html"] },
+            packages: { "[+]": ["html", 'cancel'] },
             inlineMath: [
             ["$", "$"],
             ["\\(", "\\)"]
@@ -49,7 +49,7 @@ const QuestionModal = ({question, setQuestion, onHide, onSubmit, index, type, ..
             displayMath: [
             ["$$", "$$"],
             ["\\[", "\\]"]
-            ]
+            ],
         }
     };
 

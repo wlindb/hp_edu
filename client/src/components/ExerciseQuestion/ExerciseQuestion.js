@@ -22,17 +22,17 @@ const ExerciseQuestion = ({ question }) => {
     };
 
     const config = {
-        loader: { load: ["[tex]/html"] },
+        loader: { load: ['[tex]/html', '[tex]/cancel'] },
         tex: {
-          packages: { "[+]": ["html"] },
-          inlineMath: [
-            ["$", "$"],
-            ["\\(", "\\)"]
-          ],
-          displayMath: [
-            ["$$", "$$"],
-            ["\\[", "\\]"]
-          ]
+            packages: { "[+]": ["html", 'cancel'] },
+            inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"]
+            ],
+            displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"]
+            ]
         }
       };
     

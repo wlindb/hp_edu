@@ -37,7 +37,23 @@ export const ExercisesPage = ({ exercise, getSubCategoryExercises, ...props }) =
         return -1;
     };
 
-    const handleAdminOptionsOnClick = (index) => {
+    const handleAdminOptionsOnClick = (isNewExericse) => {
+        if(!(props.auth.user.isAdmin === true)) return;
+        if(isNewExericse) {
+            setPreviewExercise({
+                    description: {
+                        description_body: [],
+                        description_header: ""
+                    },
+                    difficulty: 3,
+                    sub_category: [],
+                    img_src: [],
+                    img_description: [],
+                    exercise_id: "",
+                    category: "",
+                    questions: [],
+                });
+        }
         setEditExerciseActive(props.auth.user.isAdmin && !isEditExerciseActive);
     };
 

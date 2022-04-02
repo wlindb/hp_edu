@@ -20,8 +20,13 @@ router.get('/excercise_test', (req, res) => {
 
 router.post("/insert", async (req, res) => {
     const { exercise } = req.body;
+    const user = req.user;
     console.log(exercise);
+    console.log(user);
     const exercise_id = exercise.exercise_id;
+    if(!(user.isAdmin === true)) {
+        res.sendStatus(403);
+    }
     try {
         const newExercise = new Exercise(exercise);
         await Exercise.findOneAndUpdate({ exercise_id: exercise_id} , newExercise, {
@@ -32,19 +37,6 @@ router.post("/insert", async (req, res) => {
     } catch (err) {
         res.status(500).json({error: "Couldn't create exercise"});
     }
-    // doc.save();
-    // console.log(exercise_id);
-    // Exercise.findOne({ exercise_id })
-    //         .then(potential_exercise => {
-    //             if(potential_exercise) {
-    //                 return res.status(400).json({error: "Övningen finns redan"});
-    //             } else {
-    //                 const newExercise = new Exercise(exercise);
-    //                 newExercise.save()
-    //                         .then(exercise => res.json(exercise))
-    //                         .catch(err => console.log(err));
-    //             }
-    //         }) 
 });
 
 router.get('/progress', async (req, res) => {

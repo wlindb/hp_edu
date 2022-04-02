@@ -3,6 +3,7 @@ import NumberFormat from "react-number-format"
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import CloseButton from 'react-bootstrap/CloseButton';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import { Container, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import Select from 'react-select';
@@ -23,6 +24,8 @@ const EditExercise = ({ currentExercise, setPreview, createNewExercise, ...props
       });
     const [showQuestionsModal, setShowQuestionModal] = useState(false);
     const [questionIndex, setQuestionIndex] = useState(0);
+    const [hasImg, setHasImg] = useState(false);
+    const [hasDescription, setHasDescription] = useState(false);
 
     // const [currentQuestion, setCurrentQuestion] = useState({});
 
@@ -152,8 +155,8 @@ const EditExercise = ({ currentExercise, setPreview, createNewExercise, ...props
 
     return (
         <Container className="bg-light rounded m-1">
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className='mb-3'>
+            <Form onSubmit={handleSubmit} className='p-1'>
+              <Form.Group className='mb-3 p-2'>
                 <Form.Label htmlFor="date">Exercise ID: </Form.Label>
                 <NumberFormat
                   className='form-control'
@@ -162,7 +165,7 @@ const EditExercise = ({ currentExercise, setPreview, createNewExercise, ...props
                   placeholder={exercise.exercise_id.length > 0 ? exercise.exercise_id : "YYYY-MM-DD_P_NN"}
                 />
               </Form.Group>
-              <Form.Group>
+              <Form.Group className='mb-3 p-2'>
                 <Select
                   className="basic-single"
                   classNamePrefix="select"
@@ -184,10 +187,21 @@ const EditExercise = ({ currentExercise, setPreview, createNewExercise, ...props
                     classNamePrefix='select'
                     />
               </Form.Group>
-              <Form.Group>
+              <ToggleButton
+                id="toggle-check-1"
+                type="checkbox"
+                variant="outline-success"
+                checked={hasDescription}
+                value="1"
+                onChange={(e) => setHasDescription(e.currentTarget.checked)}
+              >
+                Has description?
+              </ToggleButton>
+              {hasDescription && <>
+              <Form.Group className='mb-3 p-2'>
                 <Form.Label htmlFor="description_header">Description Header:</Form.Label>
                 <Form.Control
-                  className="form-control"
+                  className="form-control mb-3"
                   id="description_header"
                   type="text"
                   name="description_header"
@@ -195,6 +209,12 @@ const EditExercise = ({ currentExercise, setPreview, createNewExercise, ...props
                   onChange={handleDescriptionChange}
                 />
                 <Form.Label htmlFor="description_header">Description Body:</Form.Label>
+                <CloseButton
+                  className='float-end'
+                  onClick={(e) => handleExerciseChange("description", {
+                    ...exercise.description,
+                    description_body: []
+                  })}/>
                 <Form.Control as="textarea"
                   rows={4}
                   className="form-control"
@@ -203,33 +223,52 @@ const EditExercise = ({ currentExercise, setPreview, createNewExercise, ...props
                   name="description_body"
                   value={exercise.description.description_body.join('\n')}
                   onChange={handleDescriptionChange}
-                />
-              </Form.Group>
-              <Form.Group>
+                >
+                </Form.Control>
+              </Form.Group></>}
+              <ToggleButton
+                id="toggle-check"
+                type="checkbox"
+                variant="outline-success"
+                checked={hasImg}
+                value="1"
+                onChange={(e) => setHasImg(e.currentTarget.checked)}
+              >
+                Has Image?
+              </ToggleButton>
+              {hasImg && <>
+              <Form.Group className='mb-3 p-2'>
                 <Form.Label htmlFor="img_src">Image Source:</Form.Label>
-                <Form.Control
+                <CloseButton
+                  className='float-end'
+                  onClick={(e) => handleExerciseChange("img_src", [])}/>
+                <Form.Control as="textarea"
+                  rows={1}
                   className="form-control"
                   id="img_src"
                   type="text"
                   name="img_src"
-                  value={exercise.img_src.toString()}
-                  onChange={onArrayChange}
+                  value={exercise.img_src.join('\n')}
+                  onChange={({target}) => handleExerciseChange("img_src", target.value.split('\n'))}
                 />
               </Form.Group>
-              <Form.Group>
+              <Form.Group className='mb-3 p-2'>
                 <Form.Label htmlFor="img_description">Image description :</Form.Label>
-                <Form.Control
-                  as="textarea"
+                <CloseButton
+                  className='float-end'
+                  onClick={(e) => handleExerciseChange("img_description", [])}/>
+                <Form.Control as="textarea"
                   rows={1}
                   className="form-control"
                   id="img_description"
                   type="text"
                   name="img_description"
-                  value={exercise.img_description}
-                  onChange={onArrayChange}
+                  value={exercise.img_description.join('\n')}
+                  onChange={({target}) => handleExerciseChange("img_description", target.value.split('\n'))}
                 />
-              </Form.Group>
-              <Form.Group>
+              </Form.Group></>}
+
+              <Form.Group className='mb-3 p-2'>
                 <h3>Questions</h3>
                 <div className='d-flex justify-content-between'>
                   <div className='mx-1'>
