@@ -116,7 +116,7 @@ const EditExercise = ({ currentExercise, setPreview, createNewExercise, ...props
     
     // "2020-10-25_3_1"
     const onIdChange = e => {
-      let value = e.target.value
+      let value = e.target.value.trim();
       if (value.length === 14) setId(value);
       setExercise({
         ...exercise,
