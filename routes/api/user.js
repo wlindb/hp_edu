@@ -11,31 +11,31 @@ const User = require("../../models/User");
 // AWS simple email services
 const AWS = require("aws-sdk");
 const SESconfig = {
-  apiVersion: "2010-12-01",
-  accessKeyId: process.env.AWS_SES_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY,
-  region: process.env.AWS_SES_REGION,
+    apiVersion: "2010-12-01",
+    accessKeyId: process.env.AWS_SES_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY,
+    region: process.env.AWS_SES_REGION,
 };
 
 let ses = new AWS.SES(SESconfig);
 
 const getVerifyEmailParams = (email, token) => {
-  const url = `http://localhost:5000/confirmation/${token}`; // Change to real url
-  console.log("getVerifyEmailParams email =", email);
-  console.log("getVerifyEmailParams token =", token);
-  let params = {
-    // Change source to real no-reply when custom domain ready.
-    Source: "karlwilliamlindblom@gmail.com",
-    Destination: {
-      ToAddresses: [email],
-    },
-    ReplyToAddresses: ["karlwilliamlindblom@gmail.com"],
-    Message: {
-      Body: {
-        Html: {
-          Charset: "UTF-8",
-          // Data : `Please click this email to confirm your email: <a href="${url}">${url}</a>`
-          Data: `
+    const url = `http://localhost:5000/confirmation/${token}`; // Change to real url
+    console.log("getVerifyEmailParams email =", email);
+    console.log("getVerifyEmailParams token =", token);
+    let params = {
+        // Change source to real no-reply when custom domain ready.
+        Source: "karlwilliamlindblom@gmail.com",
+        Destination: {
+            ToAddresses: [email],
+        },
+        ReplyToAddresses: ["karlwilliamlindblom@gmail.com"],
+        Message: {
+            Body: {
+                Html: {
+                    Charset: "UTF-8",
+                    // Data : `Please click this email to confirm your email: <a href="${url}">${url}</a>`
+                    Data: `
                <head>
                    <style>
                        *{font-family: sans; color: #f4f4f4;}
@@ -54,268 +54,268 @@ const getVerifyEmailParams = (email, token) => {
                    </div>
                </div>
                `,
+                },
+            },
+            Subject: {
+                Charset: "UTF-8",
+                Data: "Välkommen till HP familjen!",
+            },
         },
-      },
-      Subject: {
-        Charset: "UTF-8",
-        Data: "Välkommen till HP familjen!",
-      },
-    },
-  };
-  console.log("getVerifyEmailParams params =", params);
+    };
+    console.log("getVerifyEmailParams params =", params);
 
-  return params;
+    return params;
 };
 
 const getSignedJWT = async (user) => {
-  const payload = {
-    id: user.id,
-    user_name: user.user_name,
-  };
-  // ToDo: Maybe change to async sign
-  const token = jwt.sign(payload, SECRET, { expiresIn: 3600 });
-  return token;
+    const payload = {
+        id: user.id,
+        user_name: user.user_name,
+    };
+    // ToDo: Maybe change to async sign
+    const token = jwt.sign(payload, SECRET, { expiresIn: 3600 });
+    return token;
 };
 
 const sendVerificationEmail = async (email, token) => {
-  const param = getVerifyEmailParams(email, token);
-  const promise = await ses.sendEmail(param).promise();
-  return promise;
+    const param = getVerifyEmailParams(email, token);
+    const promise = await ses.sendEmail(param).promise();
+    return promise;
 };
 
 router.post("/signup", async (req, res) => {
-  const { errors, isValid } = validateSignUpInput(req.body);
-  const { user_name, email, password } = req.body;
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+    const { errors, isValid } = validateSignUpInput(req.body);
+    const { user_name, email, password } = req.body;
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
 
-  const existingUser = await User.findOne({ $or: [{ email }, { user_name }] });
-  if (existingUser) {
-    const errors =
-      existingUser.email === email
-        ? { email: "Email redan registrerad" }
-        : { email: "Användarnamnet är upptaget" };
-    return res.status(400).json(errors);
-  }
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
-    const newUser = await new User({ user_name, email, password: hash }).save();
-    //  TODO: Send user verification email (Enable AWS SES for hp edu)
-    // const token = await getSignedJWT(newUser);
-    // const promise = await sendVerificationEmail(newUser.email, token);
+    const existingUser = await User.findOne({ $or: [{ email }, { user_name }] });
+    if (existingUser) {
+        const errors =
+            existingUser.email === email
+                ? { email: "Email redan registrerad" }
+                : { email: "Användarnamnet är upptaget" };
+        return res.status(400).json(errors);
+    }
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
+        const newUser = await new User({ user_name, email, password: hash }).save();
+        //  TODO: Send user verification email (Enable AWS SES for hp edu)
+        // const token = await getSignedJWT(newUser);
+        // const promise = await sendVerificationEmail(newUser.email, token);
 
-    // Temporary: ToDo: Return message to check for verification email
-    return res.status(201).send("User created");
-  } catch (e) {
-    console.error("Error in signup: ", e);
-    return res.status(500).send("Error creating user");
-  }
+        // Temporary: ToDo: Return message to check for verification email
+        return res.status(201).send("User created");
+    } catch (e) {
+        console.error("Error in signup: ", e);
+        return res.status(500).send("Error creating user");
+    }
 });
 
 router.post("/signup1", (req, res) => {
-  const { errors, isValid } = validateSignUpInput(req.body);
-  const { user_name, email, password } = req.body;
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-  User.findOne({ $or: [{ email }, { user_name }] }).then((user) => {
-    if (user) {
-      if (user.email === email)
-        return res.status(400).json({ email: "Email redan registrerad" });
-      else
-        return res
-          .status(400)
-          .json({ user_name: "Användarnamnet är upptaget" });
-    } else {
-      const newUser = new User({ user_name, email, password });
-      // hashing password before storing it in database
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          newUser
-            .save()
-            // .then(user => res.json(user))
-            .then((user) => {
-              const payload = {
-                id: user.id,
-                user_name: user.user_name,
-              };
-              jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
+    const { errors, isValid } = validateSignUpInput(req.body);
+    const { user_name, email, password } = req.body;
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+    User.findOne({ $or: [{ email }, { user_name }] }).then((user) => {
+        if (user) {
+            if (user.email === email)
+                return res.status(400).json({ email: "Email redan registrerad" });
+            else
+                return res
+                    .status(400)
+                    .json({ user_name: "Användarnamnet är upptaget" });
+        } else {
+            const newUser = new User({ user_name, email, password });
+            // hashing password before storing it in database
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if (err) throw err;
+                    newUser.password = hash;
+                    newUser
+                        .save()
+                        // .then(user => res.json(user))
+                        .then((user) => {
+                            const payload = {
+                                id: user.id,
+                                user_name: user.user_name,
+                            };
+                            jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                const param = getVerifyEmailParams(user.email, token);
+                                console.log("param =", param, "\n===========");
+                                ses.sendEmail(param, (err, data) => {
+                                    if (err) {
+                                        console.error("error /signup", err);
+                                    } else {
+                                        console.log(data);
+                                        res
+                                            .status(200)
+                                            .send(
+                                                "Ett epostmeddelande har skickats till " +
+                                                user.email +
+                                                "."
+                                            );
+                                    }
+                                });
+                            });
+                        })
+                        .catch((err) =>
+                            console.log({ error: "Error creating a new user" })
+                        );
+                });
+            });
+        }
+    });
+});
+
+router.post(
+    "/confirmation/",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        console.log("inne i if ", req.user);
+        req.user.isVerified = true;
+        console.log("efter isVerified ", req.user);
+        req.user.save().then((updatedUser) => {
+            return res.json({
+                user: updatedUser,
+            });
+        });
+    }
+);
+
+router.post("resendVerification", (req, res) => {
+    const { email } = req.body;
+    User.findOne({ email })
+        .then((user) => {
+            jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
                 if (err) {
-                  console.log(err);
+                    console.log(err);
                 }
                 const param = getVerifyEmailParams(user.email, token);
                 console.log("param =", param, "\n===========");
                 ses.sendEmail(param, (err, data) => {
-                  if (err) {
-                    console.error("error /signup", err);
-                  } else {
-                    console.log(data);
-                    res
-                      .status(200)
-                      .send(
-                        "Ett epostmeddelande har skickats till " +
-                          user.email +
-                          "."
-                      );
-                  }
+                    if (err) {
+                        console.error("error /resendVerification", err);
+                    } else {
+                        console.log(data);
+                        res
+                            .status(200)
+                            .send(
+                                "Ett epostmeddelande har skickats till " + user.email + "."
+                            );
+                    }
                 });
-              });
-            })
-            .catch((err) =>
-              console.log({ error: "Error creating a new user" })
-            );
+            });
+        })
+        .catch((err) => {
+            console.error("Error i resendVerification ", err);
         });
-      });
-    }
-  });
-});
-
-router.post(
-  "/confirmation/",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    console.log("inne i if ", req.user);
-    req.user.isVerified = true;
-    console.log("efter isVerified ", req.user);
-    req.user.save().then((updatedUser) => {
-      return res.json({
-        user: updatedUser,
-      });
-    });
-  }
-);
-
-router.post("resendVerification", (req, res) => {
-  const { email } = req.body;
-  User.findOne({ email })
-    .then((user) => {
-      jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
-        if (err) {
-          console.log(err);
-        }
-        const param = getVerifyEmailParams(user.email, token);
-        console.log("param =", param, "\n===========");
-        ses.sendEmail(param, (err, data) => {
-          if (err) {
-            console.error("error /resendVerification", err);
-          } else {
-            console.log(data);
-            res
-              .status(200)
-              .send(
-                "Ett epostmeddelande har skickats till " + user.email + "."
-              );
-          }
-        });
-      });
-    })
-    .catch((err) => {
-      console.error("Error i resendVerification ", err);
-    });
 });
 
 router.post("/login", (req, res) => {
-  const { errors, isValid } = validateLoginInput(req.body);
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-  const { email, password } = req.body;
-  User.findOne({ email }).then((user) => {
-    if (!user) {
-      return res.status(404).json({ email: "Epostadress hittades inte" });
+    const { errors, isValid } = validateLoginInput(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
     }
-    // else if(!user.isVerified) {
-    // return res.status(400).json({ email: "Vänligen verifiera epost för att logga in" });
-    // }
-    bcrypt.compare(password, user.password).then((isMatch) => {
-      if (isMatch) {
-        const payload = user.isAdmin
-          ? {
-              id: user.id,
-              user_name: user.user_name,
-              isAdmin: user.isAdmin,
+    const { email, password } = req.body;
+    User.findOne({ email }).then((user) => {
+        if (!user) {
+            return res.status(404).json({ email: "Epostadress hittades inte" });
+        }
+        // else if(!user.isVerified) {
+        // return res.status(400).json({ email: "Vänligen verifiera epost för att logga in" });
+        // }
+        bcrypt.compare(password, user.password).then((isMatch) => {
+            if (isMatch) {
+                const payload = user.isAdmin
+                    ? {
+                        id: user.id,
+                        user_name: user.user_name,
+                        isAdmin: user.isAdmin,
+                    }
+                    : {
+                        id: user.id,
+                        user_name: user.user_name,
+                    };
+                const { isAdmin, isVerified } = user;
+                console.log("/login user", user, isAdmin, isVerified);
+                console.log("/login payload", payload);
+                jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    return res.json({
+                        success: true,
+                        token: "Bearer " + token,
+                    });
+                });
+            } else {
+                return res.status(400).json({ password: "Felaktigt lösenord" });
             }
-          : {
-              id: user.id,
-              user_name: user.user_name,
-            };
-        const { isAdmin, isVerified } = user;
-        console.log("/login user", user, isAdmin, isVerified);
-        console.log("/login payload", payload);
-        jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
-          if (err) {
-            console.log(err);
-          }
-          return res.json({
-            success: true,
-            token: "Bearer " + token,
-          });
         });
-      } else {
-        return res.status(400).json({ password: "Felaktigt lösenord" });
-      }
     });
-  });
 });
 
 router.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+    "/auth/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 router.get(
-  "/auth/google/redirect",
-  passport.authenticate("google", {
-    failureRedirect: "/auth/login/failed",
-  }),
-  (req, res) => {
-    signJWT(req, res);
-  }
+    "/auth/google/redirect",
+    passport.authenticate("google", {
+        failureRedirect: "/auth/login/failed",
+    }),
+    (req, res) => {
+        signJWT(req, res);
+    }
 );
 
 router.get(
-  "/auth/facebook",
-  passport.authenticate("facebook", { scope: ["email"] })
+    "/auth/facebook",
+    passport.authenticate("facebook", { scope: ["email"] })
 );
 
 router.get(
-  "/auth/facebook/redirect",
-  passport.authenticate("facebook", { failureRedirect: "/login" }),
-  (req, res) => {
-    signJWT(req, res);
-  }
+    "/auth/facebook/redirect",
+    passport.authenticate("facebook", { failureRedirect: "/login" }),
+    (req, res) => {
+        signJWT(req, res);
+    }
 );
 
 const signJWT = (req, res) => {
-  // Successful authentication, sign jwt and redirect to success .
-  const { id, user_name } = req.user;
-  jwt.sign({ id, user_name }, SECRET, { expiresIn: 3600 }, (err, token) => {
-    if (err) {
-      console.log(err);
-      return res.cookie("jwt", {
-        success: false,
-      });
-    }
-    res.cookie("jwt", {
-      success: true,
-      token: "Bearer " + token,
+    // Successful authentication, sign jwt and redirect to success .
+    const { id, user_name } = req.user;
+    jwt.sign({ id, user_name }, SECRET, { expiresIn: 3600 }, (err, token) => {
+        if (err) {
+            console.log(err);
+            return res.cookie("jwt", {
+                success: false,
+            });
+        }
+        res.cookie("jwt", {
+            success: true,
+            token: "Bearer " + token,
+        });
+        res.redirect("/signup/success");
     });
-    res.redirect("/signup/success");
-  });
 };
 
 // when login is successful, retrieve user info
 router.get("/auth/login/success", (req, res) => {
-  const { jwt } = req.cookies;
-  if (jwt) {
-    res.json(jwt);
-  } else {
-    res.status(401).send("login failed");
-  }
+    const { jwt } = req.cookies;
+    if (jwt) {
+        res.json(jwt);
+    } else {
+        res.status(401).send("login failed");
+    }
 });
 
 module.exports = router;
